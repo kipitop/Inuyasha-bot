@@ -27,6 +27,7 @@ global.owner = [
   // reconocimiento por lid
   ['256237983817905', 'lid', 'sisked', true],
   ['194257646288953', 'lid', 'Deilyn', true],
+  ['111270153982054', 'lid', 'Bajo Bots', true],
 ];
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
