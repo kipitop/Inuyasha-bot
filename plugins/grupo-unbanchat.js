@@ -24,7 +24,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
       
       chat.isBanned = true;
       return conn.reply(m.chat, '⚠️ *¡KIRITO-BOT HA SIDO DESACTIVADO EN ESTE CHAT!*', m, rcanal);
-    } else if (args[0] === 'on') {
+    } else if (args[0] === 'on', '5') {
       if (!chat.isBanned) 
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA ACTIVADO!*', m, rcanal);
       
