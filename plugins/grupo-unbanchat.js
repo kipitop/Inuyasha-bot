@@ -18,7 +18,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
       return conn.reply(m.chat, info, m, rcanal);
     }
 
-    if (args[0] === 'off', '5') {
+    if (args[0] === 'off') {
       if (chat.isBanned) 
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA DESACTIVADO!*', m, rcanal);
       
