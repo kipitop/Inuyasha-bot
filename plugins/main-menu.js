@@ -99,31 +99,28 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     await m.react('👑');
 
-  await conn.sendMessage(m.chat, { 
-  image: { url: selectedImage }, 
-  caption: menuText.trim(), 
-  mentions: [m.sender],
-  contextInfo: { 
-    isForwarded: true, 
-    forwardedNewsletterMessageInfo: { 
-      newsletterJid: channelRD.id, 
-      serverMessageId: 100, 
-      newsletterName: channelRD.name 
-    }, 
-    externalAdReply: { 
-      showAdAttribution: true, 
-      title: packname, 
-      body: dev, 
-      mediaUrl: null, 
-      description: null, 
-      previewType: "PHOTO", 
-      thumbnailUrl: icono, 
-      sourceUrl: redes, 
-      mediaType: 1, 
-      renderLargerThumbnail: false 
-    } 
-  }
-}, { quoted: m });
+    await conn.sendMessage(m.chat, { 
+      text: menuText.trim(),
+      contextInfo: {
+          mentionedJid: [m.sender],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+              newsletterJid: channelRD.id,
+              newsletterName: channelRD.name,
+              serverMessageId: -1,
+          },
+          forwardingScore: 999,
+          externalAdReply: {
+              title: textbot,
+              body: dev,
+              thumbnailUrl: imageUrls,
+              sourceUrl: redes,
+              mediaType: 1,
+              showAdAttribution: true,
+              renderLargerThumbnail: true,
+          },
+      },
+  }, { quoted: m })
       } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
     throw e;
