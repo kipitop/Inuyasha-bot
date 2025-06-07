@@ -4,35 +4,35 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   const args = text.split('|').map(v => v.trim());
 
   if (args.length < 3) {
-    return m.reply(`${emoji} Formato incorrecto. Debes proporcionar el enlace del grupo, el mensaje y la cantidad de veces que deseas enviarlo, separados por "|".\n\nEjemplo:\n${usedPrefix + command} https://chat.whatsapp.com/SSSS | Hola, ¿cómo están? | 5`, m, rcanal);
+    return m.reply(`${emoji} Debes ingresar el link del grupo, el mensaje y la cantidad de spam separados por "|".*\n\nEjemplo:\n${usedPrefix + command} https://chat.whatsapp.com/SSSS | Hola, ¿cómo están? | 5`);
   }
 
   const [groupLink, message, countStr] = args;
   const count = parseInt(countStr, 10);
 
   if (!groupLink.includes('chat.whatsapp.com')) {
-    return m.reply(`${emoji} Enlace inválido. Asegúrate de proporcionar un enlace válido de grupo de WhatsApp.`, m, rcanal);
+    return m.reply(`${emoji2} Proporcione un enlace válido del grupo.`);
   }
   if (isNaN(count) || count <= 0) {
-    return m.reply(`${emoji} Cantidad inválida. Debes especificar un número válido mayor a 0 para la cantidad de mensajes.`, m, rcanal);
+    return m.reply(`${emoji2} Especifique una cantidad válida de mensajes (mayor a 0).`);
   }
 
   try {
     const code = groupLink.split('chat.whatsapp.com/')[1];
     const groupId = await conn.groupAcceptInvite(code);
 
-    m.reply(`${emoji} Unido con éxito al grupo. Comenzando a enviar ${count} mensajes...`, m, rcanal);
+    m.reply(`${done} Unido al grupo con éxito. Iniciando spam de ${count} mensajes...`);
 
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(groupId, { text: message });
       await delay(1000); 
     }
 
-    m.reply(`${emoji} Mensajes enviados con éxito. Saliendo del grupo...`, rcanal);
+    m.reply(`${done} Spam completado. Saliendo del grupo...`);
     await conn.groupLeave(groupId);
   } catch (error) {
     console.error(error);
-    m.reply(`${emoji} Ocurrió un error: ${error.message}`, m, rcanal);
+    m.reply(`${msm} Error al intentar realizar la operación: ${error.message}`);
   }
 };
 
