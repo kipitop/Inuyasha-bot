@@ -153,7 +153,7 @@ chat.isBanned = false
 if (!('sAutoresponder' in chat))
 chat.sAutoresponder = ''
 if (!('welcome' in chat))
-chat.welcome = true
+chat.welcome = false
 if (!('autolevelup' in chat))
 chat.autolevelup = false
 if (!('autoAceptar' in chat))
@@ -166,7 +166,11 @@ if (!('autoresponder' in chat))
 chat.autoresponder = false
 if (!('detect' in chat))
 chat.detect = true
-if (!('antiBot' in chat))
+if (!('economy' in chat))
+chat.economy = true
+if (!('gacha' in chat))
+chat.gacha = true
+if (!('antiBot' in chat))    
 chat.antiBot = false
 if (!('antiBot2' in chat))
 chat.antiBot2 = false
@@ -184,21 +188,19 @@ if (!('delete' in chat))
 chat.delete = false
 if (!isNumber(chat.expired))
 chat.expired = 0
-if (!('antiLag' in chat))
-chat.antiLag = false
-if (!('per' in chat))
-chat.per = []
 } else
 global.db.data.chats[m.chat] = {
 isBanned: false,
 sAutoresponder: '',
-welcome: true,
+welcome: false,
 autolevelup: false,
 autoresponder: false,
 delete: false,
 autoAceptar: false,
 autoRechazar: false,
 detect: true,
+economy: true,
+gacha: true,
 antiBot: false,
 antiBot2: false,
 modoadmin: false,
@@ -206,9 +208,7 @@ antiLink: true,
 antifake: false,
 reaction: false,
 nsfw: false,
-expired: 0, 
-antiLag: false,
-per: [],
+expired: 0,
 }
 var settings = global.db.data.settings[this.user.jid]
 if (typeof settings !== 'object') global.db.data.settings[this.user.jid] = {}
@@ -229,25 +229,22 @@ status: 0
 } catch (e) {
 console.error(e)
 }
-const mainBot = global.conn.user.jid
-const chat = global.db.data.chats[m.chat] || {}
-const isSubbs = chat.antiLag === true
-const allowedBots = chat.per || []
-if (!allowedBots.includes(mainBot)) allowedBots.push(mainBot)
-const isAllowed = allowedBots.includes(this.user.jid)
-if (isSubbs && !isAllowed) 
-return
+
+if (opts['nyimak'])  return
+if (!m.fromMe && opts['self'])  return
+if (opts['swonly'] && m.chat !== 'status@broadcast')  return
+if (typeof m.text !== 'string')
+m.text = ''
 
 let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
-        
+
 const detectwhat = m.sender.includes('@lid') ? '@lid' : '@s.whatsapp.net';
-const isROwner = [conn.decodeJid(global.conn.user.id),
-...global.owner.map(([number, tipo]) => number.replace(/[^0-9]/g, '') + (tipo === 'jid'? '@s.whatsapp.net': '@lid'))
-].includes(m.sender);
+const isROwner = [...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 const isOwner = isROwner || m.fromMe
 const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 //const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 const isPrems = isROwner || global.db.data.users[m.sender].premiumTime > 0
+const isBot = m.sender.includes('@s.whatsapp.net') || m.sender.includes('@c.us') || m.sender.includes('@g.us')
 
 if (m.isBaileys) return
 if (opts['nyimak'])  return
@@ -277,8 +274,8 @@ const detectwhat2 = m.sender.includes('@lid') ? `${numBot}@lid` : conn.user.jid
 const user = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {}
 const bot = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) == detectwhat2) : {}) || {}
 const isRAdmin = user?.admin == 'superadmin' || false
-const isAdmin = isRAdmin || user?.admin == 'admin' || false //user admins? 
-const isBotAdmin = bot?.admin || false //Detecta sin el bot es admin
+const isAdmin = isRAdmin || user?.admin == 'admin' || false
+const isBotAdmin = bot?.admin || false
 
 const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
 for (let name in global.plugins) {
@@ -369,8 +366,7 @@ if (m.chat in global.db.data.chats || m.sender in global.db.data.users) {
 let chat = global.db.data.chats[m.chat]
 let user = global.db.data.users[m.sender]
 if (!['grupo-unbanchat.js'].includes(name) && chat && chat.isBanned && !isROwner) return
-if (name != 'grupo-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'grupo-delete.js' && chat?.isBanned && !isROwner) return 
-if (user.antispam > 2) return
+if (name != 'grupo-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'grupo-delete.js' && chat?.isBanned && !isROwner) return
 if (m.text && user.banned && !isROwner) {
 m.reply(`《✦》Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.`)
 user.antispam++
@@ -549,7 +545,7 @@ console.log(m, m.quoted, e)}
 let settingsREAD = global.db.data.settings[this.user.jid] || {}  
 if (opts['autoread']) await this.readMessages([m.key])
 
-if (db.data.chats[m.chat].reaction && m.text.match(/(ción|dad|aje|oso|izar|mente|pero|tion|age|ous|ate|and|but|ify|ai|yuki|a|s)/gi)) {
+if (db.data.chats[m.chat].reaction && m.text.match(/(ción|dad|aje|oso|izar|mente|pero|tion|age|ous|ate|and|but|ify|ai|kirito|a|s)/gi)) {
 let emot = pickRandom(["🍟", "😃", "😄", "😁", "😆", "🍓", "😅", "😂", "🤣", "🥲", "☺️", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "🌺", "🌸", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🌟", "🤓", "😎", "🥸", "🤩", "🥳", "😏", "💫", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭", "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😶‍🌫️", "😱", "😨", "😰", "😥", "😓", "🤗", "🤔", "🫣", "🤭", "🤖", "🍭", "🤫", "🫠", "🤥", "😶", "📇", "😐", "💧", "😑", "🫨", "😬", "🙄", "😯", "😦", "😧", "😮", "😲", "🥱", "😴", "🤤", "😪", "😮‍💨", "😵", "😵‍💫", "🤐", "🥴", "🤢", "🤮", "🤧", "😷", "🤒", "🤕", "🤑", "🤠", "😈", "👿", "👺", "🧿", "🌩", "👻", "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🫶", "👍", "✌️", "🙏", "🫵", "🤏", "🤌", "☝️", "🖕", "🙏", "🫵", "🫂", "🐱", "🤹‍♀️", "🤹‍♂️", "🗿", "✨", "⚡", "🔥", "🌈", "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎", "💔", "❤️‍🔥", "❤️‍🩹", "❣️", "💕", "💞", "💓", "💗", "💖", "💘", "💝", "🚩", "👊", "⚡️", "💋", "🫰", "💅", "👑", "🐣", "🐤", "🐈"])
 if (!m.fromMe) return this.sendMessage(m.chat, { react: { text: emot, key: m.key }})
 }
