@@ -71,6 +71,8 @@ global.waitt = '*˙Ⱉ˙ฅ* *𝗘𝘀𝗽𝗲𝗿𝗮 𝗨𝗻 𝗠𝗼𝗺𝗲
 global.waittt = '*ฅ՞•ﻌ•՞ฅ* *𝗘𝘀𝗽𝗲𝗿𝗮 𝗨𝗻 𝗠𝗼𝗺𝗲𝗻𝘁𝗼, 𝗦𝗼𝘆 𝗟𝗲𝗻𝘁𝗼 ...*';
 global.waitttt = '*ฅ՞•ﻌ•՞ฅ* *𝗘𝘀𝗽𝗲𝗿𝗮 𝗨𝗻 𝗠𝗼𝗺𝗲𝗻𝘁𝗼, 𝗦𝗼𝘆 𝗟𝗲𝗻𝘁𝗼 ...*';
 
+global.code = '120363416870728229@g.us';
+
 //Enlaces
 var canal = 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'  
 let canal2 = 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'
