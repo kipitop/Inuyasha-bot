@@ -1,5 +1,5 @@
 // editado y reestructurado por 
-// https://github.com/deylinqff
+// https://github.com/deylin-eliac 
 
 
 import fetch from "node-fetch";
@@ -159,7 +159,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.command = handler.help = ["play", "play2", "ytmp3", "yta", "ytmp4", "ytv"];
 handler.tags = ["downloader"];
-handler.coin = 5;
+//handler.coin = 5;
 
 export default handler;
 
