@@ -306,15 +306,12 @@ let match = (_prefix instanceof RegExp ?
 [[_prefix.exec(m.text), _prefix]] :
 Array.isArray(_prefix) ?
 _prefix.map(p => {
-let re = p instanceof RegExp ?
-p :
-new RegExp(str2Regex(p))
-return [re.exec(m.text), re]
+  let re = p instanceof RegExp ? p : new RegExp(str2Regex(p))
+  return [re.exec(m.text), re]
 }) :
 typeof _prefix === 'string' ?
 [[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] :
-[[[], new RegExp]]
-).find(p => p[1])
+[]).find(p => p[0]) || [[m.text.match(/^(\S+)/), null]]
 if (typeof plugin.before === 'function') {
 if (await plugin.before.call(this, m, {
 match,
