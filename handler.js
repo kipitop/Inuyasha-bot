@@ -207,6 +207,7 @@ modoadmin: false,
 antiLink: true,
 antifake: false,
 reaction: false,
+prefix: opts['prefix'] || '*/i!#$%+£¢€¥^°=¶∆×÷π√✓©®&.\\-.@',
 nsfw: false,
 expired: 0,
 }
@@ -299,97 +300,19 @@ if (!opts['restrict'])
 if (plugin.tags && plugin.tags.includes('admin')) {
 continue
 }
-const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-
-// Obtener el prefijo personalizado, del bot o global
-let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
-
-// Determinar el prefijo utilizado en el mensaje (si hay)
-let match = (_prefix instanceof RegExp
-  ? [[_prefix.exec(m.text), _prefix]]
-  : Array.isArray(_prefix)
-    ? _prefix.map(p => {
-        let re = p instanceof RegExp ? p : new RegExp(str2Regex(p))
-        return [re.exec(m.text), re]
-      })
-    : typeof _prefix === 'string'
-      ? [[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]]
-      : [[[], new RegExp]]
-).find(p => p[1])
-
-// Ejecutar función before si existe
-if (typeof plugin.before === 'function') {
-  if (await plugin.before.call(this, m, {
-    match,
-    conn: this,
-    participants,
-    groupMetadata,
-    user,
-    bot,
-    isROwner,
-    isOwner,
-    isRAdmin,
-    isAdmin,
-    isBotAdmin,
-    isPrems,
-    chatUpdate,
-    __dirname: ___dirname,
-    __filename
-  })) continue
+let prefix;
+const defaultPrefix = '*/i!#$%+£¢€¥^°=¶∆×÷π√✓©®&.\\-.@'; // Valor por defecto
+if (settings.prefix) {
+if (settings.prefix.includes(',')) {
+const prefixes = settings.prefix.split(',').map(p => p.trim());
+prefix = new RegExp('^(' + prefixes.map(p => p.replace(/[|\\{}()[\]^$+*.\-\^]/g, '\\$&')).join('|') + ')');
+} else if (settings.prefix === defaultPrefix) {
+prefix = new RegExp('^[' + settings.prefix.replace(/[|\\{}()[\]^$+*.\-\^]/g, '\\$&') + ']');
+} else {
+prefix = new RegExp('^' + settings.prefix.replace(/[|\\{}()[\]^$+*.\-\^]/g, '\\$&'));
+}} else {
+prefix = new RegExp(''); // Permite comandos sin prefijo
 }
-
-// Saltar si no es función válida
-if (typeof plugin !== 'function') continue
-
-// 🛠️ Nuevo sistema: permitir comandos con o sin prefijo
-let usedPrefix = (match?.[0] || '')[0] || ''
-let noPrefix = m.text.replace(usedPrefix, '')
-let [command, ...args] = noPrefix.trim().split(/\s+/)
-args = args || []
-let _args = noPrefix.trim().split(/\s+/).slice(1)
-let text = _args.join(' ')
-command = (command || '').toLowerCase()
-
-let fail = plugin.fail || global.dfail
-
-// Comprobar si el comando es válido para el plugin
-let isAccept = plugin.command instanceof RegExp
-  ? plugin.command.test(command)
-  : Array.isArray(plugin.command)
-    ? plugin.command.some(cmd => cmd instanceof RegExp
-        ? cmd.test(command)
-        : cmd === command)
-    : typeof plugin.command === 'string'
-      ? plugin.command === command
-      : false
-
-// Saltar si no se acepta el comando
-if (!isAccept) continue
-
-global.comando = command
-
-// Ejecutar el plugin
-await plugin.call(this, m, {
-  match,
-  conn: this,
-  args,
-  text,
-  command,
-  usedPrefix,
-  participants,
-  groupMetadata,
-  user,
-  bot,
-  isROwner,
-  isOwner,
-  isRAdmin,
-  isAdmin,
-  isBotAdmin,
-  isPrems,
-  chatUpdate,
-  __dirname: ___dirname,
-  __filename
-})
 
 if ((m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20))) return
 
@@ -516,11 +439,11 @@ m.reply(text)
 }
 } finally {
 if (typeof plugin.after === 'function') {
-/*try {
+try {
 await plugin.after.call(this, m, extra)
 } catch (e) {
 console.error(e)
-}}*/
+}}
 if (m.coin)
 conn.reply(m.chat, `❮✦❯ Utilizaste ${+m.coin} ${moneda}`, m)
 }
