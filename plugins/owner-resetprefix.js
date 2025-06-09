@@ -12,7 +12,7 @@ let handler = async (m, { conn, args, text }) => {
 
 handler.help = ['resetprefix'];
 handler.tags = ['owner'];
-handler.customPrefix = /^(resetprefix)$/i
+handler.customPrefix = /^(ho|resetprefix)$/i
 handler.command = new RegExp
 handler.rowner = true;
 
