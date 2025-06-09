@@ -1,4 +1,4 @@
-const handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, args, text }) => { 
   if (!text.trim()) {
     return conn.reply(m.chat, `*Ejemplo:* resetprefix ${prefix}`, m, rcanal);
   }
