@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['resetprefix'];
 handler.tags = ['owner'];
-handler.command = /^ho|resetprefix$/i;
+handler.command = ['resetprefix'];
 handler.rowner = true;
 
 export default handler;
