@@ -1,32 +1,31 @@
-
 import axios from 'axios'
 import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
+let handler = async (m, { conn, text }) => {
 
     if (!text) return conn.reply(m.chat, `❗ Por favor proporciona el nombre de una canción o artista.`, m)
 
     try {
-        // Paso 1: Obtener info de Spotify
+        // Obtener datos desde Spotify
         let songInfo = await spotifyxv(text)
         if (!songInfo.length) throw `❌ No se encontró la canción.`
         let song = songInfo[0]
 
-        // Paso 2: Buscar en YouTube
+        // Buscar en YouTube
         const query = encodeURIComponent(`${song.name} ${song.artista[0]}`)
-        const ytRes = await fetch(`https://aemt.me/youtube?query=${query}`)
-        const ytData = await ytRes.json()
+        const ytSearch = await fetch(`https://api.botcahx.eu.org/api/search/youtube?query=${query}`)
+        const ytData = await ytSearch.json()
 
-        if (!ytData.status || !ytData.data || !ytData.data[0]) throw 'No se pudo encontrar un video en YouTube.'
+        if (!ytData.status || !ytData.result || !ytData.result[0]) throw 'No se encontró un resultado en YouTube.'
 
-        const video = ytData.data[0]
-        const ytUrl = video.url
+        const video = ytData.result[0]
+        const ytUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`
 
-        // Paso 3: Descargar MP3 desde YouTube
+        // Descargar MP3 desde YouTube
         const dlRes = await fetch(`https://api.botcahx.eu.org/api/dowloader/ytmp3?url=${ytUrl}`)
         const dlData = await dlRes.json()
 
-        if (!dlData.status || !dlData.result || !dlData.result.audio) throw 'No se pudo obtener el enlace de descarga MP3.'
+        if (!dlData.status || !dlData.result || !dlData.result.audio) throw 'No se pudo obtener el enlace MP3.'
 
         const info = `🎧 *${song.name}*\n👤 *Artista:* ${song.artista.join(', ')}\n💽 *Álbum:* ${song.album}\n🕒 *Duración:* ${song.duracion}\n🔗 *Spotify:* ${song.url}`
 
