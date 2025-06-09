@@ -300,7 +300,7 @@ if (plugin.tags && plugin.tags.includes('admin')) {
 continue
 }
 const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&' )
-const str2Regex = str => str.replace('')
+const prefx = str => str.replace('')
 let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
 let match = (_prefix instanceof RegExp ? 
 [[_prefix.exec(m.text), _prefix]] :
@@ -312,7 +312,7 @@ new RegExp(str2Regex(p))
 return [re.exec(m.text), re]
 }) :
 typeof _prefix === 'string' ?
-[[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] :
+[[new RegExp(str2Regex, prefx(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] :
 [[[], new RegExp]]
 ).find(p => p[1])
 if (typeof plugin.before === 'function') {
