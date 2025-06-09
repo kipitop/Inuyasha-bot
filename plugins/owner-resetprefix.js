@@ -12,7 +12,8 @@ const handler = async (m, { conn, text }) => {
 
 handler.help = ['resetprefix'];
 handler.tags = ['owner'];
-handler.command = ['resetprefix'];
+handler.customPrefix = /^(resetprefix)$/i
+handler.command = new RegExp
 handler.rowner = true;
 
 export default handler;
