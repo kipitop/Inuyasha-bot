@@ -299,7 +299,7 @@ if (!opts['restrict'])
 if (plugin.tags && plugin.tags.includes('admin')) {
 continue
 }
-const str2Regex = str => str.replace('/"*-_°^>©®∆\§×•+$#?!:
+const str2Regex = str => str.replace('/"*-_°^>©®∆\§×•+$#?!⚡:
 )
 let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
 let match = (_prefix instanceof RegExp ? 
