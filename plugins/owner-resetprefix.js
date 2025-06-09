@@ -1,19 +1,18 @@
-let handler = async (m, { conn, args, text }) => { 
-  if (!text.trim()) {
-    return conn.reply(m.chat, `*Ejemplo:* resetprefix ${prefix}`, m, rcanal);
-  }
+let handler = async (m, { conn }) => {
+  
+  const nuevoPrefijo = './#⚡';
 
+  
   global.prefix = new RegExp('^[' + 
-    (opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-')
-    .replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') + ']');
+    nuevoPrefijo.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') + ']');
 
-  conn.reply(m.chat, `${emoji} *Prefijo Restablecido Con Éxito!*`, m, rcanal);
+  
+  conn.reply(m.chat, `${emoji} *Prefijo restablecido con éxito a:* ${nuevoPrefijo}`, m, rcanal);
 };
 
 handler.help = ['resetprefix'];
 handler.tags = ['owner'];
-handler.customPrefix = /^(ho|resetprefix)$/i
-handler.command = new RegExp
+handler.command = /^resetprefix$/i;
 handler.rowner = true;
 
 export default handler;
