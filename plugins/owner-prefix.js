@@ -5,7 +5,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   
   global.prefix = new RegExp('^[' + (text || global.opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-')
-    .replace(/[-/\\^$*+?.()|[\]{}⚡👑]/g, '\\$&') + ']');
+    .replace(/[-/\\^$*+?.()|[\]{}⚡]/g, '\\$&') + ']');
 
   
   conn.reply(m.chat, `${done} *Prefijo actualizado con éxito! Nuevo prefijo:* ${text}`, m, rcanal);
