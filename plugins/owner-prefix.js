@@ -1,5 +1,5 @@
 const handler = async (m, {conn, text, usedPrefix, command}) => {
-  if (!text) throw `${emoji} No Se Encontró Ningun Prefijo, Por Favor Escriba Un Prefijo.\n> *Ejemplo: ${usedPrefix + command} !*`;
+ // if (!text) throw `${emoji} No Se Encontró Ningun Prefijo, Por Favor Escriba Un Prefijo.\n> *Ejemplo: ${usedPrefix + command} !*`;
   global.prefix = new RegExp('^[' + (text || global.opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-').replace(/[|\\{}()[\]^$+*?.\-\^⚡👑]/g, '\\$&') + ']');
  // await m.reply(`*✅️ Prefijo Actualizado Con Éxito, Prefijo Actual: ${text}*`);
   
@@ -7,7 +7,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
       return conn.reply(m.chat, `Ejempl: #prefix ${prefix = 1}`, m, rcanal);
     }
 
-  conn.Reply(m.chat, `${done} *Prefijo Actualizado Con Éxito, Prefijo Actual: ${text}*`, '0@s.whatsapp.net', '✨ PREFIJO NUEVO ✨')
+  conn.reply(m.chat, `${done} *Prefijo Actualizado Con Éxito, Prefijo Actual: ${text}*`, '0@s.whatsapp.net', '✨ PREFIJO NUEVO ✨')
 };
 handler.help = ['prefix'];
 handler.tags = ['owner'];
