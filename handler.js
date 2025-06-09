@@ -299,8 +299,7 @@ if (!opts['restrict'])
 if (plugin.tags && plugin.tags.includes('admin')) {
 continue
 }
-const str2Regex = str => str.replace(/"[|\{}()[]^$+*?.🔥💥✨⚡👑🤖🐱🧠🎩🎮🌟🌀🎯💫🎆🎇💎🚀🛸🧩🎉🎊🕹️🧿🥷🦾🪄💣📦📌📍🔮🧨🪐🥇🥈🥉🏆🎖️🏅🎗️💡🧱🚧📢🔔🔊🎵🎶💀👻☠️👽👾🦴🦾🧬🧪🕳️⚔️🛡️🏹🗡️🔫🚬💊🔋🔌🧲📡📶🧠🔧🛠️🗜️⚙️🪛🧰🗂️📁📂📜📝📖📚📎🖇️📐📏🧮📊📈📉🗃️🗄️🔍🔎💼🎒🧳🚪🪑🛏️
-)
+const str2Regex = str => str.replace(/[|\{}()[]^$+*?.]/g, '\$&')
 let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
 let match = (_prefix instanceof RegExp ? 
 [[_prefix.exec(m.text), _prefix]] :
