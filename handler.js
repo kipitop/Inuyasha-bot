@@ -356,47 +356,6 @@ plugin.command === command :
 false
 
 global.comando = command
-if (typeof plugin.before === 'function') {
-if (await plugin.before.call(this, m, {
-match,
-conn: this,
-participants,
-groupMetadata,
-user,
-bot,
-isROwner,
-isOwner,
-isRAdmin,
-isAdmin,
-isBotAdmin,
-isPrems,
-chatUpdate,
-__dirname: ___dirname,
-__filename
-}))
-continue
-}
-if (typeof plugin !== 'function')
-continue
-if ((usedPrefix = (match[0] || '')[0])) {
-let noPrefix = m.text.replace(usedPrefix, '')
-let [command, ...args] = noPrefix.trim().split` `.filter(v => v)
-args = args || []
-let _args = noPrefix.trim().split` `.slice(1)
-let text = _args.join` `
-command = (command || '').toLowerCase()
-let fail = plugin.fail || global.dfail
-let isAccept = plugin.command instanceof RegExp ? 
-                    plugin.command.test(command) :
-                    Array.isArray(plugin.command) ?
-                        plugin.command.some(cmd => cmd instanceof RegExp ? 
-                            cmd.test(command) :
-cmd === command) :
-typeof plugin.command === 'string' ? 
-plugin.command === command :
-false
-
-global.comando = command
 
 if ((m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20))) return
 
