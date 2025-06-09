@@ -244,7 +244,6 @@ const isOwner = isROwner || m.fromMe
 const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 //const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 const isPrems = isROwner || global.db.data.users[m.sender].premiumTime > 0
-const isBot = m.sender.includes('@s.whatsapp.net') || m.sender.includes('@c.us') || m.sender.includes('@g.us')
 
 if (m.isBaileys) return
 if (opts['nyimak'])  return
