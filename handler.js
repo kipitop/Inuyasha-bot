@@ -516,11 +516,11 @@ m.reply(text)
 }
 } finally {
 if (typeof plugin.after === 'function') {
-try {
+/*try {
 await plugin.after.call(this, m, extra)
 } catch (e) {
 console.error(e)
-}}
+}}*/
 if (m.coin)
 conn.reply(m.chat, `❮✦❯ Utilizaste ${+m.coin} ${moneda}`, m)
 }
