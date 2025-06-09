@@ -300,61 +300,68 @@ if (plugin.tags && plugin.tags.includes('admin')) {
 continue
 }
 const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
-let match = (_prefix instanceof RegExp ? 
-[[_prefix.exec(m.text), _prefix]] :
-Array.isArray(_prefix) ?
-_prefix.map(p => {
-let re = p instanceof RegExp ?
-p :
-new RegExp(str2Regex(p))
-return [re.exec(m.text), re]
-}) :
-typeof _prefix === 'string' ?
-[[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] :
-[[[], new RegExp]]
-).find(p => p[1])
-if (typeof plugin.before === 'function') {
-if (await plugin.before.call(this, m, {
-match,
-conn: this,
-participants,
-groupMetadata,
-user,
-bot,
-isROwner,
-isOwner,
-isRAdmin,
-isAdmin,
-isBotAdmin,
-isPrems,
-chatUpdate,
-__dirname: ___dirname,
-__filename
-}))
-continue
-}
-if (typeof plugin !== 'function')
-continue
-if ((usedPrefix = (match[0] || '')[0])) {
-let noPrefix = m.text.replace(usedPrefix, '')
-let [command, ...args] = noPrefix.trim().split` `.filter(v => v)
-args = args || []
-let _args = noPrefix.trim().split` `.slice(1)
-let text = _args.join` `
-command = (command || '').toLowerCase()
-let fail = plugin.fail || global.dfail
-let isAccept = plugin.command instanceof RegExp ? 
-                    plugin.command.test(command) :
-                    Array.isArray(plugin.command) ?
-                        plugin.command.some(cmd => cmd instanceof RegExp ? 
-                            cmd.test(command) :
-cmd === command) :
-typeof plugin.command === 'string' ? 
-plugin.command === command :
-false
 
-global.comando = command
+// Obtener el prefijo del plugin o global
+let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
+
+// Convertimos el prefijo en una lista de expresiones regulares
+let prefixes = _prefix instanceof RegExp ? [_prefix] :
+               Array.isArray(_prefix) ? _prefix.map(p => p instanceof RegExp ? p : new RegExp('^' + str2Regex(p))) :
+               typeof _prefix === 'string' ? [new RegExp('^' + str2Regex(_prefix))] :
+               []
+
+// Agregar un prefijo "vacío" para permitir comandos sin prefijo
+prefixes.push(/^/) // Permite detectar comandos sin prefijo
+
+// Buscar el primer prefijo que haga match con el texto
+let match = prefixes
+  .map(p => [p.exec(m.text), p])
+  .find(([m]) => m)
+
+// Ejecutar plugin.before si existe
+if (typeof plugin.before === 'function') {
+  if (await plugin.before.call(this, m, {
+    match,
+    conn: this,
+    participants,
+    groupMetadata,
+    user,
+    bot,
+    isROwner,
+    isOwner,
+    isRAdmin,
+    isAdmin,
+    isBotAdmin,
+    isPrems,
+    chatUpdate,
+    __dirname: ___dirname,
+    __filename
+  })) continue
+}
+
+// Verificar si el plugin es una función
+if (typeof plugin !== 'function') continue
+
+// Obtener el prefijo usado (si existe)
+if ((usedPrefix = (match[0] || '')[0])) {
+  let noPrefix = m.text.replace(usedPrefix, '')
+  let [command, ...args] = noPrefix.trim().split(/\s+/)
+  args = args || []
+  let _args = noPrefix.trim().split(/\s+/).slice(1)
+  let text = _args.join(' ')
+  command = (command || '').toLowerCase()
+  let fail = plugin.fail || global.dfail
+
+  // Verificar si el comando coincide con el definido en el plugin
+  let isAccept = plugin.command instanceof RegExp ? 
+                    plugin.command.test(command) :
+                 Array.isArray(plugin.command) ?
+                    plugin.command.some(cmd => cmd instanceof RegExp ? cmd.test(command) : cmd === command) :
+                 typeof plugin.command === 'string' ?
+                    plugin.command === command :
+                 false
+
+  global.comando = command
 
 if ((m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20))) return
 
