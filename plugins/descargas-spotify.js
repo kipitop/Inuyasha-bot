@@ -1,59 +1,69 @@
-/* 
-- aquie de que se trata de CPF By Alex
-- Power By Team Code Titans
-- https://whatsapp.com/channel/0029ValMlRS6buMFL9d0iQ0S 
-*/
-
-// DOWNLOAD - SPOTIFY
 
 import axios from 'axios'
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
 
-    if (!text) return conn.reply(m.chat, `${emoji} Por favor proporciona el nombre de una canción o artista.`, m)
+    if (!text) return conn.reply(m.chat, `❗ Por favor proporciona el nombre de una canción o artista.`, m)
 
     try {
+        // Paso 1: Obtener info de Spotify
         let songInfo = await spotifyxv(text)
-        if (!songInfo.length) throw `${emoji2} No se encontró la canción.`
+        if (!songInfo.length) throw `❌ No se encontró la canción.`
         let song = songInfo[0]
-        const res = await fetch(`https://archive-ui.tanakadomp.biz.id/download/spotify?url=${song.url}`)
 
-        if (!res.ok) throw `Error al obtener datos de la API, código de estado: ${res.status}`
+        // Paso 2: Buscar en YouTube
+        const query = encodeURIComponent(`${song.name} ${song.artista[0]}`)
+        const ytRes = await fetch(`https://aemt.me/youtube?query=${query}`)
+        const ytData = await ytRes.json()
 
-        const data = await res.json().catch((e) => { 
-            console.error('Error parsing JSON:', e)
-            throw "Error al analizar la respuesta JSON."
-        })
+        if (!ytData.status || !ytData.data || !ytData.data[0]) throw 'No se pudo encontrar un video en YouTube.'
 
-        if (!data || !data.result || !data.result.data || !data.result.data.download) throw "No se pudo obtener el enlace de descarga."
+        const video = ytData.data[0]
+        const ytUrl = video.url
 
-        const info = `「✦」Descargando: ${data.result.data.title}\n\n> 👤 *Artista:* ${data.result.data.artis}\n> 💽 *Álbum:* ${song.album}\n> 🕒 *Duración:* ${timestamp(data.result.data.durasi)}\n> 🔗 *Enlace:* ${song.url}`
+        // Paso 3: Descargar MP3 desde YouTube
+        const dlRes = await fetch(`https://api.botcahx.eu.org/api/dowloader/ytmp3?url=${ytUrl}`)
+        const dlData = await dlRes.json()
 
-        await conn.sendMessage(m.chat, { text: info, contextInfo: { forwardingScore: 9999999, isForwarded: false, 
-        externalAdReply: {
-            showAdAttribution: true,
-            containsAutoReply: true,
-            renderLargerThumbnail: true,
-            title: packname,
-            body: dev,
-            mediaType: 1,
-            thumbnailUrl: data.result.data.image,
-            mediaUrl: data.result.data.download,
-            sourceUrl: data.result.data.download
-        }}}, { quoted: m })
+        if (!dlData.status || !dlData.result || !dlData.result.audio) throw 'No se pudo obtener el enlace de descarga MP3.'
 
-        conn.sendMessage(m.chat, { audio: { url: data.result.data.download }, fileName: `${data.result.data.title}.mp3`, mimetype: 'audio/mp4', ptt: true }, { quoted: m })
+        const info = `🎧 *${song.name}*\n👤 *Artista:* ${song.artista.join(', ')}\n💽 *Álbum:* ${song.album}\n🕒 *Duración:* ${song.duracion}\n🔗 *Spotify:* ${song.url}`
+
+        await conn.sendMessage(m.chat, {
+            text: info,
+            contextInfo: {
+                forwardingScore: 999999,
+                isForwarded: false,
+                externalAdReply: {
+                    showAdAttribution: true,
+                    title: 'Kirito Bot - Descarga de música 🎶',
+                    body: 'Canal Oficial de WhatsApp',
+                    mediaType: 1,
+                    thumbnailUrl: song.imagen,
+                    mediaUrl: ytUrl,
+                    sourceUrl: ytUrl
+                }
+            }
+        }, { quoted: m })
+
+        await conn.sendMessage(m.chat, {
+            audio: { url: dlData.result.audio },
+            fileName: `${song.name}.mp3`,
+            mimetype: 'audio/mp4',
+            ptt: false
+        }, { quoted: m })
 
     } catch (e1) {
-        m.reply(`${e1.message || e1}`)
+        console.error(e1)
+        m.reply(`⚠️ Error: ${e1.message || e1}`)
     }
 }
 
 handler.help = ['spotify', 'music']
 handler.tags = ['downloader']
 handler.command = ['spotify', 'splay']
-handler.group = true
+handler.group = false
 handler.register = true
 
 export default handler
@@ -96,32 +106,4 @@ function timestamp(time) {
     const minutes = Math.floor(time / 60000)
     const seconds = Math.floor((time % 60000) / 1000)
     return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
-}
-
-async function getBuffer(url, options) {
-    try {
-        options = options || {}
-        const res = await axios({
-            method: 'get',
-            url,
-            headers: {
-                DNT: 1,
-                'Upgrade-Insecure-Request': 1
-            },
-            ...options,
-            responseType: 'arraybuffer'
-        })
-        return res.data
-    } catch (err) {
-        return err
-    }
-}
-
-async function getTinyURL(text) {
-    try {
-        let response = await axios.get(`https://tinyurl.com/api-create.php?url=${text}`)
-        return response.data
-    } catch (error) {
-        return text
-    }
 }
