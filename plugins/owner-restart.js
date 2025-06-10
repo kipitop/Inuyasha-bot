@@ -1,17 +1,17 @@
 let handler = async (m, { conn }) => {
     try {
-        const sent = await conn.sendMessage(m.chat, { text: `🔄 Reiniciando...` }, { quoted: m });
+        const { key } = await conn.sendMessage(m.chat, { text: `🔄 Reiniciando...` }, { quoted: m });
 
         await delay(1000);
-        await conn.sendMessage(m.chat, { text: `🔄 Reiniciando... 🔁` }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: `🔄 Reiniciando... 🔁` }, { edit: key });
 
         await delay(1000);
-        await conn.sendMessage(m.chat, { text: `🔄 Reiniciando... 🔁🔁` }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: `🔄 Reiniciando... 🔁🔁` }, { edit: key });
 
         await delay(1000);
         await conn.sendMessage(m.chat, {
             text: `╰⊱🌩⊱ *REINICIANDO* ⊱🌩⊱╮\n🕒 Ya estaré de regreso...`,
-        }, { quoted: m });
+        }, { edit: key });
 
         console.log('[RESTART] Reinicio del bot solicitado por el propietario.');
         setTimeout(() => process.exit(0), 1000);
