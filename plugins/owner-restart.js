@@ -13,7 +13,7 @@ let handler = async (m, { conn, isROwner, text }) => {
 
         await delay(1000);
         await conn.sendMessage(m.chat, {
-            text: `𝑹𝒆𝒊𝒏𝒊𝒄𝒊𝒐 𝑪𝒐𝒎𝒑𝒍𝒆𝒕𝒐 ☄︎`,
+            text: `Reinicio Completo...`,
             edit: key
         });
 
