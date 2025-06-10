@@ -1,63 +1,62 @@
-/*import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
-const handler = async (m, { conn }) => {
-  try {
-    m.react?.('🎌');
+var handler = async (m, { usedPrefix, command }) => {
+    try {
+        await m.react('🔎');
+        conn.sendPresenceUpdate('composing', m.chat);
 
-    const medias = [];
+        const dirs = ['./plugins'];
+        let response = `🛡️ *Análisis de Plugins (Vulnerabilidades, Lags y Malas Prácticas):*\n\n`;
+        let problemas = false;
 
-    for (let i = 0; i < 1; i++) {
-      const res = await axios.get('https://anime-xi-wheat.vercel.app/api/anime');
-      const imageUrl = res.data?.image;
+        const patrones = [
+            { regex: /eval\s*/, mensaje: '⚠️ Uso inseguro de `eval()`' },
+            { regex: /new Function\s*/, mensaje: '⚠️ Uso inseguro de `new Function()`' },
+            { regex: /fs\.readFileSync/, mensaje: '⚠️ Lectura síncrona de archivos: posible lag' },
+            { regex: /fs\.writeFileSync/, mensaje: '⚠️ Escritura síncrona de archivos: posible lag' },
+            { regex: /\.forEach\s*[\w\s,]*async/, mensaje: '⚠️ `async` dentro de `forEach`: puede causar bugs o lag' },
+            { regex: /setTimeout\s*\s*async/, mensaje: '⚠️ `async` dentro de `setTimeout`: cuidado con el manejo de errores' },
+            { regex: /while\s*true/, mensaje: '⚠️ Bucle infinito detectado (`while(true)`) — riesgo de cuelgue' },
+        ];
 
-      if (imageUrl) {
-        medias.push({
-          type: 'image',
-          url: imageUrl
-        });
-      }
-    }
+        for (const dir of dirs) {
+            const files = fs.readdirSync(dir).filter(file => file.endsWith('.js'));
+            for (const file of files) {
+                const filePath = path.resolve(dir, file);
+                const code = fs.readFileSync(filePath, 'utf-8');
 
-    if (medias.length > 0) {
-      // Usa tu método personalizado si tienes uno
-      if (typeof conn.sendAlbumMessage === 'function') {
-        await conn.sendAlbumMessage(m.chat, medias, m);
-      } else {
-        // Fallback: enviar como imágenes individuales
-        for (const media of medias) {
-          await conn.sendMessage(m.chat, { image: { url: media.url } }, { quoted: m });
+                let hallazgos = [];
+
+                for (const { regex, mensaje } of patrones) {
+                    if (regex.test(code)) {
+                        hallazgos.push(`- ${mensaje}`);
+                        problemas = true;
+                    }
+                }
+
+                if (hallazgos.length > 0) {
+                    response += `📂 *${file}*\n${hallazgos.join('\n')}\n\n`;
+                }
+            }
         }
-      }
-    } else {
-      await m.reply('No se pudo obtener imagen.');
+
+        if (!problemas) {
+            response += '✅ No se encontraron vulnerabilidades ni malas prácticas en los plugins.';
+        }
+
+        await conn.reply(m.chat, response, m, rcanal);
+        await m.react('🛠️');
+    } catch (err) {
+        console.error(err);
+        await m.react('✖️');
+        conn.reply(m.chat, '🚩 *Fallo al analizar los plugins.*', m, rcanal);
     }
-  } catch (e) {
-    console.error(e);
-    await m.reply('Ocurrió un error al obtener la imagen.');
-  }
 };
 
-handler.command = ['an'];
-handler.help = ['an'];
-handler.tags = ['anime'];
-
-export default handler;*/
-
-
-const handler = async (m, { conn }) => {
-  const notifyChat = m.chat;
-
-  const mensaje = `📢 *Este es un mensaje de prueba usando notifyChat*\n\n✅ Si ves este mensaje, el parámetro notifyChat funciona correctamente.`;
-
-  try {
-    await conn.sendMessage(notifyChat, { text: mensaje });
-  } catch (e) {
-    console.log(`❌ Error al enviar mensaje a notifyChat (${notifyChat})`);
-  }
-};
-
-handler.help = ['testnotify'];
-handler.tags = ['test'];
-handler.command = ['testnotify'];
+handler.command = ['inspeccionar'];
+handler.help = ['inspeccionar'];
+handler.tags = ['tools'];
+handler.register = true;
 
 export default handler;
