@@ -6,8 +6,8 @@ var handler = async (m, { usedPrefix, command }) => {
         await m.react('🔎');
         conn.sendPresenceUpdate('composing', m.chat);
 
-        const dirs = ['./plugins'];
-        let response = `🛡️ *Análisis de Plugins (Vulnerabilidades, Lags y Malas Prácticas):*\n\n`;
+        const filesToCheck = ['./plugins', './handler.js'];
+        let response = `🛡️ *Análisis de Plugins y Handler (Vulnerabilidades, Lags y Malas Prácticas):*\n\n`;
         let problemas = false;
 
         const patrones = [
@@ -20,29 +20,40 @@ var handler = async (m, { usedPrefix, command }) => {
             { regex: /while\s*true/, mensaje: '⚠️ Bucle infinito detectado (`while(true)`) — riesgo de cuelgue' },
         ];
 
-        for (const dir of dirs) {
-            const files = fs.readdirSync(dir).filter(file => file.endsWith('.js'));
-            for (const file of files) {
-                const filePath = path.resolve(dir, file);
-                const code = fs.readFileSync(filePath, 'utf-8');
+        for (const fileOrDir of filesToCheck) {
+            const isDir = fs.existsSync(fileOrDir) && fs.lstatSync(fileOrDir).isDirectory();
 
+            let files = [];
+            if (isDir) {
+                files = fs.readdirSync(fileOrDir)
+                    .filter(f => f.endsWith('.js'))
+                    .map(f => path.resolve(fileOrDir, f));
+            } else if (fs.existsSync(fileOrDir)) {
+                files = [path.resolve(fileOrDir)];
+            }
+
+            for (const filePath of files) {
+                const code = fs.readFileSync(filePath, 'utf-8');
+                const lines = code.split('\n');
                 let hallazgos = [];
 
-                for (const { regex, mensaje } of patrones) {
-                    if (regex.test(code)) {
-                        hallazgos.push(`- ${mensaje}`);
-                        problemas = true;
+                for (let i = 0; i < lines.length; i++) {
+                    for (const { regex, mensaje } of patrones) {
+                        if (regex.test(lines[i])) {
+                            hallazgos.push(`- ${mensaje}\n  🧾 Línea ${i + 1}: \`${lines[i].trim()}\``);
+                            problemas = true;
+                        }
                     }
                 }
 
                 if (hallazgos.length > 0) {
-                    response += `📂 *${file}*\n${hallazgos.join('\n')}\n\n`;
+                    response += `📁 *${path.basename(filePath)}*\n${hallazgos.join('\n')}\n\n`;
                 }
             }
         }
 
         if (!problemas) {
-            response += '✅ No se encontraron vulnerabilidades ni malas prácticas en los plugins.';
+            response += '✅ No se encontraron vulnerabilidades ni malas prácticas en los archivos.';
         }
 
         await conn.reply(m.chat, response, m, rcanal);
@@ -54,8 +65,8 @@ var handler = async (m, { usedPrefix, command }) => {
     }
 };
 
-handler.command = ['x5ds'];
-handler.help = [''];
+handler.command = ['xhtm'];
+handler.help = ['inspeccionar'];
 handler.tags = ['tools'];
 handler.register = true;
 
