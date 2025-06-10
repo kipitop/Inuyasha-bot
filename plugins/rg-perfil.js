@@ -1,23 +1,25 @@
 import moment from 'moment-timezone';
 import PhoneNumber from 'awesome-phonenumber';
 import fetch from 'node-fetch';
-import fs from 'fs';
+import fs from 'fs/promises'; // Se usa lectura asíncrona
 
 const moneda = 'llamas'; 
 const creador = `${dev}`; 
 
-const loadMarriages = () => {
-    if (fs.existsSync('./src/database/marry.json')) {
-        const data = JSON.parse(fs.readFileSync('./src/database/marry.json', 'utf-8'));
+const loadMarriages = async () => {
+    try {
+        const content = await fs.readFile('./src/database/marry.json', 'utf-8');
+        const data = JSON.parse(content);
         global.db.data.marriages = data;
-    } else {
+    } catch (e) {
+        console.error('❌ Error al leer marry.json:', e);
         global.db.data.marriages = {};
     }
 };
 
 let handler = async (m, { conn, args }) => {
     try {
-        loadMarriages();
+        await loadMarriages();
 
         let userId;
         if (m.quoted?.sender) {
