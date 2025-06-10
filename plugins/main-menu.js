@@ -46,6 +46,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     let totalCommands = Object.keys(global.plugins).length;
     let totalreg = Object.keys(global.db.data.users).length;
     let uptime = clockString(process.uptime() * 1000);
+const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
 
     if (!global.db.data.users[userId]) {
       global.db.data.users[userId] = { exp: 0, level: 1 };
