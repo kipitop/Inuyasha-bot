@@ -54,7 +54,7 @@ var handler = async (m, { usedPrefix, command }) => {
     }
 };
 
-handler.command = ['bug'];
+handler.command = ['x5ds'];
 handler.help = [''];
 handler.tags = ['tools'];
 handler.register = true;
