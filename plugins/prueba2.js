@@ -54,8 +54,8 @@ var handler = async (m, { usedPrefix, command }) => {
     }
 };
 
-handler.command = ['inspeccionar'];
-handler.help = ['inspeccionar'];
+handler.command = ['bug'];
+handler.help = [''];
 handler.tags = ['tools'];
 handler.register = true;
 
