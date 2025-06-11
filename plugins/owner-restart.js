@@ -1,8 +1,6 @@
 import os from 'os';
 
 let handler = async (m, { conn }) => {
-    if (!process.send) throw '*Usa el comando así: node index.js (no main.js)*';
-
     try {
         const start = Date.now();
 
@@ -18,12 +16,9 @@ let handler = async (m, { conn }) => {
 *↻* Reiniciando, espera unos segundos...
         `.trim();
 
-        await conn.sendMessage(m.chat, { text: info }, { quoted: m });
+        await conn.reply(m.chat, info, m);
 
-        setTimeout(() => {
-            console.log('[RESTART] Reinicio solicitado.');
-            process.send('reset');
-        }, 3000);
+        setTimeout(() => process.exit(0), 3000);
 
     } catch (error) {
         console.error('[ERROR][REINICIO]', error);
@@ -33,7 +28,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['restart'];
 handler.tags = ['owner'];
-handler.command = ['restart', 'reiniciar', 'xd'];
+handler.command = ['restart', 'reiniciar'];
 handler.rowner = true;
 
 export default handler;
