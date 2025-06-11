@@ -4,7 +4,7 @@ let handler = async (m, { conn, text, isOwner }) => {
     if (!text) return m.reply(`${emoji} Debes enviar una invitación para que *${botname}* se una al grupo.`);
 
     let match = text.match(linkRegex);
-    if (!match) return m.reply(`${emoji2} Enlace de invitación no válido.`);
+    if (!match) return m.reply(`${emoji} Enlace de invitación no válido.`);
 
     let [, code] = match;
 
