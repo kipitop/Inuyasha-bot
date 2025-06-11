@@ -109,7 +109,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     };
         await m.react('⚡️')
-    await conn.reply(m.chat, infoMessage, m, rcanal, JT);
+    await conn.reply(m.chat, infoMessage, m, fake, JT);
 
     if (["play", "yta", "ytmp3"].includes(command)) {
       const api = await ddownr.download(url, "mp3");
