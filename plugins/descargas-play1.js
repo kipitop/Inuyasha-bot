@@ -109,11 +109,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     };
         await m.react('⚡️')
-    await conn.reply(m.chat, infoMessage, fkontak, JT);
+    await conn.reply(m.chat, infoMessage, m, rcanal, JT);
 
     if (["play", "yta", "ytmp3"].includes(command)) {
       const api = await ddownr.download(url, "mp3");
-      await conn.sendMessage(m.chat, { audio: { url: api.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: fkontak });
+      await conn.sendMessage(m.chat, { audio: { url: api.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: m });
 
     } else if (["play2", "ytv", "ytmp4"].includes(command)) {
       const sources = [
