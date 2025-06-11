@@ -1,41 +1,39 @@
-import { spawn } from 'child_process';
+import os from 'os';
 
-let handler = async (m, { conn, isROwner, text }) => {
-    if (!process.send) throw '*『✦』Reiniciar: node start.js*\n*『✦』Reiniciar: node index.js*';
+let handler = async (m, { conn }) => {
+    if (!process.send) throw '*Usa el comando así: node index.js (no main.js)*';
 
-    if (conn.user.jid === conn.user.jid) {
-        const progreso = [
-      "*❛‿˂̵✧ iniciando proceso de reinicio de CrowBot*",
-            "□□□□□ 0%",
-            "■□□□□ 20%",
-            "■■□□□ 40%",
-            "■■■□□ 60%",
-            "■■■■□ 80%",
-            "■■■■■ 100%",
-        ];
+    try {
+        const start = Date.now();
 
-        const { key } = await conn.sendMessage(m.chat, { text: progreso[0] }, { quoted: m });
+        const info = `
+╭━━〔 *↻ Reinicio del Bot ↷* 〕━━⬣
+┃ ✎ *Bot:* ${conn.user.name}
+┃ ✎ *JID:* ${conn.user.jid}
+┃ ✎ *NodeJS:* ${process.version}
+┃ ✎ *RAM:* ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB
+┃ ✎ *Ping:* ${Date.now() - start} ms
+┃ ✎ *Fecha:* ${new Date().toLocaleString('es-PE')}
+╰━━━━━━━━━━━━━━━━━━⬣
+*↻* Reiniciando, espera unos segundos...
+        `.trim();
 
-        for (let i = 1; i < progreso.length; i++) {
-            await delay(1000);
+        await conn.sendMessage(m.chat, { text: info }, { quoted: m });
 
-            await conn.sendMessage(m.chat, { text: progreso[i], edit: key });
-        }
+        setTimeout(() => {
+            console.log('[RESTART] Reinicio solicitado.');
+            process.send('reset');
+        }, 3000);
 
-        await conn.sendMessage(m.chat, { text: "『✅』*kirito-bot-MD* reiniciado con éxito espera unos segundos asta que el proceso termine.", edit: key });
-
-        await delay(2000);
-        process.send('reset');
-    } else {
-        throw 'No tienes permisos para ejecutar este comando.';
+    } catch (error) {
+        console.error('[ERROR][REINICIO]', error);
+        await conn.reply(m.chat, `❌ Error al intentar reiniciar:\n${error.message || error}`, m);
     }
 };
 
 handler.help = ['restart'];
-handler.tags = ['tools'];
-handler.command = ['restart', 'xd', 'reiniciar'];
+handler.tags = ['owner'];
+handler.command = ['restart', 'reiniciar', 'xd'];
 handler.rowner = true;
 
 export default handler;
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
