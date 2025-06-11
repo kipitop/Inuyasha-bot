@@ -10,8 +10,12 @@ let handler = async (m, { conn, text, isOwner }) => {
 
     if (isOwner) {
         try {
-            await conn.groupAcceptInvite(code);
+            let groupId = await conn.groupAcceptInvite(code);
             m.reply(`${emoji} Me he unido exitosamente al grupo.`);
+            
+            
+            await conn.sendMessage(groupId, { text: '🚀 Llegó papá 😎' });
+
         } catch (err) {
             console.error('[ERROR AL UNIRSE AL GRUPO]', err);
             let msg = `${msm} Error al unirme al grupo.`;
