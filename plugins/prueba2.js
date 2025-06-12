@@ -74,7 +74,7 @@ export default handler;*/
 
 
 
-const partidas = {};
+const partidas = {}; // Objeto global que se compartirá con el listener
 
 const EMOJI_TITULAR = '❤️';
 const EMOJI_SUPLENTE = '👍';
@@ -107,9 +107,11 @@ ${s.join('\n')}
 }
 
 const handler = async (m, { conn }) => {
-    if (!m.isGroup) throw 'Este comando solo funciona en grupos.';
+    if (!m.isGroup) throw '❗ Este comando solo funciona en grupos.';
 
     const chat = m.chat;
+
+    // Reiniciar o iniciar la partida
     partidas[chat] = {
         titulares: [],
         suplentes: [],
@@ -119,7 +121,9 @@ const handler = async (m, { conn }) => {
     };
 
     const texto = generarMensaje([], []);
-    const enviado = await conn.sendMessage(chat, { text: texto });
+    const enviado = await conn.sendMessage(chat, {
+        text: texto
+    });
 
     partidas[chat].msgId = enviado.key.id;
     partidas[chat].msgKey = enviado.key;
@@ -131,4 +135,4 @@ handler.command = ['compe'];
 handler.group = true;
 
 export default handler;
-export { partidas }; // exportamos para que el listener lo use
+export { partidas, generarMensaje, EMOJI_TITULAR, EMOJI_SUPLENTE, MAX_TITULARES, MAX_SUPLENTES };
