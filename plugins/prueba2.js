@@ -74,85 +74,21 @@ export default handler;*/
 
 
 
-let partidas = {}
+const partidas = {};
 
-const TITULARES_EMOJI = '❤️'
-const SUPLENTES_EMOJI = '👍'
-const MAX_TITULARES = 4
-const MAX_SUPLENTES = 2
-
-export async function before(m, { conn }) {
-  if (!m.isGroup || !m.messageStubType) return
-
-  const chat = m.key.remoteJid
-  const id = m.key.id
-  const emoji = m.messageStubParameters?.[0]
-  const user = m.participant
-
-  const partida = partidas[chat]
-  if (!partida || partida.msgId !== id || partida.finalizado) return
-  if (!emoji || (emoji !== TITULARES_EMOJI && emoji !== SUPLENTES_EMOJI)) return
-
-  const yaEnLista = partida.titulares.includes(user) || partida.suplentes.includes(user)
-  if (yaEnLista) return
-
-  if (emoji === TITULARES_EMOJI && partida.titulares.length < MAX_TITULARES) {
-    partida.titulares.push(user)
-  } else if (emoji === SUPLENTES_EMOJI && partida.suplentes.length < MAX_SUPLENTES) {
-    partida.suplentes.push(user)
-  } else {
-    return // lista llena o reacción inválida
-  }
-
-  // Finalizar si se llenan los cupos
-  if (partida.titulares.length === MAX_TITULARES && partida.suplentes.length === MAX_SUPLENTES) {
-    partida.finalizado = true
-  }
-
-  // Borrar mensaje anterior
-  await conn.sendMessage(chat, { delete: partida.msgKey })
-
-  // Enviar mensaje actualizado
-  const texto = generarMensaje(partida.titulares, partida.suplentes)
-  const enviado = await conn.sendMessage(chat, {
-    text: texto,
-    mentions: [...partida.titulares, ...partida.suplentes],
-  })
-
-  partida.msgId = enviado.key.id
-  partida.msgKey = enviado.key
-}
-
-const handler = async (m, { conn }) => {
-  if (!m.isGroup) throw 'Este comando solo funciona en grupos.'
-
-  const chat = m.chat
-  partidas[chat] = {
-    titulares: [],
-    suplentes: [],
-    finalizado: false,
-    msgId: null,
-    msgKey: null,
-  }
-
-  const texto = generarMensaje([], [])
-  const enviado = await conn.sendMessage(chat, { text: texto })
-
-  partidas[chat].msgId = enviado.key.id
-  partidas[chat].msgKey = enviado.key
-}
-
-handler.command = ['compe']
-export default handler
+const EMOJI_TITULAR = '❤️';
+const EMOJI_SUPLENTE = '👍';
+const MAX_TITULARES = 4;
+const MAX_SUPLENTES = 2;
 
 function generarMensaje(titulares, suplentes) {
-  const t = titulares.map((u, i) => `${i === 0 ? '👑' : '🥷🏻'} ┇ @${u.split('@')[0]}`)
-  const s = suplentes.map(u => `🥷🏻 ┇ @${u.split('@')[0]}`)
+    const t = titulares.map((u, i) => `${i === 0 ? '👑' : '🥷🏻'} ┇ @${u.split('@')[0]}`);
+    const s = suplentes.map(u => `🥷🏻 ┇ @${u.split('@')[0]}`);
 
-  while (t.length < 4) t.push('🥷🏻 ┇')
-  while (s.length < 2) s.push('🥷🏻 ┇')
+    while (t.length < MAX_TITULARES) t.push('🥷🏻 ┇');
+    while (s.length < MAX_SUPLENTES) s.push('🥷🏻 ┇');
 
-  return `
+    return `
 ╭──────⚔──────╮
            4 𝐕𝐄𝐑𝐒𝐔𝐒 4 
               *COMPE*
@@ -165,7 +101,34 @@ ${t.join('\n')}
 ㅤʚ 𝐒𝐔𝐏𝐋𝐄𝐍𝐓𝐄:
 ${s.join('\n')}
 
-*Reacciona con :*
-❤️ para ser titular
-👍 para ser suplente`.trim()
+*Reacciona con:*
+❤️ para titular
+👍 para suplente`.trim();
 }
+
+const handler = async (m, { conn }) => {
+    if (!m.isGroup) throw 'Este comando solo funciona en grupos.';
+
+    const chat = m.chat;
+    partidas[chat] = {
+        titulares: [],
+        suplentes: [],
+        finalizado: false,
+        msgId: null,
+        msgKey: null
+    };
+
+    const texto = generarMensaje([], []);
+    const enviado = await conn.sendMessage(chat, { text: texto });
+
+    partidas[chat].msgId = enviado.key.id;
+    partidas[chat].msgKey = enviado.key;
+};
+
+handler.help = ['compe'];
+handler.tags = ['group'];
+handler.command = ['compe'];
+handler.group = true;
+
+export default handler;
+export { partidas }; // exportamos para que el listener lo use
