@@ -77,51 +77,56 @@ export default handler;*/
 const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
 const P = require('pino');
 
-// Enlaces de grupos excluidos
+// Enlaces de grupos excluidos (puedes poner más)
 const enlacesExcluidos = [
-  'https://chat.whatsapp.com/Dc0JDrZR1X6JjNtJgYHiOu' // Agrega más aquí si quieres
+  'https://chat.whatsapp.com/Dc0JDrZR1X6JjNtJgYHiOu'
 ];
 
-// Obtener el ID de un grupo desde su enlace
+// Obtener ID desde link
 async function obtenerIdDesdeLink(sock, enlace) {
   try {
-    const inviteCode = enlace.split('/').pop();
-    const metadata = await sock.groupGetInviteInfo(inviteCode);
-    return metadata.id;
+    const code = enlace.split('/').pop();
+    const info = await sock.groupGetInviteInfo(code);
+    console.log(`[🔗] Enlace: ${enlace}`);
+    console.log(`[🆔] ID del grupo desde enlace: ${info.id}`);
+    return info.id;
   } catch (err) {
-    console.error('❌ Error al obtener el ID del grupo desde el link:', err.message);
+    console.error(`[❌] No se pudo obtener el ID del link: ${enlace}\nError: ${err.message}`);
     return null;
   }
 }
 
-// Verificar y salir si el grupo está excluido
-async function verificarYSalirDeGrupo(sock, groupId, gruposExcluidosIds) {
-  if (gruposExcluidosIds.includes(groupId)) {
+// Verificar y salir si está en grupo excluido
+async function verificarYSalirDeGrupo(sock, groupId, idsExcluidos) {
+  if (idsExcluidos.includes(groupId)) {
     try {
+      console.log(`[🚫] Grupo prohibido detectado: ${groupId}`);
       await sock.sendMessage(groupId, {
         text: '🚫 Este grupo está excluido. El bot se retirará automáticamente.'
       });
       await sock.groupLeave(groupId);
-      console.log(`[EXCLUSIÓN] Salí del grupo prohibido: ${groupId}`);
     } catch (err) {
-      console.error(`[ERROR] Al salir del grupo ${groupId}:`, err.message);
+      console.error(`[❌] Error al salir del grupo ${groupId}: ${err.message}`);
     }
   }
 }
 
-// Revisar todos los grupos al iniciar
-async function revisarTodosLosGrupos(sock, gruposExcluidosIds) {
+// Revisar todos los grupos donde está el bot
+async function revisarGruposActuales(sock, idsExcluidos) {
   try {
     const chats = await sock.groupFetchAllParticipating();
-    for (let groupId in chats) {
-      await verificarYSalirDeGrupo(sock, groupId, gruposExcluidosIds);
+    console.log(`\n[📊] El bot está en ${Object.keys(chats).length} grupos:`);
+
+    for (let id in chats) {
+      console.log(` - ${id}`);
+      await verificarYSalirDeGrupo(sock, id, idsExcluidos);
     }
   } catch (err) {
-    console.error('Error al revisar los grupos al iniciar:', err.message);
+    console.error('[❌] Error al revisar grupos actuales:', err.message);
   }
 }
 
-// Función principal
+// Inicio
 async function iniciarBot() {
   const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
   const sock = makeWASocket({
@@ -130,30 +135,28 @@ async function iniciarBot() {
     auth: state
   });
 
-  // Guardar credenciales
   sock.ev.on('creds.update', saveCreds);
 
-  // Obtener los IDs desde los enlaces excluidos
-  const gruposExcluidosIds = [];
+  // Convertir enlaces a IDs
+  const idsExcluidos = [];
   for (let enlace of enlacesExcluidos) {
-    const groupId = await obtenerIdDesdeLink(sock, enlace);
-    if (groupId) gruposExcluidosIds.push(groupId);
+    const id = await obtenerIdDesdeLink(sock, enlace);
+    if (id) idsExcluidos.push(id);
   }
 
-  // Revisar si ya está en un grupo excluido al iniciar
-  await revisarTodosLosGrupos(sock, gruposExcluidosIds);
+  // Revisar grupos actuales al iniciar
+  await revisarGruposActuales(sock, idsExcluidos);
 
-  // Detectar si fue añadido a un grupo
+  // Salir si lo añaden a un grupo prohibido
   sock.ev.on('group-participants.update', async (update) => {
     const { id, participants, action } = update;
     if (action === 'add' && participants.includes(sock.user.id)) {
-      console.log(`[ALERTA] El bot fue añadido al grupo: ${id}`);
-      await verificarYSalirDeGrupo(sock, id, gruposExcluidosIds);
+      console.log(`[📥] El bot fue añadido al grupo: ${id}`);
+      await verificarYSalirDeGrupo(sock, id, idsExcluidos);
     }
   });
 
-  console.log('✅ Bot iniciado y protección de grupos excluidos activa.');
+  console.log('\n✅ Bot activo y protegiendo grupos excluidos.');
 }
 
-// Iniciar
 iniciarBot();
