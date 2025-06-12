@@ -74,89 +74,98 @@ export default handler;*/
 
 
 
-const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
-const P = require('pino');
+let partidas = {}
 
-// Enlaces de grupos excluidos (puedes poner más)
-const enlacesExcluidos = [
-  'https://chat.whatsapp.com/Dc0JDrZR1X6JjNtJgYHiOu'
-];
+const TITULARES_EMOJI = '❤️'
+const SUPLENTES_EMOJI = '👍'
+const MAX_TITULARES = 4
+const MAX_SUPLENTES = 2
 
-// Obtener ID desde link
-async function obtenerIdDesdeLink(sock, enlace) {
-  try {
-    const code = enlace.split('/').pop();
-    const info = await sock.groupGetInviteInfo(code);
-    console.log(`[🔗] Enlace: ${enlace}`);
-    console.log(`[🆔] ID del grupo desde enlace: ${info.id}`);
-    return info.id;
-  } catch (err) {
-    console.error(`[❌] No se pudo obtener el ID del link: ${enlace}\nError: ${err.message}`);
-    return null;
-  }
-}
+export async function before(m, { conn }) {
+  if (!m.isGroup || !m.messageStubType) return
 
-// Verificar y salir si está en grupo excluido
-async function verificarYSalirDeGrupo(sock, groupId, idsExcluidos) {
-  if (idsExcluidos.includes(groupId)) {
-    try {
-      console.log(`[🚫] Grupo prohibido detectado: ${groupId}`);
-      await sock.sendMessage(groupId, {
-        text: '🚫 Este grupo está excluido. El bot se retirará automáticamente.'
-      });
-      await sock.groupLeave(groupId);
-    } catch (err) {
-      console.error(`[❌] Error al salir del grupo ${groupId}: ${err.message}`);
-    }
-  }
-}
+  const chat = m.key.remoteJid
+  const id = m.key.id
+  const emoji = m.messageStubParameters?.[0]
+  const user = m.participant
 
-// Revisar todos los grupos donde está el bot
-async function revisarGruposActuales(sock, idsExcluidos) {
-  try {
-    const chats = await sock.groupFetchAllParticipating();
-    console.log(`\n[📊] El bot está en ${Object.keys(chats).length} grupos:`);
+  const partida = partidas[chat]
+  if (!partida || partida.msgId !== id || partida.finalizado) return
+  if (!emoji || (emoji !== TITULARES_EMOJI && emoji !== SUPLENTES_EMOJI)) return
 
-    for (let id in chats) {
-      console.log(` - ${id}`);
-      await verificarYSalirDeGrupo(sock, id, idsExcluidos);
-    }
-  } catch (err) {
-    console.error('[❌] Error al revisar grupos actuales:', err.message);
-  }
-}
+  const yaEnLista = partida.titulares.includes(user) || partida.suplentes.includes(user)
+  if (yaEnLista) return
 
-// Inicio
-async function iniciarBot() {
-  const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
-  const sock = makeWASocket({
-    logger: P({ level: 'silent' }),
-    printQRInTerminal: true,
-    auth: state
-  });
-
-  sock.ev.on('creds.update', saveCreds);
-
-  // Convertir enlaces a IDs
-  const idsExcluidos = [];
-  for (let enlace of enlacesExcluidos) {
-    const id = await obtenerIdDesdeLink(sock, enlace);
-    if (id) idsExcluidos.push(id);
+  if (emoji === TITULARES_EMOJI && partida.titulares.length < MAX_TITULARES) {
+    partida.titulares.push(user)
+  } else if (emoji === SUPLENTES_EMOJI && partida.suplentes.length < MAX_SUPLENTES) {
+    partida.suplentes.push(user)
+  } else {
+    return // lista llena o reacción inválida
   }
 
-  // Revisar grupos actuales al iniciar
-  await revisarGruposActuales(sock, idsExcluidos);
+  // Finalizar si se llenan los cupos
+  if (partida.titulares.length === MAX_TITULARES && partida.suplentes.length === MAX_SUPLENTES) {
+    partida.finalizado = true
+  }
 
-  // Salir si lo añaden a un grupo prohibido
-  sock.ev.on('group-participants.update', async (update) => {
-    const { id, participants, action } = update;
-    if (action === 'add' && participants.includes(sock.user.id)) {
-      console.log(`[📥] El bot fue añadido al grupo: ${id}`);
-      await verificarYSalirDeGrupo(sock, id, idsExcluidos);
-    }
-  });
+  // Borrar mensaje anterior
+  await conn.sendMessage(chat, { delete: partida.msgKey })
 
-  console.log('\n✅ Bot activo y protegiendo grupos excluidos.');
+  // Enviar mensaje actualizado
+  const texto = generarMensaje(partida.titulares, partida.suplentes)
+  const enviado = await conn.sendMessage(chat, {
+    text: texto,
+    mentions: [...partida.titulares, ...partida.suplentes],
+  })
+
+  partida.msgId = enviado.key.id
+  partida.msgKey = enviado.key
 }
 
-iniciarBot();
+const handler = async (m, { conn }) => {
+  if (!m.isGroup) throw 'Este comando solo funciona en grupos.'
+
+  const chat = m.chat
+  partidas[chat] = {
+    titulares: [],
+    suplentes: [],
+    finalizado: false,
+    msgId: null,
+    msgKey: null,
+  }
+
+  const texto = generarMensaje([], [])
+  const enviado = await conn.sendMessage(chat, { text: texto })
+
+  partidas[chat].msgId = enviado.key.id
+  partidas[chat].msgKey = enviado.key
+}
+
+handler.command = ['compe']
+export default handler
+
+function generarMensaje(titulares, suplentes) {
+  const t = titulares.map((u, i) => `${i === 0 ? '👑' : '🥷🏻'} ┇ @${u.split('@')[0]}`)
+  const s = suplentes.map(u => `🥷🏻 ┇ @${u.split('@')[0]}`)
+
+  while (t.length < 4) t.push('🥷🏻 ┇')
+  while (s.length < 2) s.push('🥷🏻 ┇')
+
+  return `
+╭──────⚔──────╮
+           4 𝐕𝐄𝐑𝐒𝐔𝐒 4 
+              *COMPE*
+╰──────⚔──────╯
+
+𝗘𝗦𝗖𝗨𝗔𝗗𝗥𝗔 1
+
+${t.join('\n')}
+
+ㅤʚ 𝐒𝐔𝐏𝐋𝐄𝐍𝐓𝐄:
+${s.join('\n')}
+
+*Reacciona con :*
+❤️ para ser titular
+👍 para ser suplente`.trim()
+}
