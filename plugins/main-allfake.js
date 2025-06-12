@@ -58,12 +58,12 @@ global.done = '✅'
 global.error = '✖️'
 global.msm = '⚠︎'
 
-global.emoji = '*❛‿˂̵✧*'
+global.emoji0 = '*❛‿˂̵✧*'
 global.emoji2 = '*（＾∀＾●）ﾉｼ*'
 global.emoji3 = '*ฅ°ㅅ°ฅ*'
 global.emoji4 = '*ฅ՞•ﻌ•՞ฅ*'
 global.emoji5 = '*˙Ⱉ˙ฅ*'
-global.emojis = [emoji, emoji2, emoji3, emoji4, emoji5].getRandom()
+global.emoji = [emoji0, emoji2, emoji3, emoji4, emoji5].getRandom()
 
 //mensaje en espera
 global.wait = '*˙Ⱉ˙ฅ* *𝗘𝘀𝗽𝗲𝗿𝗮 𝗨𝗻 𝗠𝗼𝗺𝗲𝗻𝘁𝗼, 𝗦𝗼𝘆 𝗟𝗲𝗻𝘁𝗼 ...*';
