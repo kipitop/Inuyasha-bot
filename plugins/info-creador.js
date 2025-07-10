@@ -1,23 +1,19 @@
 // Código creado por Deylin
 // https://github.com/Deylin-eliac 
-// Código creado para https://github.com/Deylin-eliac/Pikachu-bot 
+// codigo creado para https://github.com/Deylin-eliac/Pikachu-bot 
 // No quites créditos
 
 import PhoneNumber from 'awesome-phonenumber';
-import fetch from 'node-fetch';
 
 let handler = async (m, { conn }) => {
   m.react('🧃');
 
+const imageUrl = 'https://files.catbox.moe/zwzuw6.jpg'
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
   const name = await conn.getName(ownerJid) || 'Deylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || `Hola, mucho gusto. Soy Deylin.`;
   const empresa = 'Deylin - Servicios Tecnológicos';
-
-  // Obtener imagen de perfil del creador
-  const pp = await conn.profilePictureUrl(ownerJid, 'image').catch(() => null);
-  const thumbnail = pp ? await (await fetch(pp)).buffer() : null;
 
   const vcard = `
 BEGIN:VCARD
@@ -39,6 +35,7 @@ X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
 END:VCARD`.trim();
 
+
   await conn.sendMessage(
     m.chat,
     {
@@ -52,17 +49,17 @@ END:VCARD`.trim();
         forwardingScore: 999,
         forwardedNewsletterMessageInfo: {
           newsletterJid: channelRD.id,
-          newsletterName: 'Deylin creador de kirito',              
+          newsletterName: "Hola este es mi número soy Deylin",
           serverMessageId: -1,
         },
         externalAdReply: {
-          title: 'Pikachu-Bot Oficial',
-          body: 'Desarrollado por Deylin',
+          title: textbot,
+          body: dev,
+          thumbnailUrl: imageUrl,
           sourceUrl: redes,
           mediaType: 1,
           showAdAttribution: true,
           renderLargerThumbnail: true,
-          jpegThumbnail: thumbnail 
         },
       }
     },
@@ -75,5 +72,3 @@ handler.tags = ['main'];
 handler.command = ['owner', 'creator', 'creador', 'dueño'];
 
 export default handler;
-
-
