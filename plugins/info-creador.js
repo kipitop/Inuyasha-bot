@@ -6,9 +6,15 @@
 import PhoneNumber from 'awesome-phonenumber';
 
 let handler = async (m, { conn }) => {
-  m.react('🧃');
+  m.react('✨');
+  m.react('🎧');
+  m.react('🔥');
+  m.react('🍞');
+  m.react('⚡');
+  m.react('👻');
+  m.react('👑');
 
-const imageUrl = 'https://files.catbox.moe/zwzuw6.jpg'
+const imageUrl = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg'
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
   const name = await conn.getName(ownerJid) || 'Deylin';
