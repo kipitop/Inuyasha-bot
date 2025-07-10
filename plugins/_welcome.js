@@ -33,7 +33,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const date = new Date().toLocaleString("es-ES", { timeZone: "America/Mexico_City" });
 
   const pais = await obtenerPais(who);
-  let ppUser = 'https://raw.githubusercontent.com/Deylin-Eliac/Pikachu-Bot/refs/heads/main/src/IMG-20250613-WA0194.jpg';
+  let ppUser = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
 
   try {
     ppUser = await conn.profilePictureUrl(who, 'image');
