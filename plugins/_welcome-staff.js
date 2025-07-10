@@ -2,7 +2,7 @@
 //https://github.com/deylinqff
 //➤  no quites créditos 
 
-import { WAMessageStubType } from '@whiskeysockets/baileys'
+/*import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
 export async function before(m, { conn, participants, groupMetadata }) {
@@ -65,4 +65,4 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
     await conn.sendMessage(m.chat, { image: { url: imageUrlDespedida }, caption: despedida, mentions: [who] });
   }
-}
+}*/
