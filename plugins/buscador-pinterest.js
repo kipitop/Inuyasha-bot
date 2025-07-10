@@ -1,4 +1,3 @@
-// Créditos Del Código A FzTeis
 
 import axios from 'axios';
 import baileys from '@whiskeysockets/baileys';
@@ -87,16 +86,15 @@ const pins = async (judul) => {
 };
 
 let handler = async (m, { conn, text }) => {
-  if (!text) {
-    return conn.reply(m.chat, `${emoji} Ingresa un texto. Ejemplo: .pinterest ${botname}`, m, rcanal);
-  }
+  if (!text) return conn.reply(m.chat, `${emojis} Ingresa un texto. Ejemplo: .pinterest ${botname}`, m, fake);
+
 
   try {
     m.react('🕒');
     const results = await pins(text);
-    if (!results || results.length === 0) return conn.reply(m.chat, `No se encontraron resultados para "${text}".`, m, rcanal);
+    if (!results || results.length === 0) return conn.reply(m.chat, `No se encontraron resultados para "${text}".`, m, fake);
 
-    const maxImages = Math.min(results.length, 10);
+    const maxImages = Math.min(results.length, 15);
     const medias = [];
 
     for (let i = 0; i < maxImages; i++) {
@@ -107,19 +105,20 @@ let handler = async (m, { conn, text }) => {
     }
 
     await sendAlbumMessage(m.chat, medias, {
-      caption: ``,
+      caption: `𝗥𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼𝘀 𝗱𝗲: ${text}\n𝗖𝗮𝗻𝘁𝗶𝗱𝗮𝗱 𝗱𝗲 𝗿𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼𝘀: 15\n𝗖𝗿𝗲𝗮𝗱𝗼𝗿: ${dev}`,
       quoted: m
     });
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
   } catch (error) {
-    conn.reply(m.chat, 'Error al obtener imágenes de Pinterest.', m, rcanal);
+    conn.reply(m.chat, 'Error al obtener imágenes de Pinterest.', m, fake);
   }
 };
 
 handler.help = ['pinterest'];
 handler.command = ['pinterest', 'pin'];
 handler.tags = ['buscador'];
+handler.register = true
 
 export default handler;
