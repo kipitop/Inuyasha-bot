@@ -8,13 +8,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
   if (!/image\/(jpe?g|png)/i.test(mime)) {
     await conn.sendMessage(m.chat, { react: { text: '❗', key: m.key } })
-    return m.reply(`${emojis} Envía o *responde a una imagen* con el comando:\n*${usedPrefix + command}*`)
+    return m.reply(`${emoji} Envía o *responde a una imagen* con el comando:\n*${usedPrefix + command}*`)
   }
 
   try {
     await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
 
-  conn.reply(m.chat, `${emojis} Mejorando la calidad de la imagen....`, m, fake)  
+  conn.reply(m.chat, `${emoji} Mejorando la calidad de la imagen....`, m, fake)  
     const media = await quoted.download()
     const ext = mime.split('/')[1]
     const filename = `mejorada_${Date.now()}.${ext}`
