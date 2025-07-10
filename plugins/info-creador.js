@@ -1,11 +1,13 @@
 // Código creado por Deylin
 // https://github.com/Deylin-eliac 
+// Código creado para https://github.com/Deylin-eliac/Pikachu-bot 
 // No quites créditos
 
 import PhoneNumber from 'awesome-phonenumber';
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn }) => {
-  m.react('👑');
+  m.react('🧃');
 
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
@@ -13,7 +15,7 @@ let handler = async (m, { conn }) => {
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || `Hola, mucho gusto. Soy Deylin.`;
   const empresa = 'Deylin - Servicios Tecnológicos';
 
-  
+  // Obtener imagen de perfil del creador
   const pp = await conn.profilePictureUrl(ownerJid, 'image').catch(() => null);
   const thumbnail = pp ? await (await fetch(pp)).buffer() : null;
 
@@ -50,17 +52,17 @@ END:VCARD`.trim();
         forwardingScore: 999,
         forwardedNewsletterMessageInfo: {
           newsletterJid: channelRD.id,
-          newsletterName: channelRD.name,
+          newsletterName: 'Deylin creador de kirito',              
           serverMessageId: -1,
         },
         externalAdReply: {
-          title: textbot,
-          body: dev,
+          title: 'Pikachu-Bot Oficial',
+          body: 'Desarrollado por Deylin',
           sourceUrl: redes,
           mediaType: 1,
           showAdAttribution: true,
           renderLargerThumbnail: true,
-          jpegThumbnail: thumbnail, 
+          jpegThumbnail: thumbnail 
         },
       }
     },
@@ -73,3 +75,5 @@ handler.tags = ['main'];
 handler.command = ['owner', 'creator', 'creador', 'dueño'];
 
 export default handler;
+
+
