@@ -5,14 +5,14 @@ async function handler(m, { conn }) {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
-  const name = await conn.getName(ownerJid) || 'BrayanOFC';
+  const name = await conn.getName(ownerJid) || 'Drylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || ' Hola mucho gusto soy Deylin 👑';
   const empresa = 'Servicios Tecnológicos';
 
 await m.react('✨');
   await m.react('👑');
   await conn.sendMessage(m.chat, {
-    text: `👋 Hola, soy *${creadorNombre}*, el creador del bot.\n\n📢 ¡Gracias por usar nuestro servicio!`,
+    text: `👋 Hola, soy *${de}*, el creador del bot.\n\n📢 ¡Gracias por usar nuestro servicio!`,
     footer: empresa,
     buttons: [
       { buttonId: '.menu', buttonText: { displayText: '📒 Menú' }, type: 1 },
