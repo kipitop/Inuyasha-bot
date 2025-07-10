@@ -1,16 +1,38 @@
-let handler = async function (m, { conn, participants, groupMetadata }) {
-if (!m.isGroup) return m.reply('Este comando solo funciona en grupos.')
+let handler = async function (m, { conn, groupMetadata }) {
+  if (!m.isGroup) return m.reply('❌ Este comando solo funciona en grupos.')
 
-const normalizeJid = jid => jid?.replace(/[^0-9]/g, '')
-const participantList = groupMetadata.participants || []
+  const participantes = groupMetadata?.participants || []
 
-const result = participantList.map(participant => ({
-id: participant.id,
-lid: participant.lid || null,
-admin: participant.admin || null
-}))
+  const tarjetas = participantes.map((p, index) => {
+    const rawJid = p.id || 'N/A'
+    const user = rawJid.split('@')[0]
+    const domain = rawJid.split('@')[1]
+    const lid = domain === 'lid' ? `${user}@lid` : `${user}@s.whatsapp.net`
 
-return m.reply(JSON.stringify(result, null, 2))
+    const estado = p.admin === 'superadmin' ? '👑 Superadmin' :
+                   p.admin === 'admin' ? '🛡️ Admin' : '👤 Miembro'
+
+    return [
+      '┆ ┏━━━━━━━━━━━━━━━⌬',
+      `┆ ┃ 🧾 *Participante ${index + 1}*`,
+      `┆ ┃ 👤 *Usuario:* @${user}`,
+      `┆ ┃ 🆔 *LID:* ${lid}`,
+      `┆ ┃ 📌 *Estado:* ${estado}`,
+      '┆ ┗━━━━━━━━━━━━━━━━━━⌬'
+    ].join('\n')
+  })
+
+  const contenido = tarjetas.join('\n┆\n')
+  const salida = [
+    '╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⑆',
+    '┆',
+    contenido,
+    '┆',
+    '╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⑆'
+  ].join('\n')
+
+  const mencionados = participantes.map(p => p.id).filter(Boolean)
+  return conn.reply(m.chat, salida, m, { mentions: mencionados })
 }
 
 handler.command = ['lid']
@@ -18,4 +40,3 @@ handler.help = ['lid']
 handler.tags = ['group']
 
 export default handler
-
