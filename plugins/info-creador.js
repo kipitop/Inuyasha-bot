@@ -1,21 +1,21 @@
 // Código creado por Deylin
-// https://github.com/deylinqff
+// https://github.com/Deylin-eliac 
 // No quites créditos
 
 import PhoneNumber from 'awesome-phonenumber';
 
-async function handler(m, { conn }) {
+let handler = async (m, { conn }) => {
   m.react('👑');
+
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
-
   const name = await conn.getName(ownerJid) || 'Deylin';
-  const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || `Hola, mucho gusto. Soy Deylin.
-Soy desarrollador de software y sitios web, apasionado por la tecnología, el diseño funcional y la innovación digital.
-
-Cada día me esfuerzo por aprender algo nuevo, mejorar mis habilidades y ofrecer soluciones eficientes y creativas a quienes confían en mi trabajo`;
+  const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || `Hola, mucho gusto. Soy Deylin.`;
   const empresa = 'Deylin - Servicios Tecnológicos';
 
+  
+  const pp = await conn.profilePictureUrl(ownerJid, 'image').catch(() => null);
+  const thumbnail = pp ? await (await fetch(pp)).buffer() : null;
 
   const vcard = `
 BEGIN:VCARD
@@ -35,14 +35,36 @@ X-ABLabel:Correo Electrónico
 X-ABLabel:Teléfono de contacto
 X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
-END:VCARD
-  `.trim();
-
+END:VCARD`.trim();
 
   await conn.sendMessage(
     m.chat,
-    { contacts: { displayName: name, contacts: [{ vcard }] } },
-    { quoted: fkontak }
+    {
+      contacts: {
+        displayName: name,
+        contacts: [{ vcard }]
+      },
+      contextInfo: {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardingScore: 999,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          newsletterName: channelRD.name,
+          serverMessageId: -1,
+        },
+        externalAdReply: {
+          title: textbot,
+          body: dev,
+          sourceUrl: redes,
+          mediaType: 1,
+          showAdAttribution: true,
+          renderLargerThumbnail: true,
+          jpegThumbnail: thumbnail, 
+        },
+      }
+    },
+    { quoted: m }
   );
 }
 
