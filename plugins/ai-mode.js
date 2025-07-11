@@ -1,25 +1,37 @@
 import fetch from 'node-fetch'
 
-var handler = async (m, { text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `${emoji} Ingrese una petición para que Mode IA lo responda.`, m, rcanal)
+const handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) {
+    return conn.reply(m.chat, `⚡ Ingrese una petición para que Mode IA la responda.`, m, fake)
+  }
+
   try {
     await m.react('🌟')
     conn.sendPresenceUpdate('composing', m.chat)
 
-    let response = await fetch(`https://mode-ia.onrender.com/mode-ia?prompt=${encodeURIComponent(text)}`)
-    let data = await response.json()
+    const id = m.sender || 'anon'
+    const apiUrl = `https://g-mini-ia.vercel.app/api/mode-ia?prompt=${encodeURIComponent(text)}&id=${encodeURIComponent(id)}`
 
-    if (!data.response) throw 'Sin respuesta válida'
-    await m.reply(data.response.trim())
-  } catch (e) {
+    const res = await fetch(apiUrl)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+    const json = await res.json()
+    const reply = json?.response?.trim()
+
+    if (!reply) throw new Error('Sin respuesta de Mode IA')
+
+    await conn.reply(m.chat, reply, m, fake)
+  } catch (err) {
+    console.error('[Mode-IA Error]', err)
     await m.react('⚡️')
-    await conn.reply(m.chat, `${emoji} Mode IA no puede responder a esa pregunta.`, m, rcanal)
+    await conn.reply(m.chat, `⚡ Mode IA no puede responder a esa pregunta.`, m, fake)
   }
 }
 
-handler.command = ['modeia', 'mode']
-handler.help = ['modeia']
-handler.tags = ['ai']
+handler.help = ['ia *<texto>*']
+handler.tags = ['ia']
+handler.command = ['ia']
+handler.register = true
 handler.group = true
 
 export default handler
