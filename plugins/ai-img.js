@@ -35,4 +35,4 @@ handler.tags = ['ia']
 handler.command = ['imgia', 'imagina', 'imgg']
 handler.register = true
 
-export default Handelr
+export default handler
