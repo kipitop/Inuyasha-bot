@@ -1,9 +1,16 @@
 import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn }) => {
-  const shareText = '🌟 Prueba Kirito-Bot, el mejor bot para grupos. https://wa.me/1234567890';
+  const previewURL = 'https://kirito-bot.vercel.app'; // página con preview habilitado (título/imagen)
+  const sharedText = `🌟 Prueba Kirito-Bot, el mejor bot para grupos.\n${previewURL}`;
 
-  const message = generateWAMessageFromContent(m.chat, {
+  // Primero, enviar el texto con URL para que WhatsApp genere el preview
+  await conn.sendMessage(m.chat, {
+    text: sharedText
+  });
+
+  // Luego, enviar el botón real de compartir (nativo)
+  const msg = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
         messageContextInfo: {
@@ -27,7 +34,7 @@ let handler = async (m, { conn }) => {
                 buttonParamsJson: JSON.stringify({
                   display_text: '📤 Compartir Kirito-Bot',
                   content: {
-                    body: shareText // Mensaje que se comparte
+                    body: sharedText
                   }
                 })
               }
@@ -38,7 +45,7 @@ let handler = async (m, { conn }) => {
     }
   }, {});
 
-  await conn.relayMessage(m.chat, message.message, { messageId: message.key.id });
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
 };
 
 handler.command = ['compartir', 'invitar'];
