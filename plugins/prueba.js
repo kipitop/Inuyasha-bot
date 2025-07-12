@@ -1,26 +1,33 @@
-// Creado por Deylin no quites creditos.
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
-
-const handler = async (m, { conn }) => {
-  await conn.sendMessage(m.chat, { 
-    text: 'Uso correcto del comando:',
+let handler = async (m, { conn }) => {
+  const mensaje = {
+    text: '¿Te gusta chatear con Kirito-Bot?\n¡Compártelo con tus amigos!',
+    footer: '',
     buttons: [
       {
-        buttonId: '.owner',
-        buttonText: { displayText: '#serbot --code 💐' },
-      },
-      {
-        buttonId: '.menu',
-        buttonText: { displayText: '#serbot 🐝' },
-      },
-       ],
-    footer: '¡MITSURI - KANROJI - BOT!',
-    viewOnce: true,
-  }, { quoted: m });
+        index: 1,
+        urlButton: {
+          displayText: '📤 Compartir Kirito-Bot',
+          url: 'https://wa.me/1234567890' // reemplaza con tu link de invitación o canal
+        }
+      }
+    ],
+    headerType: 1
+  }
+
+  const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+    templateMessage: {
+      hydratedTemplate: {
+        hydratedContentText: mensaje.text,
+        hydratedButtons: mensaje.buttons,
+        hydratedFooterText: mensaje.footer
+      }
+    }
+  }), { userJid: m.sender });
+
+  await conn.relayMessage(m.chat, template.message, { messageId: template.key.id });
 };
 
-handler.tags = ['tools'];
-handler.help = ['webinfo'];
-handler.command = ['m'];
-
+handler.command = ['compartir', 'invitar'];
 export default handler;
