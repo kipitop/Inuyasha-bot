@@ -1,7 +1,9 @@
 import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn }) => {
-  const msg = generateWAMessageFromContent(m.chat, {
+  const shareText = '🌟 Prueba Kirito-Bot, el mejor bot para grupos. https://wa.me/1234567890';
+
+  const message = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
         messageContextInfo: {
@@ -25,7 +27,7 @@ let handler = async (m, { conn }) => {
                 buttonParamsJson: JSON.stringify({
                   display_text: '📤 Compartir Kirito-Bot',
                   content: {
-                    body: '🌟 Prueba Kirito-Bot, el mejor bot para grupos. https://wa.me/1234567890'
+                    body: shareText // Mensaje que se comparte
                   }
                 })
               }
@@ -36,7 +38,7 @@ let handler = async (m, { conn }) => {
     }
   }, {});
 
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+  await conn.relayMessage(m.chat, message.message, { messageId: message.key.id });
 };
 
 handler.command = ['compartir', 'invitar'];
