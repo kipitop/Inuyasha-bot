@@ -10,7 +10,7 @@ let handler = async (m, { conn }) => {
         },
         interactiveMessage: proto.Message.InteractiveMessage.create({
           body: proto.Message.InteractiveMessage.Body.create({
-            text: '¿Te gusta chatear con Kirito-Bot? ¡Compártelo con tus amigos!'
+            text: '¿Te gusta chatear con Kirito-Bot?\n¡Compártelo con tus amigos!'
           }),
           footer: proto.Message.InteractiveMessage.Footer.create({
             text: 'Kirito-Bot by Deylin'
@@ -23,7 +23,10 @@ let handler = async (m, { conn }) => {
               {
                 name: 'share',
                 buttonParamsJson: JSON.stringify({
-                  display_text: '📤 Compartir Kirito-Bot'
+                  display_text: '📤 Compartir Kirito-Bot',
+                  content: {
+                    body: '🌟 Prueba Kirito-Bot, el mejor bot para grupos. https://wa.me/1234567890'
+                  }
                 })
               }
             ]
