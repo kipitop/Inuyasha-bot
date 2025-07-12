@@ -5,10 +5,10 @@ https://github.com/deylin-eliac
 
 let handler = async (m, { text, conn }) => {
   if (!text) {
-    return await conn.reply(m.chat, `${emoji} Escribe el prompt de la imagen. Ejemplo:\n.imagina un dragón azul volando en el espacio`, m, fake)
+    return await conn.reply(m.chat, `${emoji} Escribe el prompt de la imagen. Ejemplo:\n.imagina un dragón azul volando en el espacio`, m)
   }
 
-  await conn.reply(m.chat, `${emoji} Generando imagen de: "${text}", espera un momento...`, m, fake)
+  await conn.reply(m.chat, `${emoji} Generando imagen de: "${text}", espera un momento...`, m)
 
   try {
     const prompt = encodeURIComponent(text.trim())
