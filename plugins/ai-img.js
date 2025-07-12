@@ -5,23 +5,23 @@ https://github.com/deylin-eliac
 
 let handler = async (m, { text, conn }) => {
   if (!text) {
-    return await conn.reply(m.chat, `${emojis} Escribe el prompt de la imagen. Ejemplo:\n.imagina un dragón azul volando en el espacio`, m, fake)
+    return await conn.reply(m.chat, `${emoji} Escribe el prompt de la imagen. Ejemplo:\n.imagina un dragón azul volando en el espacio`, m, fake)
   }
 
-  await conn.reply(m.chat, `${emojis} Generando imagen de: "${text}", espera un momento...`, m, fake)
+  await conn.reply(m.chat, `${emoji} Generando imagen de: "${text}", espera un momento...`, m, fake)
 
   try {
     const prompt = encodeURIComponent(text.trim())
     const imageUrl = `https://anime-xi-wheat.vercel.app/api/ia-img?prompt=${prompt}`
 
 
-    const bloqueCodigo = ['```', 'Hola', '```'].join('\n')
+    
 
     await conn.sendFile(
       m.chat,
       imageUrl,
       'imagen.jpg',
-      `${bloqueCodigo}\n🧃 Imagen generada:\n${imageUrl}`,
+      `${emoji}\n\n🧃 Imagen generada:\n${imageUrl}`,
       m
     )
   } catch (e) {
@@ -35,4 +35,4 @@ handler.tags = ['ia']
 handler.command = ['imgia', 'imagina', 'imgg']
 handler.register = true
 
-export default handler
+export default Handelr
