@@ -1,41 +1,38 @@
-import axios from 'axios';
+/* Código creado por Deylin y API también
+https://github.com/deylin-eliac 
+  no quites créditos 
+ Atte: Deylin-eliac*/
 
-const handler = async (m, { conn, args }) => {
-    if (!args[0]) {
-        await conn.reply(m.chat, `${emoji} Por favor, proporciona una descripción para generar la imagen.`, m, rcanal);
-        return;
-    }
+let handler = async (m, { text, conn }) => {
+  if (!text) {
+    return await conn.reply(m.chat, `${emojis} Escribe el prompt de la imagen. Ejemplo:\n.imagina un dragón azul volando en el espacio`, m, fake)
+  }
 
-    const prompt = args.join(' ');
-    const apiUrl = `https://eliasar-yt-api.vercel.app/api/ai/text2img?prompt=${encodeURIComponent(prompt)}`;
+  await conn.reply(m.chat, `${emojis} Generando imagen de: "${text}", espera un momento...`, m, fake)
 
-    conn.reply(m.chat, `${emoji2} Espere un momento...\n\ngenerando imagen de *${prompt}*`, m, rcanal);
+  try {
+    const prompt = encodeURIComponent(text.trim())
+    const imageUrl = `https://anime-xi-wheat.vercel.app/api/ia-img?prompt=${prompt}`
 
-    let imageBuffer = null;
 
-    for (let intento = 1; intento <= 2; intento++) {
-        try {
-            const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+    const bloqueCodigo = ['```', 'Hola', '```'].join('\n')
 
-            
-            if (response.data && response.data.length > 1000) {
-                imageBuffer = Buffer.from(response.data);
-                break; 
-            }
-        } catch (error) {
-            console.error(`⚠️ Error en el intento ${intento}:`, error.message);
-        }
-    }
+    await conn.sendFile(
+      m.chat,
+      imageUrl,
+      'imagen.jpg',
+      `${bloqueCodigo}\n🧃 Imagen generada:\n${imageUrl}`,
+      m
+    )
+  } catch (e) {
+    console.error(e)
+    m.reply(`❌ Ocurrió un error al generar la imagen:\n${e.message}`)
+  }
+}
 
-    if (imageBuffer) {
-        await conn.sendMessage(m.chat, { image: imageBuffer }, { quoted: m });
-    } else {
-        await conn.reply(m.chat, `❌ No se pudo generar la imagen tras varios intentos.\nPor favor, intenta nuevamente más tarde.`, m, rcanal);
-    }
-};
+handler.help = ['imagina <prompt>']
+handler.tags = ['ia']
+handler.command = ['imgia', 'imagina', 'imgg']
+handler.register = true
 
-handler.command = ['imgg', 'kiritoia'];
-handler.help = ['imgg <descripción>', 'kiritoia <descripción>'];
-handler.tags = ['tools'];
-
-export default handler;
+export default handler
