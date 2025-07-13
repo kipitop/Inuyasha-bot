@@ -1,40 +1,61 @@
-let handler = async (m, { conn }) => {
-  const grupoOficial = 'https://chat.whatsapp.com/EYaNj7Ed29M9dyXJP0UiBX';
-  const canalOficial = 'https://whatsapp.com/channel/0029VbB46nl2ER6dZac6Nd1o';
-  const imagen = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-  // Preparar la imagen para enviar
-  const imageMessage = await conn.prepareMessageMedia({ image: { url: imagen } });
+const handler = async (m, { conn }) => {
+  const texto = `✨ Pulsa el botón para unirte o visitar nuestros espacios oficiales`.trim()
 
-  const templateButtons = [
+  const buttons = [
     {
-      urlButton: {
-        displayText: '🧩 Unirse al Grupo',
-        url: grupoOficial
-      }
+      name: 'cta_url',
+      buttonParamsJson: JSON.stringify({
+        display_text: '✐ Canal oficial',
+        url: 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m',
+        merchant_url: 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'
+      })
     },
     {
-      urlButton: {
-        displayText: '📢 Ver Canal',
-        url: canalOficial
+      name: 'cta_url',
+      buttonParamsJson: JSON.stringify({
+        display_text: '🧩 Grupo oficial',
+        url: 'https://chat.whatsapp.com/EYaNj7Ed29M9dyXJP0UiBX',
+        merchant_url: 'https://chat.whatsapp.com/EYaNj7Ed29M9dyXJP0UiBX'
+      })
+    },
+    {
+      name: 'cta_url',
+      buttonParamsJson: JSON.stringify({
+        display_text: '💻 Repositorio GitHub',
+        url: 'https://github.com/Deylin-Eliac/kirito-bot-MD',
+        merchant_url: 'https://github.com/Deylin-Eliac/kirito-bot-MD'
+      })
+    }
+  ]
+
+  const messageContent = {
+    viewOnceMessage: {
+      message: {
+        messageContextInfo: {
+          deviceListMetadata: {},
+          deviceListMetadataVersion: 2
+        },
+        interactiveMessage: proto.Message.InteractiveMessage.create({
+          body: proto.Message.InteractiveMessage.Body.create({ text: texto }),
+          footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Pikachu Bot by Deylin' }),
+          header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+            buttons
+          })
+        })
       }
     }
-  ];
+  }
 
-  const templateMessage = {
-    ...imageMessage,
-    templateMessage: {
-      hydratedTemplate: {
-        imageMessage: imageMessage.imageMessage,
-        hydratedContentText: `🌐 *ÚNETE A NUESTROS ESPACIOS OFICIALES:*\n\n👥 *Grupo oficial de Kirito-Bot*\n${grupoOficial}\n\n📢 *Canal de novedades*\n${canalOficial}\n\n👑 *By Deylin - Kirito-Bot MD*`,
-        hydratedFooterText: 'Haz clic en un botón para abrir el enlace',
-        hydratedButtons: templateButtons
-      }
-    }
-  };
+  const msg = generateWAMessageFromContent(m.chat, messageContent, {
+    userJid: m.sender,
+    quoted: m
+  })
 
-  await conn.sendMessage(m.chat, templateMessage, { quoted: m });
-};
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+}
 
 handler.help = ['grupos'];
 handler.tags = ['info'];
