@@ -1,5 +1,5 @@
 let handler = async (m, { conn }) => {
-  const grupoOficial = 'https://chat.whatsapp.com/GPbAHdod8e1AxZYmZHdFSI';
+  const grupoOficial = 'https://chat.whatsapp.com/EYaNj7Ed29M9dyXJP0UiBX';
   const canalOficial = channel;
   const imagen = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
 
@@ -19,14 +19,14 @@ ${canalOficial}
         showAdAttribution: true,
         title: 'Únete al grupo oficial del bot',
         body: 'Comunidad, noticias y comandos nuevos',
-        thumbnailUrl: imagen,
+        thumbnailUrl: icono,
         sourceUrl: grupoOficial,
         mediaType: 2,
         renderLargerThumbnail: true
       },
       
       forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363302872055226@newsletter.whatsapp.net', 
+        newsletterJid: '120363365444927738@newsletter', 
         newsletterName: 'Kirito-Bot MD Channel', 
         serverMessageId: '' 
       }
