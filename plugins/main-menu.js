@@ -78,7 +78,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
 ┃ ✦ *Sub-Bots:* ${users.length}
 *╰━──────────────⬣*
 *（＾∀＾●）ﾉｼ* 𝐋𝐈𝐒𝐓𝐀 𝐃𝐄 𝐂𝐎𝐌𝐀𝐍𝐃𝐎𝐒↷↷
-${}
+${global.readMore}
 ${Object.keys(tags).map(tag => {
   const commandsForTag = help.filter(menu => menu.tags.includes(tag));
   if (commandsForTag.length === 0) return '';
