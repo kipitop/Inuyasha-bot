@@ -112,9 +112,9 @@ await conn.sendMessage(m.chat, {
   }
 }, { quoted: m })
       } catch (e) {
-    conn.reply(m.chat, `❎ Lo sentimos, el menú tiene un error: ${error.message}`, m);
-    throw e;
-  }
+  conn.reply(m.chat, `❎ Lo sentimos, el menú tiene un error: ${e.message}`, m);
+  throw e;
+}
 };
 
 handler.help = ['menu', 'allmenu'];
