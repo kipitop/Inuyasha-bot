@@ -122,14 +122,14 @@ ${commandsForTag.map(menu => menu.help.map(help =>
       serverMessageId: -1
     },
     externalAdReply: {
-      title: textbot,
-      body: dev,
-      thumbnailUrl: imageUrls,
-      sourceUrl: redes,
-      mediaType: 1,
-      showAdAttribution: true,
-      renderLargerThumbnail: true
-    }
+              title: textbot,
+              body: dev,
+              thumbnailUrl: imageUrls,
+              sourceUrl: redes,
+              mediaType: 1,
+              showAdAttribution: true,
+              renderLargerThumbnail: true,
+          },
   }
 }, { quoted: m });
       } catch (e) {
@@ -168,3 +168,32 @@ function getLevelProgress(exp, min, max, length = 10) {
   let bar = '█'.repeat(progress) + '░'.repeat(length - progress);
   return `[${bar}]`;
 }
+
+
+    await conn.sendMessage(m.chat, { 
+      text: menuText.trim(),
+      contextInfo: {
+          mentionedJid: [m.sender],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+              newsletterJid: channelRD.id,
+              newsletterName: channelRD.name,
+              serverMessageId: -1,
+          },
+          forwardingScore: 999,
+          externalAdReply: {
+              title: textbot,
+              body: dev,
+              thumbnailUrl: imageUrls,
+              sourceUrl: redes,
+              mediaType: 1,
+              showAdAttribution: true,
+              renderLargerThumbnail: true,
+          },
+      },
+  }, { quoted: m })
+      } catch (e) {
+    conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
+    throw e;
+  }
+};
