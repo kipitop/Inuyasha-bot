@@ -101,37 +101,21 @@ ${commandsForTag.map(menu => menu.help.map(help =>
     const media = await conn.prepareWAMessageMedia({ image: { url: imageUrls } }, { upload: conn.waUploadToServer });
 
     await conn.sendMessage(m.chat, {
-      image: media.imageMessage,
-      caption: menuText,
-      footer: dev,
-      buttons: [
-        {
-          buttonId: '/owner',
-          buttonText: { displayText: `👑 Creador Deylin 👑` },
-          type: 1
-        }
-      ],
-      headerType: 4,
-      contextInfo: {
-        mentionedJid: [m.sender],
-        isForwarded: true,
-        forwardingScore: 999,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: channelRD.id,
-          newsletterName: channelRD.name,
-          serverMessageId: -1
-        },
-        externalAdReply: {
-          title: textbot,
-          body: dev,
-          thumbnailUrl: imageUrls,
-          sourceUrl: redes,
-          mediaType: 1,
-          showAdAttribution: true,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m });
+  image: { url: imageUrls },
+  caption: menuText,
+  footer: dev,
+  buttons: [
+    {
+      buttonId: '/owner',
+      buttonText: { displayText: `👑 Creador Deylin 👑` },
+      type: 1
+    }
+  ],
+  headerType: 4, // obligatorio para que funcione el botón con imagen
+  contextInfo: {
+    mentionedJid: [m.sender]
+  }
+}, { quoted: m });
 
   } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
