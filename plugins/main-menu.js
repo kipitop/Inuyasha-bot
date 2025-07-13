@@ -73,19 +73,21 @@ let handler = async (m, { conn }) => {
 *╰━──────────────⬣*
 *（＾∀＾●）ﾉｼ* 𝐋𝐈𝐒𝐓𝐀 𝐃𝐄 𝐂𝐎𝐌𝐀𝐍𝐃𝐎𝐒↷↷
 ${global.readMore}
-${Object.keys(tags).map(tag => {
-  const commandsForTag = help.filter(menu => menu.tags.includes(tag));
-  if (commandsForTag.length === 0) return '';
-  return `
-╭━━〔 ${tags[tag]} ${getRandomEmoji()} 〕━━⬣
-${commandsForTag.map(menu => menu.help.map(help =>
-  `┃ ✦ ${_p}${help}${menu.limit ? ' ◜⭐◞' : ''}${menu.premium ? ' ◜🪪◞' : ''}`
-).join('\n')).join('\n')}
-╰━━━━━━━━━━━━━━⬣`
-}).filter(text => text !== '').join('\n')}
 
-*👑 © Powered by Deylin - ${botname}*
-`.trim();
+    for (let tag in tags) {
+      const comandos = help.filter(menu => menu.tags.includes(tag))
+      if (!comandos.length) continue
+
+      menuText += `\n╭─🧃 *${tags[tag]}* ${getRandomEmoji()}\n`
+      menuText += comandos.map(menu =>
+        menu.help.map(cmd =>
+          `│ ✦ ${cmd}${menu.limit ? ' ◜⭐◞' : ''}${menu.premium ? ' ◜🪪◞' : ''}`
+        ).join('\n')
+      ).join('\n')
+      menuText += `\n╰────────────────────────────╯`
+    }
+
+    menuText += `\n\n*👑 © Powered by Deylin - Pikachu Bot*`
 
     const imageUrl = [
       'https://kirito-bot-md.vercel.app/IMG-20250606-WA0167.jpg',
