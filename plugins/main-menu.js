@@ -96,14 +96,16 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 `.trim();
 
     // no tocar 
-    const imageUrls = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
-        const selectedImage = imageUrls;
+    const imageUrls =[ 
+'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg',
+'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg'
+];
+            const selectedImage = imageUrl[Math.floor(Math.random() * imageUrl.length)]
     const imageBuffer = await (await fetch(selectedImage)).buffer()
     const media = await prepareWAMessageMedia({ image: imageBuffer }, { upload: conn.waUploadToServer })
 
-    await m.react('👑');
 
-    await conn.sendMessage(m.chat, {
+await conn.sendMessage(m.chat, {
   image: imageBuffer,
   caption: menuText,
   contextInfo: {
