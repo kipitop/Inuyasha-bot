@@ -19,7 +19,7 @@ ${canalOficial}
         showAdAttribution: true,
         title: 'Únete al grupo oficial del bot',
         body: 'Comunidad, noticias y comandos nuevos',
-        thumbnailUrl: icono,
+        thumbnailUrl: global.icono,
         sourceUrl: grupoOficial,
         mediaType: 2,
         renderLargerThumbnail: true
