@@ -3,28 +3,41 @@ let handler = async (m, { conn }) => {
   const canalOficial = 'https://whatsapp.com/channel/0029VbB46nl2ER6dZac6Nd1o';
   const imagen = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
 
-  await conn.sendMessage(m.chat, {
-    image: { url: imagen },
-    caption: `🌐 *ÚNETE A NUESTROS ESPACIOS OFICIALES:*
+  // Preparar la imagen para enviar
+  const imageMessage = await conn.prepareMessageMedia({ image: { url: imagen } });
 
-👥 *Grupo oficial de Kirito-Bot*
-${grupoOficial}
+  const templateButtons = [
+    {
+      urlButton: {
+        displayText: '🧩 Unirse al Grupo',
+        url: grupoOficial
+      }
+    },
+    {
+      urlButton: {
+        displayText: '📢 Ver Canal',
+        url: canalOficial
+      }
+    }
+  ];
 
-📢 *Canal de novedades*
-${canalOficial}
+  const templateMessage = {
+    ...imageMessage,
+    templateMessage: {
+      hydratedTemplate: {
+        imageMessage: imageMessage.imageMessage,
+        hydratedContentText: `🌐 *ÚNETE A NUESTROS ESPACIOS OFICIALES:*\n\n👥 *Grupo oficial de Kirito-Bot*\n${grupoOficial}\n\n📢 *Canal de novedades*\n${canalOficial}\n\n👑 *By Deylin - Kirito-Bot MD*`,
+        hydratedFooterText: 'Haz clic en un botón para abrir el enlace',
+        hydratedButtons: templateButtons
+      }
+    }
+  };
 
-👑 *By Deylin - Kirito-Bot MD*`,
-    footer: 'Haz clic en un botón para unirte',
-    buttons: [
-      { buttonId: grupoOficial, buttonText: { displayText: '🧩 Unirse al Grupo' }, type: 1 },
-      { buttonId: canalOficial, buttonText: { displayText: '📢 Ver Canal' }, type: 1 }
-    ],
-    headerType: 4
-  }, { quoted: m });
+  await conn.sendMessage(m.chat, templateMessage, { quoted: m });
 };
 
-handler.help = ['grupos']
-handler.tags = ['info']
-handler.command = ['grupos', 'links', 'groups']
+handler.help = ['grupos'];
+handler.tags = ['info'];
+handler.command = ['grupos', 'links', 'groups'];
 
 export default handler;
