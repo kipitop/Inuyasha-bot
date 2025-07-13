@@ -1,5 +1,5 @@
 // no tocar 
-
+import { WAMessageStubType } from '@whiskeysockets/baileys'
 import { xpRange } from '../lib/levelling.js'
 import ws from 'ws';
 
@@ -101,20 +101,23 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     await m.react('👑');
 
-    await conn.sendMessage(m.chat, { 
-      text: menuText.trim(),
-      url: imageUrls,
-      contextInfo: {
-          mentionedJid: [m.sender],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-              newsletterJid: channelRD.id,
-              newsletterName: channelRD.name,
-              serverMessageId: -1,
-          },
-          forwardingScore: 999,
-      },
-  }, { quoted: m })
+    await conn.sendMessage(m.chat, {
+  image: imageBuffer,
+  caption: menuText,
+        buttons: [
+          {
+            buttonId: '/creador',
+            buttonText: { displayText: `✨ CREADOR 👑` },
+            type: 1
+          }
+        ],
+        headerType: 4,
+  contextInfo: {
+    mentionedJid: [m.sender],
+    forwardingScore: 999,
+    isForwarded: true
+  }
+}, { quoted: m })
       } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
     throw e;
