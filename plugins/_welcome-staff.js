@@ -2,7 +2,7 @@
 //https://github.com/deylinqff
 //➤  no quites créditos 
 
-/*import { WAMessageStubType } from '@whiskeysockets/baileys'
+import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
 export async function before(m, { conn, participants, groupMetadata }) {
@@ -15,19 +15,18 @@ export async function before(m, { conn, participants, groupMetadata }) {
   let date = new Date().toLocaleString('es-ES', { timeZone: 'America/Mexico_City' });
 
   let frasesBienvenida = [
-    "¡Bienvenido al equipo de élite de Kirito-Bot! Tu aporte será clave para nuestro crecimiento.",
-    "Un nuevo guerrero se une a la batalla. ¡Demos lo mejor para mejorar Kirito-Bot!",
+    "¡Bienvenido al equipo de élite de Kirito-Bot y pikachu bot! Tu aporte será clave para nuestro crecimiento.",
+    "Un nuevo guerrero se une a la batalla. ¡Demos lo mejor para mejorar nuestro bot!",
     "Tu experiencia y habilidades ahora forman parte de nuestro equipo. ¡Bienvenido!",
     "¡Atención equipo! Un nuevo miembro ha llegado para fortalecer nuestra comunidad.",
-    "Unir fuerzas nos hace más fuertes. Bienvenido al equipo de Kirito-Bot, juntos somos imparables."
+    "Unir fuerzas nos hace más fuertes. Bienvenido al equipo de team bot, juntos somos imparables."
   ];
 
   let frasesDespedida = [
     "Gracias por tu tiempo y dedicación al equipo. Te deseamos éxito en tus futuros proyectos.",
-    "Se cierra un ciclo, pero tu legado en Kirito-Bot queda marcado. ¡Mucho éxito!",
+    "Se cierra un ciclo, pero tu legado en team bot queda marcado. ¡Mucho éxito!",
     "Nos despedimos con gratitud. ¡Siempre serás parte de esta familia!",
-    "El equipo pierde a un gran miembro, pero la puerta queda abierta para tu regreso. ¡Hasta pronto!",
-    "Toda historia tiene un final, pero siempre serás parte del staff de Kirito-Bot. ¡Éxito en todo!"
+    "El equipo pierde a un gran miembro, pero la puerta queda abierta para tu regreso. ¡Hasta pronto!"
   ];
 
   let fraseRandomBienvenida = frasesBienvenida[Math.floor(Math.random() * frasesBienvenida.length)];
@@ -39,7 +38,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     let bienvenida = `┏━━━━━━━━━━━━━━━━┅┈
-┃    🅂🅃🄰🄵🄵  🄺🄸🅁🄸🅃🄾-🄱🄾🅃
+┃    🅂🅃🄰🄵🄵  🅃🄴🄰🄼 🄱🄾🅃
 ┣━━━━━━━━━━━━━━━━┅┈
 ┃ ➤ 𝗡𝘂𝗲𝘃𝗼 𝗺𝗶𝗲𝗺𝗯𝗿𝗼: ${taguser}
 ┃ ➤ 𝗚𝗿𝘂𝗽𝗼: ${groupMetadata.subject}
@@ -54,7 +53,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
   if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE ||
       m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     let despedida = `┏━━━━━━━━━━━━━━━━┅┈
-┃    🅂🅃🄰🄵🄵  🄺🄸🅁🄸🅃🄾-🄱🄾🅃
+┃    🅂🅃🄰🄵🄵 🅃🄴🄰🄼 🄱🄾🅃
 ┣━━━━━━━━━━━━━━━━┅┈
 ┃ ➤ 𝗠𝗶𝗲𝗺𝗯𝗿𝗼 𝗦𝗮𝗹𝗶𝗲𝗻𝘁𝗲: ${taguser}
 ┃ ➤ 𝗚𝗿𝘂𝗽𝗼: ${groupMetadata.subject}
@@ -65,4 +64,4 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
     await conn.sendMessage(m.chat, { image: { url: imageUrlDespedida }, caption: despedida, mentions: [who] });
   }
-}*/
+}
