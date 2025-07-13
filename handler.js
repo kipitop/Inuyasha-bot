@@ -266,6 +266,8 @@ m.exp += Math.ceil(Math.random() * 10)
 
 let usedPrefix
 
+
+// fragmento de código creado por estroy para yuki-Bot //
 async function getLidFromJid(id, conn) {
 if (id.endsWith('@lid')) return id
 const res = await conn.onWhatsApp(id).catch(() => [])
