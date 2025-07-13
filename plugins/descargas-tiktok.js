@@ -7,6 +7,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 
     try {
       //  await conn.reply(m.chat, `${emoji} Espere un momento, estoy descargando su video...`, m);
+        await m.react('🔎')
 
         const tiktokData = await tiktokdl(args[0]);
 
@@ -15,7 +16,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         }
 
         const videoURL = tiktokData.data.play;
-
+    await m.react('👑')
         if (videoURL) {
             await conn.sendFile(m.chat, videoURL, "tiktok.mp4", ` ╭──────⚔──────╮  
   ${emoji} 𝑲𝑰𝑹𝑰𝑻𝑶-𝑩𝑶𝑻 𝑴𝑫   
