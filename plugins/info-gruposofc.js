@@ -1,6 +1,6 @@
 let handler = async (m, { conn }) => {
   const grupoOficial = 'https://chat.whatsapp.com/EYaNj7Ed29M9dyXJP0UiBX';
-  const canalOficial = channel;
+  const canalOficial = 'https://whatsapp.com/channel/0029VbB46nl2ER6dZac6Nd1o';
   const imagen = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
 
   await conn.sendMessage(m.chat, {
@@ -14,23 +14,12 @@ ${grupoOficial}
 ${canalOficial}
 
 👑 *By Deylin - Kirito-Bot MD*`,
-    contextInfo: {
-      externalAdReply: {
-        showAdAttribution: true,
-        title: 'Únete al grupo oficial del bot',
-        body: 'Comunidad, noticias y comandos nuevos',
-        thumbnailUrl: global.icono,
-        sourceUrl: grupoOficial,
-        mediaType: 2,
-        renderLargerThumbnail: true
-      },
-      
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363365444927738@newsletter', 
-        newsletterName: 'Kirito-Bot MD Channel', 
-        serverMessageId: '' 
-      }
-    }
+    footer: 'Haz clic en un botón para unirte',
+    buttons: [
+      { buttonId: grupoOficial, buttonText: { displayText: '🧩 Unirse al Grupo' }, type: 1 },
+      { buttonId: canalOficial, buttonText: { displayText: '📢 Ver Canal' }, type: 1 }
+    ],
+    headerType: 4
   }, { quoted: m });
 };
 
@@ -38,4 +27,4 @@ handler.help = ['grupos']
 handler.tags = ['info']
 handler.command = ['grupos', 'links', 'groups']
 
-export default handler
+export default handler;
