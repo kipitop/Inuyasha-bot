@@ -39,7 +39,7 @@ const handler = async (m, { conn }) => {
         },
         interactiveMessage: proto.Message.InteractiveMessage.create({
           body: proto.Message.InteractiveMessage.Body.create({ text: texto }),
-          footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Pikachu Bot by Deylin' }),
+          footer: proto.Message.InteractiveMessage.Footer.create({ text: ` ${botname} by Deylin` }),
           header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
           nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
             buttons
