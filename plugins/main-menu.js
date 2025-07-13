@@ -97,7 +97,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     // no tocar 
     const imageUrls = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
-        const selectedImage = imageUrl[Math.floor(Math.random() * imageUrl.length)]
+        const selectedImage = imageUrls;
     const imageBuffer = await (await fetch(selectedImage)).buffer()
     const media = await prepareWAMessageMedia({ image: imageBuffer }, { upload: conn.waUploadToServer })
 
