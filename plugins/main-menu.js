@@ -123,10 +123,13 @@ export default handler;
 
 function clockString(ms) {
   if (typeof ms !== 'number' || isNaN(ms)) return '--:--:--'
-  let h = Math.floor(ms / 3600000);
-  let m = Math.floor(ms / 60000) % 60;
-  let s = Math.floor(ms / 1000) % 60;
-  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':');
+  let h = Math.floor(ms / 3600000)
+  let m = Math.floor((ms % 3600000) / 60000)
+  let s = Math.floor((ms % 60000) / 1000)
+
+  const safe = (v) => (typeof v === 'number' && !isNaN(v) ? v.toString().padStart(2, '0') : '00')
+
+  return [safe(h), safe(m), safe(s)].join(':')
 }
 
 function getRandomEmoji() {
