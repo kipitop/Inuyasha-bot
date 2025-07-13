@@ -23,7 +23,7 @@ const handler = async (m, { conn }) => {
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
-        display_text: '💻 Repositorio GitHub',
+        display_text: '🌟 Regálanos una estrella en Github',
         url: 'https://github.com/Deylin-Eliac/kirito-bot-MD',
         merchant_url: 'https://github.com/Deylin-Eliac/kirito-bot-MD'
       })
