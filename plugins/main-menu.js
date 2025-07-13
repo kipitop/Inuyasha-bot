@@ -101,28 +101,37 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     await m.react('👑');
 
-    await conn.sendMessage(m.chat, { 
-      text: menuText.trim(),
-      contextInfo: {
-          mentionedJid: [m.sender],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-              newsletterJid: channelRD.id,
-              newsletterName: channelRD.name,
-              serverMessageId: -1,
-          },
-          forwardingScore: 999,
-          externalAdReply: {
-              title: textbot,
-              body: dev,
-              thumbnailUrl: imageUrls,
-              sourceUrl: redes,
-              mediaType: 1,
-              showAdAttribution: true,
-              renderLargerThumbnail: true,
-          },
-      },
-  }, { quoted: m })
+    await conn.sendMessage(m.chat, {
+  text: menuText.trim(),
+  footer: dev,
+  buttons: [
+    {
+      buttonId: '/owner',
+      buttonText: { displayText: `👑 Creador Deylin 👑` },
+      type: 1
+    }
+  ],
+  headerType: 4,
+  contextInfo: {
+    mentionedJid: [m.sender],
+    isForwarded: true,
+    forwardingScore: 999,
+    forwardedNewsletterMessageInfo: {
+      newsletterJid: channelRD.id,
+      newsletterName: channelRD.name,
+      serverMessageId: -1
+    },
+    externalAdReply: {
+      title: textbot,
+      body: dev,
+      thumbnailUrl: imageUrls,
+      sourceUrl: redes,
+      mediaType: 1,
+      showAdAttribution: true,
+      renderLargerThumbnail: true
+    }
+  }
+}, { quoted: m });
       } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
     throw e;
