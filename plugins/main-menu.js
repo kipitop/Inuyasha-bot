@@ -165,68 +165,103 @@ function getLevelProgress(exp, min, max, length = 10) {
 
 import { xpRange } from '../lib/levelling.js'
 import ws from 'ws'
+import fetch from 'node-fetch'
 
-let tags = {
+// Define tus tags para categorizar comandos
+const tags = {
   'anime': 'ANIME',
   'main': 'INFO',
   'search': 'SEARCH',
-  // ... tus tags
+  'game': 'GAME',
+  'serbot': 'SUB BOTS',
+  'rpg': 'RPG',
+  'sticker': 'STICKER',
+  'group': 'GROUPS',
+  'nable': 'ON / OFF',
+  'premium': 'PREMIUM',
+  'downloader': 'DOWNLOAD',
+  'tools': 'TOOLS',
+  'fun': 'FUN',
+  'nsfw': 'NSFW',
+  'cmd': 'DATABASE',
+  'owner': 'OWNER',
+  'audio': 'AUDIOS',
+  'advanced': 'ADVANCED',
+  'weather': 'WEATHER',
+  'news': 'NEWS',
+  'finance': 'FINANCE',
+  'education': 'EDUCATION',
+  'health': 'HEALTH',
+  'entertainment': 'ENTERTAINMENT',
+  'sports': 'SPORTS',
+  'travel': 'TRAVEL',
+  'food': 'FOOD',
+  'shopping': 'SHOPPING',
+  'productivity': 'PRODUCTIVITY',
+  'social': 'SOCIAL',
+  'security': 'SECURITY',
   'custom': 'CUSTOM'
 }
 
+// Handler del menú
 let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
-    let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
-    if (!global.db.data.users[userId]) global.db.data.users[userId] = { exp: 0, level: 1 }
-    let user = global.db.data.users[userId]
-    let { exp, level } = user
-    let { min, xp, max } = xpRange(level, global.multiplier)
-    let mode = global.opts["self"] ? "Privado" : "Público"
-    let totalCommands = Object.keys(global.plugins).length
-    let totalreg = Object.keys(global.db.data.users).length
-    let uptime = clockString(process.uptime() * 1000)
+    const userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
 
-    // Construimos las secciones para el botón lista:
-    const sections = Object.keys(tags).map(tag => {
-      const commandsForTag = Object.values(global.plugins).filter(plugin => !plugin.disabled && (plugin.tags || []).includes(tag))
+    if (!global.db.data.users[userId]) global.db.data.users[userId] = { exp: 0, level: 1 }
+    const user = global.db.data.users[userId]
+    const { exp, level } = user
+    const { min, xp, max } = xpRange(level, global.multiplier)
+    const mode = global.opts["self"] ? "Privado" : "Público"
+    const totalCommands = Object.keys(global.plugins).length
+    const totalUsers = Object.keys(global.db.data.users).length
+    const uptime = clockString(process.uptime() * 1000)
+
+    // Construir las secciones para el botón lista
+    const sections = Object.entries(tags).map(([tagKey, tagName]) => {
+      const commandsForTag = Object.values(global.plugins).filter(plugin =>
+        !plugin.disabled &&
+        (plugin.tags || []).includes(tagKey)
+      )
       if (commandsForTag.length === 0) return null
       return {
-        title: `╭━━〔 ${tags[tag]} ${getRandomEmoji()} 〕━━⬣`,
+        title: `╭━━〔 ${tagName} ${getRandomEmoji()} 〕━━⬣`,
         rows: commandsForTag.map(plugin => ({
           title: plugin.help ? (Array.isArray(plugin.help) ? plugin.help[0] : plugin.help) : 'Comando',
           rowId: `${_p}${plugin.help ? (Array.isArray(plugin.help) ? plugin.help[0] : plugin.help) : 'help'}`,
-          description: plugin.limit ? 'Limitado ⭐' : (plugin.premium ? 'Premium 🪪' : '')
+          description: (plugin.limit ? 'Limitado ⭐' : '') + (plugin.premium ? ' Premium 🪪' : '')
         }))
       }
-    }).filter(v => v !== null)
+    }).filter(section => section !== null)
 
-    // Imagen que quieres poner:
-    const imageUrl = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg'
-
-    // Texto que mostrará arriba del botón lista:
+    // Texto que se muestra arriba del botón lista
     const menuText = `
 *╭━〔 𝐊𝐈𝐑𝐈𝐓𝐎 - 𝐁𝐎𝐓 𝐌𝐃☆ 〕━⬣*
 ┃ ✦ *Nombre:* @${userId.split('@')[0]}
 ┃ ✦ *Modo:* ${mode}
-┃ ✦ *Usuarios:* ${totalreg}
+┃ ✦ *Usuarios:* ${totalUsers}
 ┃ ✦ *Uptime:* ${uptime}
 ┃ ✦ *Comandos:* ${totalCommands}
 *╰━━━━━━━━━━━━━━⬣*
-Selecciona una opción del menú usando el botón abajo 👇
+
+Selecciona una opción del menú usando el botón 👇
 `.trim()
 
-    // Preparar la imagen como buffer para thumbnail
+    // URL de la imagen que quieres mostrar
+    const imageUrl = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg'
     const buffer = await (await fetch(imageUrl)).buffer()
 
+    // Construir el mensaje de lista
     const listMessage = {
       text: menuText,
       footer: "Kirito-Bot MD ☆ Powered by Deylin",
       title: "📋 Menú de Comandos",
       buttonText: "🧭 Ver opciones",
       sections,
-      jpegThumbnail: buffer // miniatura para la lista
+      jpegThumbnail: buffer
     }
 
+    // Enviar el mensaje con botón lista
     await conn.sendMessage(m.chat, listMessage, { quoted: m })
 
   } catch (e) {
@@ -242,13 +277,15 @@ handler.register = true
 
 export default handler
 
+// Función para formato de tiempo uptime
 function clockString(ms) {
-  let h = Math.floor(ms / 3600000)
-  let m = Math.floor(ms / 60000) % 60
-  let s = Math.floor(ms / 1000) % 60
-  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
+  const h = Math.floor(ms / 3600000)
+  const m = Math.floor(ms / 60000) % 60
+  const s = Math.floor(ms / 1000) % 60
+  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
 
+// Emoji aleatorio para el menú
 function getRandomEmoji() {
   const emojis = ['👑', '🔥', '🌟', '⚡']
   return emojis[Math.floor(Math.random() * emojis.length)]
