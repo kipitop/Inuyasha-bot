@@ -103,6 +103,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     await conn.sendMessage(m.chat, { 
       text: menuText.trim(),
+      url: imageUrls,
       contextInfo: {
           mentionedJid: [m.sender],
           isForwarded: true,
@@ -112,15 +113,6 @@ ${commandsForTag.map(menu => menu.help.map(help =>
               serverMessageId: -1,
           },
           forwardingScore: 999,
-          externalAdReply: {
-              title: textbot,
-              body: dev,
-              thumbnailUrl: imageUrls,
-              sourceUrl: redes,
-              mediaType: 1,
-              showAdAttribution: true,
-              renderLargerThumbnail: true,
-          },
       },
   }, { quoted: m })
       } catch (e) {
