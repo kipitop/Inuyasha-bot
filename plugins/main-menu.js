@@ -106,15 +106,6 @@ ${commandsForTag.map(menu => menu.help.map(help =>
     await conn.sendMessage(m.chat, {
   image: imageBuffer,
   caption: menuText,
-  footer: 'Selecciona una opción:',
-  buttons: [
-    {
-      buttonId: '/creador',
-      buttonText: { displayText: '✨ CREADOR 👑' },
-      type: 1
-    }
-  ],
-  headerType: 4,
   contextInfo: {
     mentionedJid: [m.sender],
     forwardingScore: 999,
