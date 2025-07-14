@@ -164,7 +164,7 @@ handler.tags = ["downloader"];
 export default handler;
 
 function formatViews(views) {
-  if (typeof views !== "number") return "Desconocido";
+  if (typeof views !== "number" || isNaN(views)) return "Desconocido";
   return views >= 1000
     ? (views / 1000).toFixed(1) + "k (" + views.toLocaleString() + ")"
     : views.toString();
