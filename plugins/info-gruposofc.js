@@ -35,13 +35,8 @@ const handler = async (m, { conn }) => {
         url: 'https://github.com/Deylin-Eliac/kirito-bot-MD',
         merchant_url: 'https://github.com/Deylin-Eliac/kirito-bot-MD'
       })
-    },
-    {
-      buttonId: '/menu',
-      buttonText: { displayText: `✨ MENU` },
-      type: 1
     }
-  ]
+   ]
 
   const messageContent = {
     viewOnceMessage: {
