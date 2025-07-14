@@ -23,6 +23,14 @@ const handler = async (m, { conn }) => {
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
+        display_text: '✐ Grupo oficial',
+        url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t',
+        merchant_url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t'
+      })
+    },
+    {
+      name: 'cta_url',
+      buttonParamsJson: JSON.stringify({
         display_text: '🌟 Regálanos una estrella en Github',
         url: 'https://github.com/Deylin-Eliac/kirito-bot-MD',
         merchant_url: 'https://github.com/Deylin-Eliac/kirito-bot-MD'
