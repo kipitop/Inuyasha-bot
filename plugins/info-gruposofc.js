@@ -7,7 +7,7 @@ const handler = async (m, { conn }) => {
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
-        display_text: '✐ Canal oficial',
+        display_text: ` ${emoji} Canal oficial`,
         url: 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m',
         merchant_url: 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'
       })
@@ -15,7 +15,7 @@ const handler = async (m, { conn }) => {
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
-        display_text: '✐ Grupo oficial',
+        display_text: `${emoji} Grupo oficial`,
         url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t',
         merchant_url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t'
       })
@@ -23,15 +23,15 @@ const handler = async (m, { conn }) => {
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
-        display_text: '✐ Grupo oficial',
-        url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t',
-        merchant_url: 'https://chat.whatsapp.com/JD4UzGQoOEE9MiNH9wipoU?mode=ac_t'
+        display_text: `${emoji} Creador`,
+        url: 'https://wa.link/i3ytgw',
+        merchant_url: 'https://wa.link/i3ytgw'
       })
     },
     {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
-        display_text: '🌟 Regálanos una estrella en Github',
+        display_text: `${emoji} Regálanos una estrella en Github`,
         url: 'https://github.com/Deylin-Eliac/kirito-bot-MD',
         merchant_url: 'https://github.com/Deylin-Eliac/kirito-bot-MD'
       })
