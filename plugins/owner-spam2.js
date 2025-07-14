@@ -20,28 +20,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     const code = groupLink.split('chat.whatsapp.com/')[1];
     const groupId = await conn.groupAcceptInvite(code);
+    m.reply(`✅ Solicitud enviada. Esperando aprobación si es necesaria...`);
 
-    m.reply(`✅ Unido al grupo con éxito. Verificando permisos...`);
-
-    // Esperar aprobación si es necesario
+    // Espera hasta ser aprobado (30s máx)
     let approved = false;
     let retries = 0;
 
-    while (!approved && retries < 15) { // espera hasta 15 segundos
+    while (!approved && retries < 30) {
       try {
         const metadata = await conn.groupMetadata(groupId);
         if (metadata.participants.some(p => p.id === conn.user.id)) {
           approved = true;
+          break;
         }
       } catch (e) {
-        // probablemente aún no está aprobado
+        if (e?.output?.statusCode !== 403) console.log(e);
       }
-      if (!approved) await delay(1000);
+      await delay(1000); // espera 1 segundo
       retries++;
     }
 
     if (!approved) {
-      return m.reply(`⚠️ El bot aún no ha sido aprobado en el grupo. No se puede continuar con el spam.`);
+      return m.reply(`❌ No se pudo acceder al grupo. Es probable que el bot aún no haya sido aprobado.`);
     }
 
     m.reply(`📨 Iniciando spam de ${count} mensajes...`);
@@ -51,12 +51,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       await delay(1000); 
     }
 
-    m.reply(`✅ Spam completado. Saliendo del grupo...`);
+    m.reply(`✅ Mensajes enviados. Saliendo del grupo...`);
     await conn.groupLeave(groupId);
 
   } catch (error) {
     console.error(error);
-    m.reply(`⚠️ Error al intentar realizar la operación: ${error.message}`);
+    m.reply(`⚠️ Error al intentar realizar la operación: ${error?.message || error}`);
   }
 };
 
