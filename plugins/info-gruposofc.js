@@ -16,8 +16,8 @@ const handler = async (m, { conn }) => {
       name: 'cta_url',
       buttonParamsJson: JSON.stringify({
         display_text: `${emoji} Grupo oficial`,
-        url: 'https://chat.whatsapp.com/DRy8jQV104X6TLlDB4Qlvx?mode=ac_t',
-        merchant_url: 'https://chat.whatsapp.com/DRy8jQV104X6TLlDB4Qlvx?mode=ac_t'
+        url: 'http://bit.ly/3ImhCFl',
+        merchant_url: 'http://bit.ly/3ImhCFl'
       })
     },
     {
