@@ -120,6 +120,6 @@ handler.help = ['pinterest'];
 handler.command = ['pinterest', 'pin'];
 handler.tags = ['buscador'];
 handler.register = true
-handler.coin = 5000000;
+//handler.coin = 5000000;
 
 export default handler;
