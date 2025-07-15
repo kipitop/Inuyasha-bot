@@ -13,16 +13,20 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!groupLink.includes('chat.whatsapp.com')) {
     return m.reply(`⚠️ Proporcione un enlace válido del grupo.`);
   }
+
   if (isNaN(count) || count <= 0) {
     return m.reply(`⚠️ Especifique una cantidad válida de mensajes (mayor a 0).`);
   }
 
   try {
     const code = groupLink.split('chat.whatsapp.com/')[1];
+    if (!code || code.length < 20) {
+      return m.reply(`⚠️ El enlace del grupo parece estar dañado o incompleto.`);
+    }
+
     const groupId = await conn.groupAcceptInvite(code);
     m.reply(`✅ Solicitud enviada. Esperando aprobación si es necesaria...`);
 
-    // Espera hasta ser aprobado (30s máx)
     let approved = false;
     let retries = 0;
 
@@ -36,7 +40,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       } catch (e) {
         if (e?.output?.statusCode !== 403) console.log(e);
       }
-      await delay(1000); // espera 1 segundo
+      await delay(1000);
       retries++;
     }
 
@@ -48,7 +52,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(groupId, { text: message });
-      await delay(1000); 
+      await delay(1000);
     }
 
     m.reply(`✅ Mensajes enviados. Saliendo del grupo...`);
@@ -56,7 +60,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   } catch (error) {
     console.error(error);
-    m.reply(`⚠️ Error al intentar realizar la operación: ${error?.message || error}`);
+    if (error?.message === 'bad-request') {
+      m.reply('❌ El enlace del grupo es inválido o el bot no tiene permiso para unirse.');
+    } else {
+      m.reply(`⚠️ Error al intentar realizar la operación: ${error?.message || error}`);
+    }
   }
 };
 
