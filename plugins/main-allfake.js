@@ -30,7 +30,7 @@ console.log(`Error : ${e}`)
 //creador y otros
 global.creador = 'Wa.me/50433191934'
 global.ofcbot = `${conn.user.jid.split('@')[0]}`
-global.sub = user.jid;
+global.sub = `${conn.user.jid.replace(/[^0-9]/g, '')}`
 global.asistencia = 'Wa.me/50433191934'
 global.namechannel = '࿋ོ༙𝐊𝐢𝐫𝐢𝐭𝐨-𝑩𝒐𝒕 𝑴𝑫 𝐂𝐡𝐚𝐧𝐧𝐞𝐥࿐ཽ༵'
 global.namechannel2 = '᭄𝐊𝐢𝐫𝐢𝐭𝐨-𝐁𝐨𝐭 𝐌𝐃 👑ᬊᬁ"'
