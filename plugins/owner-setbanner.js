@@ -18,8 +18,7 @@ let handler = async (m, { conn, isRowner }) => {
       return m.reply(`${emoji2} El archivo enviado no es una imagen válida.`);
     }
 
-    global.subbotBanners = global.subbotBanners || {};
-global.subbotBanners[m.sender] = `${link}`;
+    global.subbotBanners[m.sender] = `${link}`;
 
     await conn.sendFile(m.chat, media, 'banner.jpg', `${emoji} imagen actualizada.`, m);
 
