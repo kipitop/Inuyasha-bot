@@ -7,7 +7,7 @@ import { fileTypeFromBuffer } from "file-type";
 
 let handler = async (m, { conn, isRowner }) => {
 
-  if (!m.quoted || !/image/.test(m.quoted.mimetype)) return m.reply(`${emoji} Por favor, responde a una imagen con el comando *setbanner* para actualizar la foto del menu.`);
+  if (!m.quoted || !/image/.test(m.quoted.mimetype)) return m.reply(`${emoji} Por favor, responde a una imagen con el comando *setbanner* para actualizar la foto del bot.`);
 
   try {
 
@@ -18,9 +18,10 @@ let handler = async (m, { conn, isRowner }) => {
       return m.reply(`${emoji2} El archivo enviado no es una imagen válida.`);
     }
 
-    global.banner = `${link}`;  
+    global.subbotBanners = global.subbotBanners || {};
+global.subbotBanners[m.sender] = `${link}`;
 
-    await conn.sendFile(m.chat, media, 'banner.jpg', `${emoji} Banner actualizado.`, m);
+    await conn.sendFile(m.chat, media, 'banner.jpg', `${emoji} imagen actualizada.`, m);
 
   } catch (error) {
     console.error(error);
