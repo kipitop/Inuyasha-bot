@@ -19,7 +19,7 @@ let handler = async (m, { conn, args, text }) => {
 
     try {
         let name = await conn.getName(who);
-        let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://files.catbox.moe/xr2m6u.jpg');
+        let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://files.catbox.moe/oc4myc.png');
         await conn.sendFile(m.chat, pp, 'profile.jpg', `*Foto de perfil de: »* ${name}`, m);
     } catch (e) {
         await m.reply('❌ No se pudo obtener la foto de perfil.');
