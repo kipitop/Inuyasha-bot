@@ -5,7 +5,7 @@ let handler = async (m, { conn }) => {
  
   const banner = global.subbotBanners[m.sender] || global.defaultBanner;
 
-  await conn.sendFile(m.chat, banner, 'canal.jpg', '📢 Este es el banner actual de tu subbot.', m);
+  await conn.sendFile(m.chat, media, 'banner.jpg', '✅ Banner actualizado solo para este subbot.', m);
 };
 
 handler.help = ['canal'];
