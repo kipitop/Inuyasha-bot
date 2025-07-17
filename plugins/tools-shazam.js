@@ -20,7 +20,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       txt += `│  ≡◦ *🕜 Fecha de lanzamiento ∙* ${release_date}\n`
       txt += `╰─⬣`
      conn.reply(m.chat, txt, m)
-     conn.reply(m.chat, `${album.name}` : ''}`, m)
+     conn.reply(m.chat, `${album.name}`, m)
   } else return conn.reply(m.chat, `${emoji} Etiqueta un audio o video de poca duración con el comando *${usedPrefix + command}* para ver que música contiene.`, m)
 }
 handler.help = ['whatmusic <audio/video>']
