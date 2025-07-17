@@ -25,10 +25,13 @@ let handler = async (m, { conn, args }) => {
 
         const charactersToShow = sortedCharacters.slice(startIndex, endIndex);
 
-        let message = '❀ *Personajes con más valor:*\n';
+        let message = '
+╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
+┃ *Personajes con más valor:*
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n';
         charactersToShow.forEach((character, index) => {
-            message += `✰ ${startIndex + index + 1} » *${character.name}*\n`;
-            message += `\t\t→ Valor: *${character.value}*\n`;
+            message += `⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
+            message += `\t\➾ Valor: *${character.value}*\n`;
         });
 
         message += `> • Página *${page}* de *${totalPages}*.`;
