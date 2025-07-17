@@ -8,7 +8,7 @@ async function loadCharacters() {
         const data = await fs.readFile(charactersFilePath, 'utf-8');
         return JSON.parse(data);
     } catch (error) {
-        throw new Error('❀ No se pudo cargar el archivo characters.json.', m,rcanal);
+        throw new Error(`${emoji} No se pudo cargar el archivo characters.json.`, m,rcanal);
     }
 }
 
@@ -38,7 +38,7 @@ let handler = async (m, { conn, args }) => {
         const userCharacters = characters.filter(character => character.user === userId);
 
         if (userCharacters.length === 0) {
-            await conn.reply(m.chat, '❀ No tiene personajes reclamados en tu harem.', m,rcanal);
+            await conn.reply(m.chat, `${emoji} No tiene personajes reclamados en tu harem.`, m,rcanal);
             return;
         }
 
@@ -50,20 +50,25 @@ let handler = async (m, { conn, args }) => {
         const endIndex = Math.min(startIndex + charactersPerPage, totalCharacters);
 
         if (page < 1 || page > totalPages) {
-            await conn.reply(m.chat, `❀ Página no válida. Hay un total de *${totalPages}* páginas.`, m,rcanal);
+            await conn.reply(m.chat, `${emoji} Página no válida. Hay un total de *${totalPages}* páginas.`, m,rcanal);
             return;
         }
 
-        let message = `✿ Personajes reclamados ✿\n`;
-        message += `⌦ Usuario: @${userId.split('@')[0]}\n`;
-        message += `♡ Personajes: *(${totalCharacters}):*\n\n`;
+        let message = `
+╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
+┋ Personajes reclamados \n`;
+        message += `┋ Usuario: @${userId.split('@')[0]}\n`;
+        message += `┋ Personajes: *(${totalCharacters}):*\n╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬\n\n`;
 
         for (let i = startIndex; i < endIndex; i++) {
             const character = userCharacters[i];
             message += `» *${character.name}* (*${character.value}*)\n`;
         }
 
-        message += `\n> ⌦ _Página *${page}* de *${totalPages}*_`;
+        message += `\n
+╭╍╍╍╍╍╍╍╍╍╍╍╍╍⍰ 
+┋ _Página *${page}* de *${totalPages}*_
+╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰`;
 
         await conn.reply(m.chat, message, fkontak, { mentions: [userId] });
     } catch (error) {
