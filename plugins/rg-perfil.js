@@ -52,21 +52,22 @@ let handler = async (m, { conn, args }) => {
         let partnerName = partnerId ? await conn.getName(partnerId) : 'Nadie';
 
         let profileText = `
-「👑」 *Perfil* ✰@${userId.split('@')[0]}✰
-${description}
-
-✎ Edad » ${user.age || 'Desconocida'}
-✎ *Cumpleaños* » ${cumpleanos}
-✎ *Género* » ${genero}
-✎ Casado con » ${isMarried ? partnerName : 'Nadie'}
-
-♛ *Experiencia* » ${exp.toLocaleString()}
-♛ *Nivel* » ${nivel}
-♛ Rango » ${role}
-
-⛁ *llamas Cartera* » ${llamas.toLocaleString()} ${moneda}
-⛃ *llamas Banco* » ${bankllamas.toLocaleString()} ${moneda}
-✰ *Premium* » ${user.premium ? '✅' : '❌'}
+┏╍╍╍⌬ *Perfil de:* @${userId.split('@')[0]}
+┃ ${description}
+┃ ╭╾ɪɴғᴏ ᴅᴇʟ ᴜsᴇʀ
+┃ ├ *Edad* » ${user.age || 'Desconocida'}
+┃ ├ *Cumpleaños* » ${cumpleanos}
+┃ ├ *Género* » ${genero}
+┃ ╰ Casado con » ${isMarried ? partnerName : 'Nadie'}
+┃ ╭╾ɴɪᴠᴇʟ
+┃ ├ *Experiencia* » ${exp.toLocaleString()}
+┃ ├ *Nivel* » ${nivel}
+┃ ╰ Rango » ${role}
+┃ ╭╾ʀᴇᴄᴜʀsᴏs
+┃ ├*llamas Cartera* » ${llamas.toLocaleString()} ${moneda}
+┃ ├ *llamas Banco* » ${bankllamas.toLocaleString()} ${moneda}
+┃ ╰ *Premium* » ${user.premium ? '✅' : '❌'}
+┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
         `.trim();
 
         await conn.sendMessage(m.chat, {
