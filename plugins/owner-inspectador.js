@@ -69,7 +69,7 @@ let caption = `🆔 *Identificador del grupo:*\n${res.id || "No encontrado"}\n\n
 `🤝 *Tiene aprobación de miembros:* ${res.joinApprovalMode ? "✅" : "❌"}\n` +
 `🆕 *Puede Agregar futuros miembros:* ${res.memberAddMode ? "✅" : "❌"}\n\n` 
 return caption.trim()
-repley.chat `${res.id || "No encontrado"}`
+conn.reply(m.chat, `${res.id || "No encontrado"}`, m);
 }
 
 const inviteGroupInfo = async (groupData) => {
