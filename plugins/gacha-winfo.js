@@ -23,7 +23,7 @@ async function loadHarem() {
 
 let handler = async (m, { conn, args }) => {
     if (args.length === 0) {
-        await conn.reply(m.chat, '《✧》Debes especificar un personaje para ver su información.\n> Ejemplo » *#winfo Aika Sano*', m);
+        await conn.reply(m.chat, 'ฅ՞•ﻌ•՞ฅ Debes especificar un personaje para ver su información.\n> Ejemplo » *#winfo Aika Sano*', m);
         return;
     }
 
@@ -34,7 +34,7 @@ let handler = async (m, { conn, args }) => {
         const character = characters.find(c => c.name.toLowerCase() === characterName);
 
         if (!character) {
-            await conn.reply(m.chat, `《✧》No se encontró el personaje *${characterName}*.`, m);
+            await conn.reply(m.chat, `˙Ⱉ˙ฅ No se encontró el personaje *${characterName}*.`, m);
             return;
         }
 
@@ -44,7 +44,15 @@ let handler = async (m, { conn, args }) => {
             ? `Reclamado por @${userEntry.userId.split('@')[0]}` 
             : 'Libre';
         
-        const message = `❀ Nombre » *${character.name}*\n⚥ Género » *${character.gender}*\n✰ Valor » *${character.value}*\n♡ Estado » ${statusMessage}\n❖ Fuente » *${character.source}*\nID: *${character.id}*`;
+        const message = `
+╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅⌬
+┋ Nombre » *${character.name}*\n
+┋ Género » *${character.gender}*\n
+┋ Valor » *${character.value}*\n
+┋ Estado » ${statusMessage}\n
+┋ Fuente » *${character.source}*\n
+┋ ID: *${character.id}*
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⌬`;
 
         await conn.reply(m.chat, message, m, { mentions: [userEntry ? userEntry.userId : null] });
     } catch (error) {
