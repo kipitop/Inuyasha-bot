@@ -77,7 +77,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     
     const videoInfo = search.all[0];
     const { title, thumbnail, timestamp, views, ago, url } = videoInfo;
-    const tipo = ["play", "yta", "ytmp"].includes(command) ? "audio" : "video";
+    const tipo = ["play", "yta", "ytmp"].includes(command) ? "ᴀᴜᴅɪᴏ" : "ᴠɪᴅᴇᴏ";
     const vistas = formatViews(views);
     const thumb = (await conn.getFile(thumbnail))?.data;
 
@@ -91,7 +91,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ *Canal:* ${(videoInfo.author?.name) || "Desconocido"}
 ┃ *Publicado:* ${ago}
 ┃ *Enlace:* ${url}
-┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ... ${tipo}♫*
+┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ${tipo}...♫*
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
     const JT = {
