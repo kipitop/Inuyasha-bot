@@ -16,7 +16,7 @@ async function saveCharacters(characters) {
     try {
         await fs.writeFile(charactersFilePath, JSON.stringify(characters, null, 2), 'utf-8');
     } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo characters.json.');
+        throw new Error(`${emoji} No se pudo guardar el archivo characters.json.`);
     }
 }
 
@@ -33,7 +33,7 @@ async function saveHarem(harem) {
     try {
         await fs.writeFile(haremFilePath, JSON.stringify(harem, null, 2));
     } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo harem.json.');
+        throw new Error(`${emoji} No se pudo guardar el archivo harem.json.`);
     }
 }
 
@@ -41,7 +41,7 @@ let handler = async (m, { conn, args }) => {
     const userId = m.sender;
 
     if (args.length < 2) {
-        await conn.reply(m.chat, '《✧》Debes especificar el nombre del personaje y mencionar a quien quieras regalarlo.', m);
+        await conn.reply(m.chat, `${emoji} Debes especificar el nombre del personaje y mencionar a quien quieras regalarlo.`, m);
         return;
     }
 
@@ -49,7 +49,7 @@ let handler = async (m, { conn, args }) => {
     const mentionedUser = args[args.length - 1];
 
     if (!mentionedUser.startsWith('@')) {
-        await conn.reply(m.chat, '《✧》Debes mencionar a un usuario válido.', m);
+        await conn.reply(m.chat, `${emoji} Debes mencionar a un usuario válido.`, m);
         return;
     }
 
@@ -58,7 +58,7 @@ let handler = async (m, { conn, args }) => {
         const character = characters.find(c => c.name.toLowerCase() === characterName && c.user === userId);
 
         if (!character) {
-            await conn.reply(m.chat, `《✧》*${characterName}* no está reclamado por ti.`, m);
+            await conn.reply(m.chat, `${emoji} *${characterName}* no está reclamado por ti.`, m);
             return;
         }
 
@@ -74,7 +74,7 @@ let handler = async (m, { conn, args }) => {
         harem.push(userEntry);
         await saveHarem(harem);
 
-        await conn.reply(m.chat, `✰ *${character.name}* ha sido regalado a ${mentionedUser}!`, m);
+        await conn.reply(m.chat, `${emoji} *${character.name}* ha sido regalado a ${mentionedUser}!`, m);
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al regalar el personaje: ${error.message}`, m);
     }
