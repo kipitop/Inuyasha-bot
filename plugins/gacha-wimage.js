@@ -29,11 +29,11 @@ let handler = async (m, { conn, args }) => {
         const character = characters.find(c => c.name.toLowerCase() === characterName);
 
         if (!character) {
-            await conn.reply(m.chat, `👑 No se ha encontrado el personaje *${characterName}*. Asegúrate de que el nombre esté correcto.`, m);
+            await conn.reply(m.chat, `👑 No se ha encontrado el personaje *${characterName}*. Asegúrate de que el nombre esté correcto.`, m, fake);
             return;
         }
 
-        // Seleccionar una imagen aleatoria
+        
         const randomImage = character.img[Math.floor(Math.random() * character.img.length)];
 
         const message = `
@@ -44,7 +44,7 @@ let handler = async (m, { conn, args }) => {
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰
 `;
 
-        await conn.sendFile(m.chat, randomImage, `${character.name}.jpg`, message, m);
+        await conn.sendFile(m.chat, randomImage, `${character.name}.jpg`, message, m, fake);
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al cargar la imagen del personaje: ${error.message}`, m);
     }
