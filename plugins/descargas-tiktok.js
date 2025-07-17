@@ -2,12 +2,11 @@ import fetch from 'node-fetch';
 
 var handler = async (m, { conn, args }) => {
     if (!args[0]) {
-        return conn.reply(m.chat, `${emoji} Por favor, envía un enlace de TikTok para descargar el video.`, m, fake);
+        return conn.reply(m.chat, `Por favor, envía un enlace de TikTok para descargar el video.`, m, fake);
     }
 
     try {
-        await m.react('🔎')
-        // await conn.reply(m.chat, `${emoji} Descargando el video, por favor espera...`, m, fake);
+        await conn.reply(m.chat, `Descargando el video, por favor espera...`, m, fake);
 
         const tiktokData = await tiktokdl(args[0]);
 
@@ -24,8 +23,8 @@ var handler = async (m, { conn, args }) => {
 │ *Autor:* ${author || 'Desconocido'}
 ╰━━━━━━━━━━━━━━━━━━━━━⌬
         `.trim();
-        await m.react('👑')
-        await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `${info}`, m, fake);
+
+        await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `${info}\n\n✅ Video descargado correctamente.`, m, fake);
     } catch (error1) {
         console.error(error1);
         return conn.reply(m.chat, `Ocurrió un error al descargar el video: ${error1.message}`, m, fake);
@@ -35,7 +34,7 @@ var handler = async (m, { conn, args }) => {
 handler.help = ['tiktok'].map(v => v + ' <link>');
 handler.tags = ['descargas'];
 handler.command = ['tiktok', 'tt'];
-andler.register = true;
+handler.register = true;
 handler.group = true;
 
 export default handler;
