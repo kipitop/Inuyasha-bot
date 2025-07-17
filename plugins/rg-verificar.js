@@ -42,19 +42,9 @@ let regbot = `┏╍╍╍╍〘 REGISTRADO 〙╍╍╍╍⌬\n`
 await m.react('📩')
 
 await conn.sendMessage(m.chat, {
-        text: regbot,
-        contextInfo: {
-            externalAdReply: {
-                title: '✎ Usuario Verificado 🍾',
-                body: textbot,
-                thumbnailUrl: pp,
-                sourceUrl: channel,
-                mediaType: 1,
-                showAdAttribution: true,
-                renderLargerThumbnail: true
-            }
-        }
-    }, { quoted: m });    
+  image: { url: pp },
+  caption: regbot
+}, { quoted: m });
 }; 
 handler.help = ['reg']
 handler.tags = ['rg']
