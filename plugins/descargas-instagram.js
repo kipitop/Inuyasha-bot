@@ -11,9 +11,11 @@ const handler = async (m, { args, conn }) => {
     const data = res.data;
 
     for (let media of data) {
-      await conn.sendFile(m.chat, media.url, 'instagram.mp4', ` ╭──────⚔──────╮  
-  ${emoji} 𝑲𝑰𝑹𝑰𝑻𝑶-𝑩𝑶𝑻 𝑴𝑫   
-╰──────⚔──────╯\n⟢ 𝑨𝒌𝒊 𝒕𝒊𝒆𝒏𝒆𝒔: *˙Ⱉ˙ฅ*\n⟢ 𝑫𝒊𝒔𝒇𝒓𝒖𝒕𝒂.`, m, rcanal);
+      await conn.sendFile(m.chat, media.url, 'instagram.mp4', `
+┏━━━━━━━━━━━━━━━━━⌬
+┃ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ғʀᴏᴍ ɪɴsᴛᴀɢʀᴀᴍ
+┣━━━━━━━━━━━━━━━━━━━━⌬
+`, m, rcanal);
     await m.react(done);
     }
   } catch (e) {
