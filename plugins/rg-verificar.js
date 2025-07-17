@@ -29,17 +29,16 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   global.db.data.users[m.sender].exp += 300
   global.db.data.users[m.sender].joincount += 20
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
-let regbot = `〘 𝗥 𝗘 𝗚 𝗜 𝗦 𝗧 𝗥 𝗔 𝗗 𝗢 〙\n`
-regbot += `◤━━━━━ ☆. ∆ .☆ ━━━━━◥\n`
-regbot += `> ♚ Nombre » ${name}\n`
-regbot += `> ✎ Edad » ${age} años\n`
-regbot += `◤━━━━━ ☆. ∆ .☆ ━━━━━◥\n`
-regbot += `✰ 𝗥𝗲𝗰𝗼𝗺𝗽𝗲𝗻𝘀𝗮𝘀:\n`
-regbot += `> • ⛁ *${moneda}* » 40\n`
-regbot += `> • ✰ *Experiencia* » 300\n`
-regbot += `> • ❖ *Tokens* » 20\n`
-regbot += `◤━━━━━ ☆. ∆ .☆ ━━━━━◥\n`
-regbot += `> ${dev}`
+let regbot = `┏╍╍╍╍〘 REGISTRADO 〙╍╍╍╍⌬\n`
+   regbot += `┃ Ⓐ Nombre: ${name}\n`
+   regbot += `┃ ✎ Edad: ${age} años\n`
+   regbot += `┃\n`
+   regbot += `┃ ⍰ Recompensas:\n`
+   regbot += `┃ ┣ ⛁ ${moneda}: 40\n`
+   regbot += `┃ ┣ ✰ Experiencia: 300\n`
+   regbot += `┃ ┗ ❖ Tokens: 20\n`
+   regbot += `┃ ${dev}\n`
+   regbot += `┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`
 await m.react('📩')
 
 await conn.sendMessage(m.chat, {
