@@ -67,7 +67,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     await m.react('🌟')
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, "⚔️ *Kirito-Bot* | Ingresa el nombre de la canción que deseas buscar.", m, rcanal);
+      return conn.reply(m.chat, " Ingresa el nombre de la canción que deseas buscar.", m, rcanal);
     }
 
     const search = await yts(text);
