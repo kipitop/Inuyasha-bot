@@ -133,7 +133,7 @@ mediaType: 1,
 showAdAttribution: false,
 renderLargerThumbnail: false
 }}}, { quoted: fkontak })
-await conn.reply(m.chat, `🆔 *ID del grupo:*\n${info?.match(/🆔 \*Identificador del grupo:\*\n(.+?)\n/)?.[1] || "No encontrado"}`, fkontak)
+await conn.reply(m.chat, `${info?.match(/🆔 \*Identificador del grupo:\*\n(.+?)\n/)?.[1] || "No encontrado"}`, fkontak)
 } else {
 // Manejo de enlaces de canales
 let newsletterInfo
