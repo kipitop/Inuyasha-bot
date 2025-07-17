@@ -29,8 +29,9 @@ let handler = async (m, { conn, args }) => {
 ╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 ┃ *Personajes con más valor:*
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n`;
-        charactersToShow.forEach((character, index) => {
             message += `╭`;
+        charactersToShow.forEach((character, index) => {
+        
             message += `┋⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
             message += `┋\t\t➾ Valor: *${character.value}*\n`;
         });
