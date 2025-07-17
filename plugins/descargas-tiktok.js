@@ -1,46 +1,49 @@
 import fetch from 'node-fetch';
 
-var handler = async (m, { conn, args, usedPrefix, command }) => {
+var handler = async (m, { conn, args }) => {
     if (!args[0]) {
-        return conn.reply(m.chat, `${emoji} Por favor, ingresa un enlace de TikTok.`, m);
+        return conn.reply(m.chat, `${emoji} Por favor, envía un enlace de TikTok para descargar el video.`, m, fake);
     }
 
     try {
-      //  await conn.reply(m.chat, `${emoji} Espere un momento, estoy descargando su video...`, m);
         await m.react('🔎')
+        // await conn.reply(m.chat, `${emoji} Descargando el video, por favor espera...`, m, fake);
 
         const tiktokData = await tiktokdl(args[0]);
 
-        if (!tiktokData || !tiktokData.data || !tiktokData.data.play) {
-            return conn.reply(m.chat, "Error: No se pudo obtener el video.", m);
+        if (!tiktokData || !tiktokData.video_url) {
+            return conn.reply(m.chat, "No se pudo obtener el video de TikTok.", m, fake);
         }
 
-        const videoURL = tiktokData.data.play;
-    await m.react('👑')
-        if (videoURL) {
-            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", ` ╭──────⚔──────╮  
-  ${emoji} 𝑲𝑰𝑹𝑰𝑻𝑶-𝑩𝑶𝑻 𝑴𝑫   
-╰──────⚔──────╯\n⟢ 𝑨𝒌𝒊 𝒕𝒊𝒆𝒏𝒆𝒔: *˙Ⱉ˙ฅ*\n⟢ 𝑫𝒊𝒔𝒇𝒓𝒖𝒕𝒂.`, m);
-        } else {
-            return conn.reply(m.chat, "No se pudo descargar.", m);
-        }
+        const videoURL = tiktokData.video_url;
+        const { title, author } = tiktokData;
+
+        const info = `
+╭━━━━━━━━━━━━━━━⍰
+│ *Título:* ${title || 'No disponible'}
+│ *Autor:* ${author || 'Desconocido'}
+╰━━━━━━━━━━━━━━━━━━━━━⌬
+        `.trim();
+        await m.react('👑')
+        await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `${info}`, m, fake);
     } catch (error1) {
-        return conn.reply(m.chat, `Error: ${error1.message}`, m);
+        console.error(error1);
+        return conn.reply(m.chat, `Ocurrió un error al descargar el video: ${error1.message}`, m, fake);
     }
 };
 
-handler.help = ['tiktok'].map((v) => v + ' *<link>*');
+handler.help = ['tiktok'].map(v => v + ' <link>');
 handler.tags = ['descargas'];
 handler.command = ['tiktok', 'tt'];
+andler.register = true;
 handler.group = true;
-handler.register = true;
-handler.coin = 2;
-handler.limit = true;
 
 export default handler;
 
 async function tiktokdl(url) {
-    let tikwm = `https://www.tikwm.com/api/?url=${url}?hd=1`;
-    let response = await (await fetch(tikwm)).json();
-    return response;
+    let api = `https://g-mini-ia.vercel.app/api/tiktok?url=${encodeURIComponent(url)}`;
+    let res = await fetch(api);
+    if (!res.ok) throw new Error(`Respuesta inválida de la API`);
+    let json = await res.json();
+    return json;
 }
