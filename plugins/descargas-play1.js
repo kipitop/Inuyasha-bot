@@ -77,6 +77,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     
     const videoInfo = search.all[0];
     const { title, thumbnail, timestamp, views, ago, url } = videoInfo;
+    const tipo = ["play", "yta", "ytmp"].includes(command) ? "audio" : "video";
     const vistas = formatViews(views);
     const thumb = (await conn.getFile(thumbnail))?.data;
 
@@ -111,12 +112,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.reply(m.chat, infoMessage, fkontak, JT);
 
     if (["play", "yta", "ytmp3"].includes(command)) {
-      const tipo = 'audio'
+      
       const api = await ddownr.download(url, "mp3");
       await conn.sendMessage(m.chat, { audio: { url: api.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: m });
 
     } else if (["play2", "ytv", "ytmp4"].includes(command)) {
-     const tipo = 'video'
+     
       const sources = [
         `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
         `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
