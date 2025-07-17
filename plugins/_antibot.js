@@ -19,7 +19,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
 sᴏʏ ${botname} ᴇʟ ᴍᴇᴊᴏʀ ʙᴏᴛ ᴅᴇ ᴡʜᴀᴛsᴀᴘᴘ
 ᴇsᴛᴇ ɢʀᴜᴘᴏ ɴᴏ ᴛᴇ ɴᴇᴄᴇsɪᴛᴀ, ᴀᴅɪᴏs ʙᴏᴛ ᴅᴇ sᴇɢᴜɴᴅᴀ ᴅɪʟᴇ ᴀ ᴛᴜ ᴄʀᴇᴀᴅᴏʀ ǫᴜᴇ ʙᴜsǫᴜᴇ ᴘᴇɴᴇ ᴍᴇᴊᴏʀ
 
-> ${dev}`, m);
+> ${dev}`, m, fake);
 
             if (isBotAdmin) {
 await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
