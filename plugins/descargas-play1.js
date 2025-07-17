@@ -91,7 +91,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ *Canal:* ${(videoInfo.author?.name) || "Desconocido"}
 ┃ *Publicado:* ${ago}
 ┃ *Enlace:* ${url}
-┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ${tipo}...♫*
+┃ *ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ${tipo}...♫*
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
     const JT = {
