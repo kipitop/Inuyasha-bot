@@ -15,7 +15,7 @@ const handler = async (m, { text, conn, args }) => {
 
   let result = res.data;
   if (!result || result.length === 0) {
-    return conn.reply(m.chat, `${emoji2} No se encontraron resultados.`, m, rcanal)
+    return conn.reply(m.chat, `${emoji} No se encontraron resultados.`, m, rcanal)
   }
 
   let data;
@@ -26,21 +26,20 @@ const handler = async (m, { text, conn, args }) => {
   }
 
   if (!data) {
-    return conn.reply(m.chat, `${emoji2} No se encontró una resolución adecuada.`, rcanal)
+    return conn.reply(m.chat, `${emoji} No se encontró una resolución adecuada.`, rcanal)
   }
 
   let video = data.url;
 
-  // Información extendida
+  
   let infoMsg = `
-╭──────⚔──────╮  
-${emoji} 𝑲𝑰𝑹𝑰𝑻𝑶-𝑩𝑶𝑻 𝑴𝑫   
-╰──────⚔──────╯
-📹 *Resolución:* ${data.resolution}
-🔗 *Enlace:* ${args[0]}
+┏━━━━━━━━━━━━━━━━━⌬
+┃ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ғʀᴏᴍ ғᴀᴄᴇʙᴏᴏᴋ
+┣━━━━━━━━━━━━━━━━━━━━⌬
+┃ *Resolución:* ${data.resolution}
+┃ *Enlace:* ${args[0]}
+┗━━━━━━━━━━━━━━━━━━━━⌬
 
-⟢ Aquí tienes: *˙Ⱉ˙ฅ*
-⟢ ¡Disfruta!
 `.trim();
 
   try {
