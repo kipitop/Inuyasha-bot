@@ -58,11 +58,11 @@ let handler = async (m, { conn, args }) => {
 ┃ ├ *Edad* » ${user.age || 'Desconocida'}
 ┃ ├ *Cumpleaños* » ${cumpleanos}
 ┃ ├ *Género* » ${genero}
-┃ ╰ Casado con » ${isMarried ? partnerName : 'Nadie'}
+┃ ╰ *Casado con* » ${isMarried ? partnerName : 'Nadie'}
 ┃ ╭╾ɴɪᴠᴇʟ
 ┃ ├ *Experiencia* » ${exp.toLocaleString()}
 ┃ ├ *Nivel* » ${nivel}
-┃ ╰ Rango » ${role}
+┃ ╰ *Rango* » ${role}
 ┃ ╭╾ʀᴇᴄᴜʀsᴏs
 ┃ ├*llamas Cartera* » ${llamas.toLocaleString()} ${moneda}
 ┃ ├ *llamas Banco* » ${bankllamas.toLocaleString()} ${moneda}
