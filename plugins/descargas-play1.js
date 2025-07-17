@@ -90,7 +90,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ *Canal:* ${(videoInfo.author?.name) || "Desconocido"}
 ┃ *Publicado:* ${ago}
 ┃ *Enlace:* ${url}
-┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ... ♫*
+┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ... ${tipo}♫*
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
     const JT = {
@@ -111,10 +111,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.reply(m.chat, infoMessage, fkontak, JT);
 
     if (["play", "yta", "ytmp3"].includes(command)) {
+      const tipo = 'audio'
       const api = await ddownr.download(url, "mp3");
       await conn.sendMessage(m.chat, { audio: { url: api.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: m });
 
     } else if (["play2", "ytv", "ytmp4"].includes(command)) {
+     const tipo = 'video'
       const sources = [
         `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
         `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
