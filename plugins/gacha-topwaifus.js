@@ -40,7 +40,7 @@ let handler = async (m, { conn, args }) => {
 
         await conn.reply(m.chat, message, m, fake);
     } catch (error) {
-        await conn.reply(m.chat, `✘ Error al cargar los personajes: ${error.message}`, m);
+        await conn.reply(m.chat, `✘ Error al cargar los personajes: ${error.message}`, m, fake);
     }
 };
 
