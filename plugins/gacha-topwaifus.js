@@ -31,7 +31,7 @@ let handler = async (m, { conn, args }) => {
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n╭`;
         charactersToShow.forEach((character, index) => {
             message += `┋⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
-            message += `\t\t➾ Valor: *${character.value}*\n┋`;
+            message += `┋\t\t➾ Valor: *${character.value}*\n`;
         });
 
         message += `╰\n> • Página *${page}* de *${totalPages}*.`;
