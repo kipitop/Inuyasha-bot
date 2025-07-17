@@ -71,19 +71,9 @@ let handler = async (m, { conn, args }) => {
         `.trim();
 
         await conn.sendMessage(m.chat, {
-            text: profileText,
-            contextInfo: {
-                mentionedJid: [userId],
-                externalAdReply: {
-                    title: '✰ Perfil de Usuario ✰',
-                    body: creador,
-                    thumbnailUrl: perfil,
-                    mediaType: 1,
-                    showAdAttribution: true,
-                    renderLargerThumbnail: true
-                }
-            }
-        }, { quoted: m });
+  image: { url: perfil },
+  caption: profileText
+}, { quoted: m });
     } catch (e) {
         console.error(e);
         m.reply('❌ Ocurrió un error al generar el perfil.');
