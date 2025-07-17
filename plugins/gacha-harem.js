@@ -62,7 +62,7 @@ let handler = async (m, { conn, args }) => {
 
         for (let i = startIndex; i < endIndex; i++) {
             const character = userCharacters[i];
-            message += `» *${character.name}* (*${character.value}*)\n`;
+            message += `➩ *${character.name}* (*${character.value}*)\n`;
         }
 
         message += `\n
