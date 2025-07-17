@@ -7,8 +7,8 @@ let handler = async (m, { conn }) => {
         { number: '50433191934', name: 'Deylin 👑', role: 'Creador' },
         { number: '573154062343', name: 'https', role: 'Colaborador' },
         { number: '584123989549', name: 'Anuar', role: 'Colaborador' },
-        { number: '584146277368', name: 'Barboza', role: 'Colaborador' },
-        { number: '526633900512', name: 'Brayan', role: 'Colaborador' },
+      //  { number: '584146277368', name: 'Barboza', role: 'Colaborador' },
+      //  { number: '526633900512', name: 'Brayan', role: 'Colaborador' },
     ];
 
     let mensaje = `╭━━〔 *🌟 EQUIPO OFICIAL* 〕━━⬣\n`;
