@@ -30,11 +30,11 @@ let handler = async (m, { conn, args }) => {
 ┃ *Personajes con más valor:*
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n`;
         charactersToShow.forEach((character, index) => {
-            message += `⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
-            message += `\t\t➾ Valor: *${character.value}*\n\n`;
+            message += `╭⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
+            message += `\t\t➾ Valor: *${character.value}*\n﹍`;
         });
 
-        message += `> • Página *${page}* de *${totalPages}*.`;
+        message += `╰\n> • Página *${page}* de *${totalPages}*.`;
 
         await conn.reply(m.chat, message, m);
     } catch (error) {
