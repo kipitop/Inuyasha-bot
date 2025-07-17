@@ -28,8 +28,8 @@ let handler = async (m, { conn, args }) => {
         let message = `
 ╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 ┃ *Personajes con más valor:*
-╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n`;
-            message = `╭`;
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n╭\n`;
+            
         charactersToShow.forEach((character, index) => {
         
             message += `┋⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
