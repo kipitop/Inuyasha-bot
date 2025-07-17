@@ -28,7 +28,7 @@ let handler = async (m, { conn, args }) => {
         let message = `
 ╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 ┃ *Personajes con más valor:*
-╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n╭\n`;
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n\n╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╍⌬\n`;
             
         charactersToShow.forEach((character, index) => {
         
@@ -36,7 +36,7 @@ let handler = async (m, { conn, args }) => {
             message += `┋\t\t➾ Valor: *${character.value}*\n`;
         });
 
-        message += `╰\n> • Página *${page}* de *${totalPages}*.`;
+        message += `╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⌬\n\n> • Página *${page}* de *${totalPages}*.`;
 
         await conn.reply(m.chat, message, m);
     } catch (error) {
