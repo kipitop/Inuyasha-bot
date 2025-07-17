@@ -23,7 +23,7 @@ async function loadHarem() {
 
 let handler = async (m, { conn, args }) => {
     if (args.length === 0) {
-        await conn.reply(m.chat, 'ฅ՞•ﻌ•՞ฅ Debes especificar un personaje para ver su información.\n> Ejemplo » *#winfo Aika Sano*', m);
+        await conn.reply(m.chat, 'ฅ՞•ﻌ•՞ฅ Debes especificar un personaje para ver su información.\n> Ejemplo » *#winfo Aika Sano*', m, fak);
         return;
     }
 
@@ -54,7 +54,7 @@ let handler = async (m, { conn, args }) => {
 ┋ ID: *${character.id}*
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⌬`;
 
-        await conn.reply(m.chat, message, m, { mentions: [userEntry ? userEntry.userId : null] });
+        await conn.reply(m.chat, message, m, fake, { mentions: [userEntry ? userEntry.userId : null] });
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al cargar la información del personaje: ${error.message}`, m);
     }
