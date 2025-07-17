@@ -41,7 +41,7 @@ let handler = async (m, { conn, args }) => {
     const userId = m.sender;
 
     if (args.length < 2) {
-        await conn.reply(m.chat, `${emoji} Debes especificar el nombre del personaje y mencionar a quien quieras regalarlo.`, m);
+        await conn.reply(m.chat, `${emoji} Debes especificar el nombre del personaje y mencionar a quien quieras regalarlo.`, m, fake);
         return;
     }
 
@@ -49,7 +49,7 @@ let handler = async (m, { conn, args }) => {
     const mentionedUser = args[args.length - 1];
 
     if (!mentionedUser.startsWith('@')) {
-        await conn.reply(m.chat, `${emoji} Debes mencionar a un usuario válido.`, m);
+        await conn.reply(m.chat, `${emoji} Debes mencionar a un usuario válido.`, m, fake);
         return;
     }
 
@@ -58,7 +58,7 @@ let handler = async (m, { conn, args }) => {
         const character = characters.find(c => c.name.toLowerCase() === characterName && c.user === userId);
 
         if (!character) {
-            await conn.reply(m.chat, `${emoji} *${characterName}* no está reclamado por ti.`, m);
+            await conn.reply(m.chat, `${emoji} *${characterName}* no está reclamado por ti.`, m, fake);
             return;
         }
 
@@ -74,7 +74,7 @@ let handler = async (m, { conn, args }) => {
         harem.push(userEntry);
         await saveHarem(harem);
 
-        await conn.reply(m.chat, `${emoji} *${character.name}* ha sido regalado a ${mentionedUser}!`, m);
+        await conn.reply(m.chat, `${emoji} *${character.name}* ha sido regalado a ${mentionedUser}!`, m, fake);
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al regalar el personaje: ${error.message}`, m);
     }
