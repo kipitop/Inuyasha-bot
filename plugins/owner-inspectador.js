@@ -68,8 +68,6 @@ let caption = `🆔 *Identificador del grupo:*\n${res.id || "No encontrado"}\n\n
 `📯 *¿Es anuncio de comunidad?:* ${res.isCommunityAnnounce ? "✅" : "❌"}\n` +
 `🤝 *Tiene aprobación de miembros:* ${res.joinApprovalMode ? "✅" : "❌"}\n` +
 `🆕 *Puede Agregar futuros miembros:* ${res.memberAddMode ? "✅" : "❌"}\n\n` 
-
-if (conn && m) await conn.reply(m.chat, `${res.id || "No encontrado"}`, m);
 return caption.trim()
 }
 
@@ -135,6 +133,7 @@ mediaType: 1,
 showAdAttribution: false,
 renderLargerThumbnail: false
 }}}, { quoted: fkontak })
+await conn.reply(m.chat, `🆔 *ID del grupo:*\n${info?.match(/🆔 \*Identificador del grupo:\*\n(.+?)\n/)?.[1] || "No encontrado"}`, fkontak)
 } else {
 // Manejo de enlaces de canales
 let newsletterInfo
