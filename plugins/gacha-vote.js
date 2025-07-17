@@ -78,7 +78,7 @@ let handler = async (m, { conn, args }) => {
             const timeLeft = expirationTime - Date.now();
             const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
             const seconds = Math.floor((timeLeft / 1000) % 60);
-            await conn.reply(m.chat, `ฅ՞•ﻌ•՞ฅ El personaje *${originalCharacterName}* ya ha sido votado recientemente. Debes esperar *${Math.floor(minutes)} minutos ${seconds} segundos* para volver a votar.`, m);
+            await conn.reply(m.chat, `ฅ՞•ﻌ•՞ฅ El personaje *${originalCharacterName}* ya ha sido votado recientemente. Debes esperar *${Math.floor(minutes)} minutos ${seconds} segundos* para volver a votar.`, m, fake);
             return;
         }
 
@@ -106,7 +106,10 @@ let handler = async (m, { conn, args }) => {
         cooldowns.set(userId, Date.now());
         characterVotes.set(originalCharacterName, Date.now() + cooldownTime);
 
-        await conn.reply(m.chat, `˙Ⱉ˙ฅ Votaste por el personaje *${originalCharacterName}*\n> Su nuevo valor es *${character.value}* (incrementado en *${incrementValue}*)\n> Total de votos: *${character.votes}*`, m);
+        await conn.reply(m.chat, `
+˙Ⱉ˙ฅ Votaste por el personaje *${originalCharacterName}*
+> Su nuevo valor es *${character.value}* (incrementado en *${incrementValue}*)
+> Total de votos: *${character.votes}*`, m, fake);
     } catch (e) {
         await conn.reply(m.chat, `✘ Error al actualizar el valor: ${e.message}`, m);
     }
