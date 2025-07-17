@@ -25,10 +25,10 @@ let handler = async (m, { conn, args }) => {
 
         const charactersToShow = sortedCharacters.slice(startIndex, endIndex);
 
-        let message = '
+        let message = `
 ╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 ┃ *Personajes con más valor:*
-╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n';
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅⍰\n`;
         charactersToShow.forEach((character, index) => {
             message += `⍰〢 ${startIndex + index + 1} » *${character.name}*\n`;
             message += `\t\t➾ Valor: *${character.value}*\n`;
