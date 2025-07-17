@@ -80,19 +80,18 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views);
     const thumb = (await conn.getFile(thumbnail))?.data;
 
-    const infoMessage = ` 🫆 
-            \`Kirito-Bot - Descargas\`
-*✦ Título:* ${title}
-> ◆ ▬▬▬▬▬▬ ❴✪❵ ▬▬▬▬▬▬ ◆
-*✰ Duración:* ${timestamp}
-> ◆ ▬▬▬▬▬▬ ❴✪❵ ▬▬▬▬▬▬ ◆
-*✰ Vistas:* ${vistas}
-> ◆ ▬▬▬▬▬▬ ❴✪❵ ▬▬▬▬▬▬ ◆
-*✰ Canal:* ${(videoInfo.author?.name) || "Desconocido"}
-> ◆ ▬▬▬▬▬▬ ❴✪❵ ▬▬▬▬▬▬ ◆
-*✰ Publicado:* ${ago}
-> ◆ ▬▬▬▬▬▬ ❴✪❵ ▬▬▬▬▬▬ ◆
-*∞ Enlace:* ${url}`;
+    const infoMessage = `
+┏╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
+┃ *ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ*
+┣╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
+┃ *Título:* ${title}
+┃ *Duración:* ${timestamp}
+┃ *Vistas:* ${vistas}
+┃ *Canal:* ${(videoInfo.author?.name) || "Desconocido"}
+┃ *Publicado:* ${ago}
+┃ *Enlace:* ${url}
+┃ †ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ... ♫*
+┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
     const JT = {
       contextInfo: {
