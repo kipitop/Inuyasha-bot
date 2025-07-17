@@ -78,6 +78,11 @@ export async function before(m, { conn, participants, groupMetadata }) {
             buttonId: '/owner',
             buttonText: { displayText: `👑 CREADOR` },
             type: 1
+          },
+          {
+            buttonId: '/menu',
+            buttonText: { displayText: `✨ MENU` },
+            type: 1
           }
         ],
         headerType: 4,
@@ -103,13 +108,10 @@ export async function before(m, { conn, participants, groupMetadata }) {
       await conn.sendMessage(m.chat, {
         image: { url: ppUser },
         caption: despedida,
-        buttons: [
-          {
-            buttonId: '/menu',
-            buttonText: { displayText: `✨ MENU` },
-            type: 1
-          }
-        ],
+            buttons: [
+      { buttonId: '.menu', buttonText: { displayText: '📒 Menú' }, type: 1 },
+      { buttonId: '.info', buttonText: { displayText: 'ℹ️ Info' }, type: 1 },
+    ],
         headerType: 4,
         mentions: [who]
       });
