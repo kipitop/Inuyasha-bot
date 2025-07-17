@@ -72,7 +72,9 @@ let handler = async (m, { conn, args }) => {
 
         await conn.sendMessage(m.chat, {
   image: { url: perfil },
-  caption: profileText
+  caption: profileText,
+contextInfo: {
+            mentionedJid: [userId] }
 }, { quoted: m });
     } catch (e) {
         console.error(e);
