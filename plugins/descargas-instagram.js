@@ -15,12 +15,10 @@ const handler = async (m, { args, conn }) => {
 ┏━━━━━━━━━━━━━━━━━⌬
 ┃ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ғʀᴏᴍ ɪɴsᴛᴀɢʀᴀᴍ
 ┣━━━━━━━━━━━━━━━━━━━━⌬
-┃ *Contenido descargado de Instagram*
 ┃ *Tipo:* ${media.type || 'Desconocido'}
 ┃ *URL:* ${args[0]}
-┃ *Bot:* 
-┃ *Canal:* wa.me/XXX (ajusta el link)
-┗━━━━━━━━━━━━━━━━━━━━━━⬣
+┃ *Bot:* ${botname}
+┗━━━━━━━━━━━━━━━━━━━━⌬
 `, m, rcanal);
       await m.react(done);
     }
