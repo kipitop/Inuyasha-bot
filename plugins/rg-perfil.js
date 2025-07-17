@@ -64,7 +64,7 @@ let handler = async (m, { conn, args }) => {
 ┃ ├ *Nivel* » ${nivel}
 ┃ ╰ *Rango* » ${role}
 ┃ ╭╾ʀᴇᴄᴜʀsᴏs
-┃ ├*llamas Cartera* » ${llamas.toLocaleString()} ${moneda}
+┃ ├ *llamas Cartera* » ${llamas.toLocaleString()} ${moneda}
 ┃ ├ *llamas Banco* » ${bankllamas.toLocaleString()} ${moneda}
 ┃ ╰ *Premium* » ${user.premium ? '✅' : '❌'}
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
