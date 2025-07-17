@@ -15,12 +15,18 @@ const handler = async (m, { args, conn }) => {
 ┏━━━━━━━━━━━━━━━━━⌬
 ┃ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ғʀᴏᴍ ɪɴsᴛᴀɢʀᴀᴍ
 ┣━━━━━━━━━━━━━━━━━━━━⌬
+┃ *Contenido descargado de Instagram*
+┃ *Tipo:* ${media.type || 'Desconocido'}
+┃ *URL:* ${args[0]}
+┃ *Bot:* 
+┃ *Canal:* wa.me/XXX (ajusta el link)
+┗━━━━━━━━━━━━━━━━━━━━━━⬣
 `, m, rcanal);
-    await m.react(done);
+      await m.react(done);
     }
   } catch (e) {
-    return conn.reply(m.chat, `${msm} Ocurrió un error.`, m);
     await m.react(error);
+    return conn.reply(m.chat, `${msm} Ocurrió un error.`, m);
   }
 };
 
