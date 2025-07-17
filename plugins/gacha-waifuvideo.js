@@ -29,7 +29,7 @@ let handler = async (m, { conn, args }) => {
         const character = characters.find(c => c.name.toLowerCase() === characterName);
 
         if (!character) {
-            await conn.reply(m.chat, `(๑•̀ㅂ•́)و✧ No se ha encontrado el personaje *${characterName}*. Asegúrate de que el nombre esté correcto.`, m);
+            await conn.reply(m.chat, `(๑•̀ㅂ•́)و✧ No se ha encontrado el personaje *${characterName}*. Asegúrate de que el nombre esté correcto.`, m, fake);
             return;
         }
 
@@ -43,7 +43,7 @@ let handler = async (m, { conn, args }) => {
 ┋ Fuente » *${character.source}*
 ╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
-        await conn.sendFile(m.chat, randomVideo, `${character.name}.mp4`, message, m);
+        await conn.sendFile(m.chat, randomVideo, `${character.name}.mp4`, message, m, fake);
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al cargar el video del personaje: ${error.message}`, m);
     }
