@@ -1,7 +1,7 @@
 import { sticker } from '../lib/sticker.js'
-//import uploadFile from '../lib/uploadFile.js'
-//import uploadImage from '../lib/uploadImage.js'
-//import { webp2png } from '../lib/webp2mp4.js'
+import uploadFile from '../lib/uploadFile.js'
+import uploadImage from '../lib/uploadImage.js'
+import { webp2png } from '../lib/webp2mp4.js'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
 
@@ -10,14 +10,14 @@ try {
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || q.mediaType || ''
 if (/webp|image|video/g.test(mime)) {
-if (/video/g.test(mime)) if ((q.msg || q).seconds > 8) return m.reply(`${emoji} *¡El video no puede durar mas de 8 segundos!*`)
+if (/video/g.test(mime)) if ((q.msg || q).seconds > 15) return m.reply(`ᴇʟ ᴠɪᴅᴇᴏ ɴᴏ ᴘᴜᴇᴅᴇ ᴅᴜʀᴀʀ ᴍᴀs ᴅᴇ (10) sᴇɢᴜɴᴅᴏs.`)
 let img = await q.download?.()
 
-if (!img) return conn.reply(m.chat, `${emoji} *_La conversión ha fallado, intenta enviar primero imagen/video/gif y luego responde con el comando._*`, m, rcanal)
+if (!img) return conn.reply(m.chat, ` ᴘᴏʀ ғᴀᴠᴏʀ, ᴇɴᴠɪᴀ ᴜɴ ᴠɪᴅᴇᴏ, ɢɪғ, ᴏ ɪᴍᴀɢᴇɴ ᴘᴀʀᴀ ᴄᴏɴᴠᴇʀᴛɪʀ ᴀ sᴛɪᴋᴇʀ.`, m, fake)
 
 let out
 try {
-stiker = await sticker(img, false, global.packsticker, global.packsticker)
+stiker = await sticker(img, false, global.packsticker, global.packsticker2)
 } catch (e) {
 console.error(e)
 } finally {
@@ -26,12 +26,12 @@ if (/webp/g.test(mime)) out = await webp2png(img)
 else if (/image/g.test(mime)) out = await uploadImage(img)
 else if (/video/g.test(mime)) out = await uploadFile(img)
 if (typeof out !== 'string') out = await uploadImage(img)
-stiker = await sticker(false, out, global.packsticker, global.packsticker)
+stiker = await sticker(false, out, global.packsticker, global.packsticker2)
 }}
 } else if (args[0]) {
-if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packsticker, global.packsticker)
+if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packsticker, global.packsticker2)
 
-else return m.reply(`${emoji} El url es incorrecto`)
+else return m.reply(`${emoji2} El url es incorrecto...`)
 
 }
 } catch (e) {
@@ -40,13 +40,13 @@ if (!stiker) stiker = e
 } finally {
 if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '',m, true)
 
-else return conn.reply(m.chat, `${emoji} *_La conversión ha fallado, intenta enviar primero imagen/video/gif y luego responde con el comando._*`, m, rcanal)
+else return conn.reply(m.chat, `${emoji} Por favor, envia una imagen o video para hacer un sticker.`, m)
 
 
 }}
 handler.help = ['stiker <img>', 'sticker <url>']
 handler.tags = ['sticker']
-handler.group = false;
+//handler.group = true;
 handler.register = true
 handler.command = ['s', 'sticker', 'stiker']
 
