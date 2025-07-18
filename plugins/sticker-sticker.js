@@ -10,10 +10,10 @@ try {
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || q.mediaType || ''
 if (/webp|image|video/g.test(mime)) {
-if (/video/g.test(mime)) if ((q.msg || q).seconds > 15) return m.reply(`ᴇʟ ᴠɪᴅᴇᴏ ɴᴏ ᴘᴜᴇᴅᴇ ᴅᴜʀᴀʀ ᴍᴀs ᴅᴇ (10) sᴇɢᴜɴᴅᴏs.`)
+if (/video/g.test(mime)) if ((q.msg || q).seconds > 15) return m.reply(`${emoji} ᴇʟ ᴠɪᴅᴇᴏ ɴᴏ ᴘᴜᴇᴅᴇ ᴅᴜʀᴀʀ ᴍᴀs ᴅᴇ (10) sᴇɢᴜɴᴅᴏs.`)
 let img = await q.download?.()
 
-if (!img) return conn.reply(m.chat, ` ᴘᴏʀ ғᴀᴠᴏʀ, ᴇɴᴠɪᴀ ᴜɴ ᴠɪᴅᴇᴏ, ɢɪғ, ᴏ ɪᴍᴀɢᴇɴ ᴘᴀʀᴀ ᴄᴏɴᴠᴇʀᴛɪʀ ᴀ sᴛɪᴋᴇʀ.`, m, fake)
+if (!img) return conn.reply(m.chat, `${emoji} ᴘᴏʀ ғᴀᴠᴏʀ, ᴇɴᴠÍᴀ ᴜɴ ᴠɪᴅᴇᴏ, ɢɪғ ᴏ ɪᴍᴀɢᴇɴ ᴘᴀʀᴀ ᴄᴏɴᴠᴇʀᴛɪʀ ᴀ sᴛɪᴄᴋᴇʀ.`, m, fake)
 
 let out
 try {
@@ -40,8 +40,7 @@ if (!stiker) stiker = e
 } finally {
 if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '',m, true)
 
-else return conn.reply(m.chat, `${emoji} Por favor, envia una imagen o video para hacer un sticker.`, m)
-
+else return conn.reply(m.chat, `${emoji} ᴘᴏʀ ғᴀᴠᴏʀ, ᴇɴᴠÍᴀ ᴜɴ ᴠɪᴅᴇᴏ, ɢɪғ ᴏ ɪᴍᴀɢᴇɴ ᴘᴀʀᴀ ᴄᴏɴᴠᴇʀᴛɪʀ ᴀ sᴛɪᴄᴋᴇʀ.`, m, fake)
 
 }}
 handler.help = ['stiker <img>', 'sticker <url>']
