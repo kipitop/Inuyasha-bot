@@ -46,7 +46,7 @@ global.kiritoJadibts = true
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.packname = '𝐤𝐢𝐫𝐢𝐭𝐨-𝐁𝐨𝐭 𝐌𝐃'
-global.botname = '𝑲𝒊𝒓𝒊𝒕𝒐 - 𝑩𝒐𝒕'
+global.botname = '𝐤𝐢𝐫𝐢𝐭𝐨-𝐁𝐨𝐭 𝐌𝐃'
 global.wm = '𝐤𝐢𝐫𝐢𝐭𝐨 𝐌𝐃'
 global.author = 'Made By 𝐃𝐞𝐲𝐥𝐢𝐧'
 global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝑫𝒆𝒚𝒍𝒊𝒏'
