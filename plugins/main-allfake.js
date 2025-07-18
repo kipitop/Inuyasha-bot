@@ -91,6 +91,8 @@ Bot: ${botname}
  ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} 
 ⌬┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⌬`
 
+global.packsticker = ` Solicitud de sticker hecha por: ${global.nombre}`
+
 //Imagen
 let category = "imagen"
 const db = './src/database/db.json'
