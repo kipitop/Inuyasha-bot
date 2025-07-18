@@ -83,6 +83,14 @@ let correo = 'deylibaquedano801@gmail.com'
 
 global.redes = [canal, canal2, git, github, correo].getRandom()
 
+global.packsticker = `
+╭┄┄┄┄┄┄┄┄┄┄┄┄┄⍰
+├ Bot: ${botname}
+├ Creador: ${dev}
+├ ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}
+├ ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} 
+╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⌬`
+
 //Imagen
 let category = "imagen"
 const db = './src/database/db.json'
