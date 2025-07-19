@@ -122,6 +122,19 @@ ${commandsForTag.map(menu => menu.help.map(help =>
         await conn.sendMessage(m.chat, {
   image: { url: imageUrls },
   caption: menuText,
+        buttons: [
+          {
+            buttonId: '/owner',
+            buttonText: { displayText: `👑 CREADOR` },
+            type: 1
+          },
+          {
+            buttonId: '/menu',
+            buttonText: { displayText: `✨ MENU` },
+            type: 1
+          }
+        ],
+        headerType: 4,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
