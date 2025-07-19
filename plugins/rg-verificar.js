@@ -43,7 +43,25 @@ await m.react('📩')
 
 await conn.sendMessage(m.chat, {
   image: { url: pp },
-  caption: regbot
+  caption: regbot,
+        buttons: [
+          {
+            buttonId: '/owner',
+            buttonText: { displayText: `👑 CREADOR` },
+            type: 1
+          },
+          {
+            buttonId: '/menu',
+            buttonText: { displayText: `✨ MENU` },
+            type: 1
+          },
+          {
+            buttonId: '/perfil',
+            buttonText: { displayText: `🔥 PERFIL` },
+            type: 1
+          }
+        ],
+        headerType: 4,
 }, { quoted: m });
 }; 
 handler.help = ['reg']
