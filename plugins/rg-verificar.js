@@ -57,8 +57,8 @@ await conn.sendMessage(m.chat, {
             type: 1
           },
           {
-            buttonId: '/perfil @${userId.split('@')[0]}',
-            buttonText: { displayText: `🔥 PERFIL` },
+            buttonId: '/perfil',
+            buttonText: { displayText: `⚡PERFIL` },
             type: 1
           }
         ],
