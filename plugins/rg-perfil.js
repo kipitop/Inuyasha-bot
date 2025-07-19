@@ -73,6 +73,7 @@ let handler = async (m, { conn, args }) => {
         await conn.sendMessage(m.chat, {
   image: { url: perfil },
   caption: profileText,
+      footer: `${botname} el mejor bot de WhatsApp`,
         buttons: [
           {
             buttonId: '/owner',
