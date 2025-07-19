@@ -57,8 +57,8 @@ await conn.sendMessage(m.chat, {
             type: 1
           },
           {
-            buttonId: '/perfil',
-            buttonText: { displayText: `⚡PERFIL` },
+            buttonId: '/consejo',
+            buttonText: { displayText: `⚡ CONSEJO` },
             type: 1
           }
         ],
