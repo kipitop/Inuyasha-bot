@@ -7,6 +7,7 @@ import fetch from 'node-fetch'
 let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i
 
 let handler = async function (m, { conn, text, usedPrefix, command }) {
+        let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
   let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
   let mentionedJid = [who]
   let pp = await conn.profilePictureUrl(who, 'image').catch((_) => 'https://files.catbox.moe/giuw0s.jpg')
@@ -56,12 +57,14 @@ await conn.sendMessage(m.chat, {
             type: 1
           },
           {
-            buttonId: '/perfil',
+            buttonId: '/perfil @${userId.split('@')[0]}',
             buttonText: { displayText: `🔥 PERFIL` },
             type: 1
           }
         ],
         headerType: 4,
+contextInfo: {
+            mentionedJid: [userId] }
 }, { quoted: m });
 }; 
 handler.help = ['reg']
