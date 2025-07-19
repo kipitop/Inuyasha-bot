@@ -129,8 +129,13 @@ ${commandsForTag.map(menu => menu.help.map(help =>
             type: 1
           },
           {
-            buttonId: '/menu',
-            buttonText: { displayText: `✨ MENU` },
+            buttonId: '/consejo',
+            buttonText: { displayText: `🌟 CONSEJO` },
+            type: 1
+          },
+          {
+            buttonId: '/links',
+            buttonText: { displayText: `🔥 LINKS OFICIALES DEL BOT` },
             type: 1
           }
         ],
