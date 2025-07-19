@@ -19,12 +19,22 @@ let handler = async (m, { conn }) => {
     }
 
     const mensajesDisponibles = mensajes.filter(m => !mensajesUsados.includes(m))
-
     const mensaje = mensajesDisponibles[Math.floor(Math.random() * mensajesDisponibles.length)]
 
     mensajesUsados.push(mensaje)
 
-    await conn.reply(m.chat, `🌟 *Mensaje para ti:*\n\n"${mensaje}"`, m, fake)
+    await conn.sendMessage(m.chat, {
+      text: `🌟 *Mensaje para ti:*\n\n"${mensaje}"`,
+      footer: 'Toca el botón para otro consejo',
+      buttons: [
+        {
+          buttonId: '/consejo',
+          buttonText: { displayText: `🌟 CONSEJO` },
+          type: 1
+        }
+      ],
+      headerType: 1
+    }, { quoted: m })
 
   } catch (e) {
     await conn.reply(m.chat, '⚠️ Ocurrió un error al leer los mensajes.', m)
