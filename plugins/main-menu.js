@@ -101,7 +101,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 
     await m.react('👑');
 
-    await conn.sendMessage(m.chat, { 
+   /* await conn.sendMessage(m.chat, { 
       text: menuText.trim(),
       contextInfo: {
           mentionedJid: [m.sender],
@@ -117,7 +117,14 @@ ${commandsForTag.map(menu => menu.help.map(help =>
               renderLargerThumbnail: true,
           },
       },
-  }, { quoted: m })
+  }, { quoted: m })*/
+
+        await conn.sendMessage(m.chat, {
+  image: { url: imageUrls },
+  caption: menuText,
+contextInfo: {
+            mentionedJid: [userId] }
+}, { quoted: m });
       } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m);
     throw e;
