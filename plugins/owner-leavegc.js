@@ -4,12 +4,13 @@ let chat = global.db.data.chats[m.chat]
 chat.welcome = false
 await conn.reply(m.chat, ` 
 ┏╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
-┃ ᴀᴅɪᴏs ᴋɪʀɪᴛᴏ-ʙᴏᴛ sᴇ sᴀʟᴇ ᴅᴇʟ
-┃ ᴘᴏʀ ᴏʀᴅᴇɴ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ ғᴜᴇ ᴜɴ
-┃ ᴘʟᴄᴇʀ ᴇsᴛᴀʀ ᴀǫᴜɪ ᴄᴏɴ ᴜsʏᴇᴅᴇs
-┃ 
+┃ ᴀᴅɪᴏ́s, ᴋɪʀɪᴛᴏ-ʙᴏᴛ sᴇ sᴀʟᴇ ᴅᴇʟ ɢʀᴜᴘᴏ.
+┃ ᴘᴏʀ ᴏʀᴅᴇɴ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ, ʜᴀ sɪᴅᴏ 
+┃ ᴜɴ ᴘʟᴀᴄᴇʀ ᴇsᴛᴀʀ ᴀǫᴜí ᴄᴏɴ ᴜsᴛᴇᴅᴇs.
+┃
+┃ ${dev}
 ┗━━━━━━━━━━━━━━━━━━━━━━━⌬
-`) 
+`, m, fake)
 await conn.groupLeave(id)
 try {  
 chat.welcome = true
