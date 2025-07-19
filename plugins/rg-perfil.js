@@ -73,6 +73,19 @@ let handler = async (m, { conn, args }) => {
         await conn.sendMessage(m.chat, {
   image: { url: perfil },
   caption: profileText,
+        buttons: [
+          {
+            buttonId: '/owner',
+            buttonText: { displayText: `👑 CREADOR` },
+            type: 1
+          },
+          {
+            buttonId: '/menu',
+            buttonText: { displayText: `✨ MENU` },
+            type: 1
+          }
+        ],
+        headerType: 4,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
