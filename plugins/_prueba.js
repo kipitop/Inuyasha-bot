@@ -1,6 +1,6 @@
 const handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, { 
-    text: 'Uso correcto del comando:',
+    text: '🍞👈',
     buttons: [
       {
         buttonId: 'servicios',
