@@ -45,6 +45,7 @@ await m.react('📩')
 await conn.sendMessage(m.chat, {
   image: { url: pp },
   caption: regbot,
+      footer: `${botname} el mejor bot de WhatsApp`,
         buttons: [
           {
             buttonId: '/owner',
