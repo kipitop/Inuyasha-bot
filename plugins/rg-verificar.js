@@ -46,24 +46,6 @@ await conn.sendMessage(m.chat, {
   image: { url: pp },
   caption: regbot,
       footer: `${botname} el mejor bot de WhatsApp`,
-        buttons: [
-          {
-            buttonId: '/owner',
-            buttonText: { displayText: `👑 CREADOR` },
-            type: 1
-          },
-          {
-            buttonId: '/menu',
-            buttonText: { displayText: `✨ MENU` },
-            type: 1
-          },
-          {
-            buttonId: '/consejo',
-            buttonText: { displayText: `⚡ CONSEJO` },
-            type: 1
-          }
-        ],
-        headerType: 4,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
