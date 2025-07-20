@@ -2,10 +2,26 @@ let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 
 export async function before(m, { conn, participants, groupMetadata }) {
 if (!m.messageStubType || !m.isGroup) return
-const fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net"}  
+const fkontak = {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
+          jpegThumbnail: thumb
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
+  };
 let chat = global.db.data.chats[m.chat]
 let usuario = `@${m.sender.split`@`[0]}`
-let pp = 'https://files.catbox.moe/12crnk.png'  
+const thumb = await res.buffer();
+const res = await fetch('https://files.catbox.moe/12crnk.png');
 
     
 let nombre, foto, edit, newlink, status, admingp, noadmingp
