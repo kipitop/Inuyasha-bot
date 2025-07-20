@@ -5,23 +5,20 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
 const adminIcon = 'https://files.catbox.moe/1jh9f1.jpg' 
 
-const adminMsg = {
+const adminmsm = {
   key: {
-    remoteJid: "status@broadcast",
-    fromMe: false,
-    id: "kirito-bot"
+    participant: '0@s.whatsapp.net',
+    ...(m.chat ? { remoteJid: m.chat } : {}) // Se usa `m.chat` dinámicamente
   },
   message: {
-    locationMessage: {
-      name: "🛡️ NUEVO ADMIN",
-      jpegThumbnail: await (await fetch(adminIcon)).buffer(), 
-      degreesLatitude: 0,
-      degreesLongitude: 0
+    contactMessage: {
+      displayName: 'Deylin creador ✨',
+      vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Deylin;;;\nFN:Deylin creador ✨\nORG:KiritoBot\nTEL;waid=50433191934:50433191934\nEMAIL;type=INTERNET:soporte@kiritobot.net\nEND:VCARD`,
+      jpegThumbnail: adminIcon ? await (await fetch(adminIcon)).buffer() : null,
+      thumbnail: null
     }
-  },
-  participant: '0@s.whatsapp.net'
+  }
 }
-
 
 
   const fkontak = {
@@ -76,7 +73,7 @@ const adminMsg = {
     await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
 
   } else if (chat.detect && m.messageStubType == 29) {
-    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: adminMsg })
+    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: adminmsm })
 
   } else if (chat.detect && m.messageStubType == 30) {
     await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
