@@ -5,7 +5,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
   let chat = global.db.data.chats[m.chat];
   const fetch = (await import('node-fetch')).default;
 
-  const res = await fetch('https://freeimage.host/i/FwU9EHQ'); 
+  const res = await fetch('https://files.catbox.moe/cstxnc.png'); 
   const thumb = await res.buffer();
 
   const fkontak = {
