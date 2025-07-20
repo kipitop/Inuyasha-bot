@@ -4,6 +4,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
   let chat = global.db.data.chats[m.chat];
   const fetch = (await import('node-fetch')).default;
+const estadoBot = async (estado = 'off') => {
 
   const res = await fetch('https://files.catbox.moe/cstxnc.png'); 
   const thumb = await res.buffer();
@@ -17,7 +18,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
     },
     message: {
       locationMessage: {
-        name: "APAGADO",
+        name: estado === 'on' ? '𝗘𝗡𝗖𝗘𝗡𝗗𝗜𝗗𝗢' : '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
         jpegThumbnail: thumb,
         vcard:
           "BEGIN:VCARD\n" +
