@@ -7,25 +7,30 @@ let chat = global.db.data.chats[m.chat]
 let usuario = `@${m.sender.split`@`[0]}`
 let pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || 'https://files.catbox.moe/xr2m6u.jpg'  
 
-    const res = await fetch('https://files.catbox.moe/cstxnc.png'); // tu imagen personalizada
-    const thumb = await res.buffer();
+    const fetch = require('node-fetch');
 
-    return {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
-          jpegThumbnail: thumb
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
+async function generarFokets(estado) {
+  const res = await fetch('https://files.catbox.moe/cstxnc.png'); // tu imagen personalizada
+  const thumb = await res.buffer();
+
+  const fokets = {
+    key: {
+      participants: '0@s.whatsapp.net',
+      remoteJid: 'status@broadcast',
+      fromMe: false,
+      id: 'Halo'
+    },
+    message: {
+      locationMessage: {
+        name: '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
+        jpegThumbnail: thumb
+      }
+    },
+    participant: '0@s.whatsapp.net'
   };
+
+  return fokets;
+}
 
 let nombre, foto, edit, newlink, status, admingp, noadmingp
 nombre = `
@@ -98,11 +103,11 @@ await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: f
 await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })  
 
 } else if (chat.detect && m.messageStubType == 29) {
-await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })  
+await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fokets })  
 
 return;
 } if (chat.detect && m.messageStubType == 30) {
-await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })  
+await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fokets })  
 
 } else {
 //console.log({ messageStubType: m.messageStubType,
