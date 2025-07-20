@@ -3,6 +3,28 @@ let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return
 
+const adminIcon = 'https://files.catbox.moe/1jh9f1.jpg' 
+
+const adminMsg = {
+  key: {
+    remoteJid: "status@broadcast",
+    fromMe: false,
+    id: "kirito-bot"
+  },
+  message: {
+    locationMessage: {
+      name: "🛡️ NUEVO ADMIN",
+      jpegThumbnail: await (await fetch(adminIcon)).buffer(), 
+      degreesLatitude: 0,
+      degreesLongitude: 0
+    }
+  },
+  participant: '0@s.whatsapp.net'
+}
+
+await conn.sendMessage(m.chat, { text: '🛡️ NUEVO ADMIN', contextInfo: { externalAdReply: adminMsg.message.locationMessage } }, { quoted: adminMsg })
+
+
 
   const fkontak = {
     key: {
@@ -56,7 +78,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
 
   } else if (chat.detect && m.messageStubType == 29) {
-    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
+    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: adminMsg })
 
   } else if (chat.detect && m.messageStubType == 30) {
     await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
