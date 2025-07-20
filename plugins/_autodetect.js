@@ -22,8 +22,6 @@ const adminMsg = {
   participant: '0@s.whatsapp.net'
 }
 
-await conn.sendMessage(m.chat, { text: '🛡️ NUEVO ADMIN', contextInfo: { externalAdReply: adminMsg.message.locationMessage } }, { quoted: adminMsg })
-
 
 
   const fkontak = {
