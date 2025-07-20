@@ -7,6 +7,26 @@ let chat = global.db.data.chats[m.chat]
 let usuario = `@${m.sender.split`@`[0]}`
 let pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || 'https://files.catbox.moe/xr2m6u.jpg'  
 
+    const res = await fetch('https://files.catbox.moe/cstxnc.png'); // tu imagen personalizada
+    const thumb = await res.buffer();
+
+    return {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
+          jpegThumbnail: thumb
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
+  };
+
 let nombre, foto, edit, newlink, status, admingp, noadmingp
 nombre = `
 ╭───────✦ *NOMBRE DEL GRUPO* ✦───────╮
