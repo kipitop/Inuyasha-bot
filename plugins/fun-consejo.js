@@ -26,14 +26,6 @@ let handler = async (m, { conn }) => {
     await conn.sendMessage(m.chat, {
       text: `🌟 *Mensaje para ti:*\n\n"${mensaje}"`,
       footer: 'Toca el botón para otro consejo',
-      buttons: [
-        {
-          buttonId: '/consejo',
-          buttonText: { displayText: `🌟 CONSEJO` },
-          type: 1
-        }
-      ],
-      headerType: 1
     }, { quoted: m })
 
   } catch (e) {
