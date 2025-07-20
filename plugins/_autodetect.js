@@ -37,12 +37,12 @@ export async function before(m, { conn, participants, groupMetadata }) {
       newAdmin: {
         title: 'NUEVO ADMIN',
         org: 'Gestión de equipo',
-        image: 'https://files.catbox.moe/1jh9f1.jpg'
+        image: 'https://freeimage.host/i/FwU9EHQ'
       },
       removedAdmin: {
         title: 'ADMIN REMOVIDO',
         org: 'Gestión de equipo',
-        image: 'https://files.catbox.moe/1jh9f1.jpg'
+        image: 'https://freeimage.host/i/FwU9EHQ'
       }
     }
 
