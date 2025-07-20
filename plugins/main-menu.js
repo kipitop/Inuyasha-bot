@@ -123,29 +123,6 @@ ${commandsForTag.map(menu => menu.help.map(help =>
   image: { url: imageUrls },
   caption: menuText,
       footer: `${botname} el mejor bot de WhatsApp`,
-        buttons: [
-          {
-            buttonId: '/owner',
-            buttonText: { displayText: `👑 CREADOR` },
-            type: 1
-          },
-          {
-            buttonId: '/consejo',
-            buttonText: { displayText: `🌟 CONSEJO` },
-            type: 1
-          },
-          {
-            buttonId: '/links',
-            buttonText: { displayText: `🔥 LINKS OFICIALES DEL BOT` },
-            type: 1
-          },
-          {
-            buttonId: '/perfil',
-            buttonText: { displayText: `⚡ PERFIL` },
-            type: 1
-          }
-        ],
-        headerType: 4,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
