@@ -3,23 +3,6 @@ let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return
 
-const adminIcon = 'https://files.catbox.moe/1jh9f1.jpg' 
-
-const adminmsm = {
-  key: {
-    participant: '0@s.whatsapp.net',
-    ...(m.chat ? { remoteJid: m.chat } : {}) // Se usa `m.chat` dinámicamente
-  },
-  message: {
-    contactMessage: {
-      displayName: 'Deylin creador ✨',
-      vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Deylin;;;\nFN:Deylin creador ✨\nORG:KiritoBot\nTEL;waid=50433191934:50433191934\nEMAIL;type=INTERNET:soporte@kiritobot.net\nEND:VCARD`,
-      jpegThumbnail: adminIcon ? await (await fetch(adminIcon)).buffer() : null,
-      thumbnail: null
-    }
-  }
-}
-
 
   const fkontak = {
     key: {
