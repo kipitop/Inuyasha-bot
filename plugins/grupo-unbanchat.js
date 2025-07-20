@@ -1,40 +1,29 @@
 let handler = async (m, { conn, usedPrefix, command, args }) => {
-  if (!(m.chat in global.db.data.chats)) 
+  if (!(m.chat in global.db.data.chats))
     return conn.reply(m.chat, '🔴 *¡ESTE CHAT NO ESTÁ REGISTRADO!*', m, rcanal);
 
   let chat = global.db.data.chats[m.chat];
   const fetch = (await import('node-fetch')).default;
-const estadoBot = async (estado = 'off') => {
 
-  const res = await fetch('https://files.catbox.moe/cstxnc.png'); 
-  const thumb = await res.buffer();
+  const estadoBot = async (estado = 'off') => {
+    const res = await fetch('https://files.catbox.moe/cstxnc.png'); // tu imagen personalizada
+    const thumb = await res.buffer();
 
-  const fkontak = {
-    key: {
-      participants: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast",
-      fromMe: false,
-      id: "Halo"
-    },
-    message: {
-      locationMessage: {
-        name: estado === 'on' ? '𝗘𝗡𝗖𝗘𝗡𝗗𝗜𝗗𝗢' : '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
-        jpegThumbnail: thumb,
-        vcard:
-          "BEGIN:VCARD\n" +
-          "VERSION:3.0\n" +
-          "N:;Unlimited;;;\n" +
-          "FN:Unlimited\n" +
-          "ORG:Unlimited\n" +
-          "TITLE:\n" +
-          "item1.TEL;waid=19709001746:+1 (970) 900-1746\n" +
-          "item1.X-ABLabel:Unlimited\n" +
-          "X-WA-BIZ-DESCRIPTION:ofc\n" +
-          "X-WA-BIZ-NAME:Unlimited\n" +
-          "END:VCARD"
-      }
-    },
-    participant: "0@s.whatsapp.net"
+    return {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: estado === 'on' ? '𝗘𝗡𝗖𝗘𝗡𝗗𝗜𝗗𝗢' : '𝗔𝗣𝗔𝗚𝗔𝗗𝗢',
+          jpegThumbnail: thumb
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
   };
 
   if (command === 'kirito') {
@@ -52,17 +41,17 @@ const estadoBot = async (estado = 'off') => {
     }
 
     if (args[0] === 'off') {
-      if (chat.isBanned) 
+      if (chat.isBanned)
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA DESACTIVADO!*', m, rcanal);
 
       chat.isBanned = true;
-      return conn.reply(m.chat, '⚠️ *¡KIRITO-BOT HA SIDO DESACTIVADO EN ESTE CHAT!*', fkontak, rcanal);
+      return conn.reply(m.chat, '⚠️ *¡KIRITO-BOT HA SIDO DESACTIVADO EN ESTE CHAT!*', await estadoBot('off'), rcanal);
     } else if (args[0] === 'on') {
-      if (!chat.isBanned) 
+      if (!chat.isBanned)
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA ACTIVADO!*', m, rcanal);
 
       chat.isBanned = false;
-      return conn.reply(m.chat, '✅ *¡KIRITO-BOT HA SIDO ACTIVADO EN ESTE CHAT!*', fkontak, rcanal);
+      return conn.reply(m.chat, '✅ *¡KIRITO-BOT HA SIDO ACTIVADO EN ESTE CHAT!*', await estadoBot('on'), rcanal);
     }
   }
 };
