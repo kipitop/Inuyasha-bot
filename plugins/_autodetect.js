@@ -1,31 +1,33 @@
+import fetch from 'node-fetch'
 let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 
-export async function before(m, { conn, participants, groupMetadata }) {
-if (!m.messageStubType || !m.isGroup) return
-const fkontak = {
-      key: {
-        participants: "0@s.whatsapp.net",
-        remoteJid: "status@broadcast",
-        fromMe: false,
-        id: "Halo"
-      },
-      message: {
-        locationMessage: {
-          name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
-          jpegThumbnail: thumb
-        }
-      },
-      participant: "0@s.whatsapp.net"
-    };
-  };
-let chat = global.db.data.chats[m.chat]
-let usuario = `@${m.sender.split`@`[0]}`
-const thumb = await res.buffer();
-const res = await fetch('https://files.catbox.moe/12crnk.png');
+export async function before(m, { conn }) {
+  if (!m.messageStubType || !m.isGroup) return;
 
-    
-let nombre, foto, edit, newlink, status, admingp, noadmingp
-nombre = `
+  let chat = global.db.data.chats[m.chat]
+  if (!chat.detect) return;
+
+  const usuario = `@${m.sender.split('@')[0]}`
+  const res = await fetch('https://files.catbox.moe/12crnk.png')
+  const thumb = await res.buffer()
+
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
+        jpegThumbnail: thumb
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  }
+
+  const nombre = `
 ╭───────✦ *NOMBRE DEL GRUPO* ✦───────╮
 │ 🧑‍💼 Usuario: *${usuario}*
 │ ✎ Ha cambiado el nombre del grupo.
@@ -34,26 +36,26 @@ nombre = `
 │ *<${m.messageStubParameters[0]}>*
 ╰──────────────────────────────╯`
 
-foto = `
+  const foto = `
 ╭───────✦ *FOTO DEL GRUPO* ✦───────╮
 │ 🧑‍💼 Usuario: *${usuario}*
 │ ⍰ Ha cambiado la imagen del grupo.
 ╰──────────────────────────────╯`
 
-edit = `
+  const edit = `
 ╭───✦ *CONFIGURACIÓN DEL GRUPO* ✦───╮
 │ 🧑‍💼 Usuario: *${usuario}*
 │ ⌬ Ha permitido que 
 │ ${m.messageStubParameters[0] == 'on' ? '*solo admins*' : '*todos*'} puedan configurar el grupo.
 ╰───────────────────────────╯`
 
-newlink = `
+  const newlink = `
 ╭──✦ *ENLACE RESTABLECIDO* ✦──╮
 │ ⌨ El enlace del grupo ha sido restablecido por:
 │ » *${usuario}*
 ╰──────────────────────────╯`
 
-status = `
+  const status = `
 ╭───✦ *ESTADO DEL GRUPO* ✦────╮
 │ ⌬ El grupo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado 🔒*' : '*abierto 🔓*'}
 │ 🧑‍💼 Por: *${usuario}*
@@ -61,49 +63,49 @@ status = `
 │ ⌬ Ahora ${m.messageStubParameters[0] == 'on' ? '*solo los admins*' : '*todos*'} pueden enviar mensajes.
 ╰───────────────────────────╯`
 
-admingp = `
+  const admingp = `
 ╭─────✦ *NUEVO ADMIN* ✦──────╮
-│ 👑 Usuario: *@${m.messageStubParameters[0].split`@`[0]}*
+│ 👑 Usuario: *@${m.messageStubParameters[0].split('@')[0]}*
 │ ☻ Ahora es administrador del grupo.
 │ 
 │ ⍰ Acción hecha por:
 │ » *${usuario}*
 ╰───────────────────────────╯`
 
-noadmingp = `
+  const noadmingp = `
 ╭─────✦ *ADMIN REMOVIDO* ✦─────╮
-│ 🛑 Usuario: *@${m.messageStubParameters[0].split`@`[0]}*
+│ 🛑 Usuario: *@${m.messageStubParameters[0].split('@')[0]}*
 │ ☹ Ya no es administrador del grupo.
 │ 
 │ ⍰ Acción hecha por:
 │ » *${usuario}*
 ╰───────────────────────────╯`
 
-if (chat.detect && m.messageStubType == 21) {
-await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })   
-
-} else if (chat.detect && m.messageStubType == 22) {
-await conn.sendMessage(m.chat, { image: { url: pp }, caption: foto, mentions: [m.sender] }, { quoted: fkontak })
-
-} else if (chat.detect && m.messageStubType == 23) {
-await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })    
-
-} else if (chat.detect && m.messageStubType == 25) {
-await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })  
-
-} else if (chat.detect && m.messageStubType == 26) {
-await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })  
-
-} else if (chat.detect && m.messageStubType == 29) {
-await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })  
-
-return;
-} if (chat.detect && m.messageStubType == 30) {
-await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })  
-
-} else {
-//console.log({ messageStubType: m.messageStubType,
-//messageStubParameters: m.messageStubParameters,
-//type: WAMessageStubType[m.messageStubType], 
-//})
-}}
+  switch (m.messageStubType) {
+    case 21:
+      await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case 22:
+      let pp = 'https://telegra.ph/file/2cbe6f28d160e45f37d2a.jpg' // imagen por defecto
+      await conn.sendMessage(m.chat, { image: { url: pp }, caption: foto, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case 23:
+      await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case 25:
+      await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case 26:
+      await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case 29:
+      await conn.sendMessage(m.chat, { text: admingp, mentions: [m.sender, m.messageStubParameters[0]] }, { quoted: fkontak })
+      break
+    case 30:
+      await conn.sendMessage(m.chat, { text: noadmingp, mentions: [m.sender, m.messageStubParameters[0]] }, { quoted: fkontak })
+      break
+    default:
+      // console.log("Otro tipo de cambio:", m.messageStubType)
+      break
+  }
+}
