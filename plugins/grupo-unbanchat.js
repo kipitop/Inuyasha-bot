@@ -4,6 +4,36 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
   let chat = global.db.data.chats[m.chat];
 
+const fetch = require("node-fetch");
+
+const fkontak = {
+  key: {
+    participants: "0@s.whatsapp.net",
+    remoteJid: "status@broadcast",
+    fromMe: false,
+    id: "Halo"
+  },
+  message: {
+    locationMessage: {
+      name: "ADMIN",
+      jpegThumbnail: await (await fetch('https://freeimage.host/i/FwU9EHQ')).buffer(),
+      vcard:
+        "BEGIN:VCARD\n" +
+        "VERSION:3.0\n" +
+        "N:;Unlimited;;;\n" +
+        "FN:Unlimited\n" +
+        "ORG:Unlimited\n" +
+        "TITLE:\n" +
+        "item1.TEL;waid=19709001746:+1 (970) 900-1746\n" +
+        "item1.X-ABLabel:Unlimited\n" +
+        "X-WA-BIZ-DESCRIPTION:ofc\n" +
+        "X-WA-BIZ-NAME:Unlimited\n" +
+        "END:VCARD"
+    }
+  },
+  participant: "0@s.whatsapp.net"
+};
+
   if (command === 'kirito') {
     if (args.length === 0) {
       const estado = chat.isBanned ? '⚠️ *DESACTIVADO*' : '✅ *ACTIVADO*';
@@ -23,7 +53,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA DESACTIVADO!*', m, rcanal);
       
       chat.isBanned = true;
-      return conn.reply(m.chat, '⚠️ *¡KIRITO-BOT HA SIDO DESACTIVADO EN ESTE CHAT!*', m, rcanal);
+      return conn.reply(m.chat, '⚠️ *¡KIRITO-BOT HA SIDO DESACTIVADO EN ESTE CHAT!*', fkontak, rcanal);
     } else if (args[0] === 'on', '5') {
       if (!chat.isBanned) 
         return conn.reply(m.chat, '⭕ *¡KIRITO-BOT YA ESTABA ACTIVADO!*', m, rcanal);
