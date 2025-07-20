@@ -49,22 +49,35 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const info = estilos[type] || estilos.nameChange
     const thumbnail = await (await fetch(info.image)).buffer()
 
-    return {
-      key: {
-        remoteJid: 'status@broadcast',
-        fromMe: false,
-        id: 'kirito-bot'
-      },
-      message: {
-        contactMessage: {
-          displayName: info.title,
-          vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Kirito;Bot;;;\nFN:${info.title}\nORG:${info.org};\nTEL;waid=${sender}:${sender}\nEMAIL;type=INTERNET:soporte@kiritobot.net\nEND:VCARD`,
-          jpegThumbnail: thumbnail
-        }
-      },
-      participant: '0@s.whatsapp.net'
+    const fetch = require("node-fetch");
+
+const fkontak = {
+  key: {
+    participants: "0@s.whatsapp.net",
+    remoteJid: "status@broadcast",
+    fromMe: false,
+    id: "Halo"
+  },
+  message: {
+    locationMessage: {
+      name: estilos,
+      jpegThumbnail: await (await fetch(`${image}`)).buffer(),
+      vcard:
+        "BEGIN:VCARD\n" +
+        "VERSION:3.0\n" +
+        "N:;Unlimited;;;\n" +
+        "FN:Unlimited\n" +
+        "ORG:Unlimited\n" +
+        "TITLE:\n" +
+        "item1.TEL;waid=19709001746:+1 (970) 900-1746\n" +
+        "item1.X-ABLabel:Unlimited\n" +
+        "X-WA-BIZ-DESCRIPTION:ofc\n" +
+        "X-WA-BIZ-NAME:Unlimited\n" +
+        "END:VCARD"
     }
-  }
+  },
+  participant: "0@s.whatsapp.net"
+};
 
   let chat = global.db.data.chats[m.chat]
   if (!chat?.detect) return
