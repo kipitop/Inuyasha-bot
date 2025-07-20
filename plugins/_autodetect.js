@@ -1,23 +1,71 @@
 let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
-
+import fetch from 'node-fetch'
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return
 
 
-  const fkontak = {
+  
+
+async function getSystemQuotedMessage(type, m) {
+  const sender = m.sender.split('@')[0]
+
+  const estilos = {
+    nameChange: {
+      title: 'CAMBIO DE NOMBRE',
+      org: 'Configuración del grupo',
+      image: 'https://i.imgur.com/hEHLZ8y.png' // 📝
+    },
+    photoChange: {
+      title: 'CAMBIO DE FOTO',
+      org: 'Actualización visual',
+      image: 'https://i.imgur.com/MI3dQog.png' // 🖼️
+    },
+    linkReset: {
+      title: 'ENLACE RESTABLECIDO',
+      org: 'Seguridad del grupo',
+      image: 'https://i.imgur.com/7QYmnmB.png' // 🔗
+    },
+    editPerms: {
+      title: 'EDITAR INFO',
+      org: 'Control de ajustes',
+      image: 'https://i.imgur.com/s3MiyW5.png' // ⚙️
+    },
+    statusGroup: {
+      title: 'ESTADO DEL GRUPO',
+      org: 'Permisos de mensajes',
+      image: 'https://i.imgur.com/JYlXc1z.png' // 🔒
+    },
+    newAdmin: {
+      title: 'NUEVO ADMIN',
+      org: 'Gestión de equipo',
+      image: 'https://i.imgur.com/pPPmkBf.png' // 👑
+    },
+    removedAdmin: {
+      title: 'ADMIN REMOVIDO',
+      org: 'Gestión de equipo',
+      image: 'https://i.imgur.com/OcXznIQ.png' // 🗑️
+    }
+  }
+
+  const info = estilos[type] || estilos.nameChange
+  const thumbnail = await (await fetch(info.image)).buffer()
+
+  return {
     key: {
-      remoteJid: "status@broadcast",
+      remoteJid: 'status@broadcast',
       fromMe: false,
-      id: "kirito-bot"
+      id: 'kirito-bot'
     },
     message: {
       contactMessage: {
-        displayName: "KiritoBot",
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Kirito;Bot;;;\nFN:KiritoBot Oficial\nORG:KiritoBot Team;\nTEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEMAIL;type=INTERNET:soporte@kiritobot.net\nEND:VCARD`
+        displayName: info.title,
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Kirito;Bot;;;\nFN:${info.title}\nORG:${info.org};\nTEL;waid=${sender}:${sender}\nEMAIL;type=INTERNET:soporte@kiritobot.net\nEND:VCARD`,
+        jpegThumbnail: thumbnail
       }
     },
-    participant: "0@s.whatsapp.net"
+    participant: '0@s.whatsapp.net'
   }
+}
 
   let chat = global.db.data.chats[m.chat]
   let usuario = `@${m.sender.split`@`[0]}`
