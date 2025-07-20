@@ -74,19 +74,6 @@ let handler = async (m, { conn, args }) => {
   image: { url: perfil },
   caption: profileText,
       footer: `${botname} el mejor bot de WhatsApp`,
-        buttons: [
-          {
-            buttonId: '/owner',
-            buttonText: { displayText: `👑 CREADOR` },
-            type: 1
-          },
-          {
-            buttonId: '/menu',
-            buttonText: { displayText: `✨ MENU` },
-            type: 1
-          }
-        ],
-        headerType: 4,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
