@@ -108,7 +108,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         }
       }
     };
-        await m.react('⚡️')
+        await m.react('👑')
     await conn.reply(m.chat, infoMessage, fkontak, JT);
 
     if (["play", "yta", "ytmp3"].includes(command)) {
