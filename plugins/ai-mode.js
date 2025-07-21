@@ -19,7 +19,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     },
     message: {
       locationMessage: {
-        name: '.     𝗜 𝗔',
+        name: '.     ( 𝗜𝗔 )',
         jpegThumbnail: thumb
       }
     },
@@ -40,7 +40,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!reply) throw new Error('Sin respuesta de Mode IA')
 
-    await conn.reply(m.chat, reply, m, fake)
+    await conn.reply(m.chat, reply, fkontak, fake)
   } catch (err) {
     console.error('[Mode-IA Error]', err)
     await m.react('⚡️')
