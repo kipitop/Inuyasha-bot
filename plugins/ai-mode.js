@@ -7,8 +7,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   try {
 
-          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
-      const thumb = await res.buffer();
+          const res2 = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+      const thumb = await res2.buffer();
 
   const fkontak = {
     key: {
