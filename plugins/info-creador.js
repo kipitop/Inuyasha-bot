@@ -4,26 +4,25 @@ async function handler(m, { conn }) {
   m.react('👑');
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
-  const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
-  const thumb = await res.buffer();
 
+          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+      const thumb = await res.buffer();
 
   const fkontak = {
     key: {
-      participants: '0@s.whatsapp.net',
-      remoteJid: 'status@broadcast',
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
       fromMe: false,
-      id: 'Halo'
+      id: "Halo"
     },
     message: {
       locationMessage: {
-        name: '𝗖𝗥𝗘𝗔𝗗𝗢𝗥 ◉‿◉',
+        name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
         jpegThumbnail: thumb
       }
     },
-    participant: '0@s.whatsapp.net'
-  };
-
+    participant: "0@s.whatsapp.net"
+  }
   const name = await conn.getName(ownerJid) || 'Deylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || ' Servicios técnicos de software para WhatsApp';
   const empresa = ' Servicios Tecnológicos';
