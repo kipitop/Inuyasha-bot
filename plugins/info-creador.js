@@ -22,7 +22,8 @@ async function handler(m, { conn }) {
       }
     },
     participant: "0@s.whatsapp.net"
-  }
+  };
+
   const name = await conn.getName(ownerJid) || 'Deylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || ' Servicios técnicos de software para WhatsApp';
   const empresa = ' Servicios Tecnológicos';
@@ -53,7 +54,7 @@ END:VCARD
   await conn.sendMessage(
     m.chat,
     { contacts: { displayName: name, contacts: [{ vcard }] } },
-    { quoted: fkontak }
+    { quoted: m }
   );
 }
 
