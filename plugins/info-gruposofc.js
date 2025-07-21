@@ -5,12 +5,12 @@ let handler = async (m, { conn }) => {
 let grupos = `
 ┏╍╍《 *GRUPOS OFICIALES* 》━━⌬
 ┃
-︻
-⌨ *Canal oficial:*  
-➥ *${namechannel}*  
-⌁ ${channel}  
-︼
 ┃
+┣ *Canal oficial:*  
+┣ *${namechannel}*  
+┣ ${channel}  
+┃                       
+┣━━━━━━━━━━━━━━━━━━━━⌬
 ┃ ${dev}
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`
 
