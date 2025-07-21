@@ -1,15 +1,13 @@
 import PhoneNumber from 'awesome-phonenumber';
-import fetch from 'node-fetch';
 
-let handler = async (m, { conn }) => {
+async function handler(m, { conn }) {
+  m.react('👑');
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
-
- 
   const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
   const thumb = await res.buffer();
 
-  
+
   const fkontak = {
     key: {
       participants: '0@s.whatsapp.net',
@@ -26,17 +24,11 @@ let handler = async (m, { conn }) => {
     participant: '0@s.whatsapp.net'
   };
 
-  
-  const name = await conn.getName(ownerJid).catch(() => 'Deylin');
-  const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || 'Hola mucho gusto, soy Deylin 👑';
+  const name = await conn.getName(ownerJid) || 'Deylin';
+  const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || ' Servicios técnicos de software para WhatsApp';
+  const empresa = ' Servicios Tecnológicos';
 
-  
-  const empresa = 'Servicios Tecnológicos';
-  const email = 'correo@empresa.com';
-  const web = 'https://www.tuempresa.com';
-  const direccion = 'Dirección de tu empresa';
 
-  
   const vcard = `
 BEGIN:VCARD
 VERSION:3.0
@@ -45,31 +37,26 @@ FN:${name}
 ORG:${empresa};
 TITLE:CEO & Fundador
 TEL;waid=${numCreador}:${new PhoneNumber('+' + numCreador).getNumber('international')}
-EMAIL:${email}
-URL:${web}
+EMAIL:correo@empresa.com
+URL:https://www.tuempresa.com
 NOTE:${about}
-ADR:;;${direccion};;;;
+ADR:;;Dirección de tu empresa;;;;
 X-ABADR:ES
+X-ABLabel:Dirección Web
+X-ABLabel:Correo Electrónico
+X-ABLabel:Teléfono de contacto
 X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
-END:VCARD`.trim();
+END:VCARD
+  `.trim();
 
-  
-  await m.react('👑');
-  await m.react('✨');
 
-  
   await conn.sendMessage(
     m.chat,
-    {
-      contacts: {
-        displayName: name,
-        contacts: [{ vcard }]
-      }
-    },
+    { contacts: { displayName: name, contacts: [{ vcard }] } },
     { quoted: fkontak }
   );
-};
+}
 
 handler.help = ['owner'];
 handler.tags = ['main'];
