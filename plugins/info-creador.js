@@ -6,7 +6,7 @@ async function handler(m, { conn }) {
   const ownerJid = numCreador + '@s.whatsapp.net';
 
           const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
-      const thumb = await res.buffer();
+      
 
   const fkontak = {
     key: {
@@ -18,7 +18,7 @@ async function handler(m, { conn }) {
     message: {
       locationMessage: {
         name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
-        jpegThumbnail: thumb
+        jpegThumbnail: res
       }
     },
     participant: "0@s.whatsapp.net"
