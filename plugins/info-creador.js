@@ -17,7 +17,7 @@ async function handler(m, { conn }) {
     },
     message: {
       locationMessage: {
-        name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
+        name: '𝗖𝗥𝗘𝗔𝗗𝗢𝗥',
         jpegThumbnail: res
       }
     },
