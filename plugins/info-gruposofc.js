@@ -1,32 +1,26 @@
-const handler = async (m, { conn }) => {
-  
+import fetch from 'node-fetch'
 
-  let userId = m.mentionedJid?.[0] || m.sender;
+let handler = async (m, { conn }) => {
 
-  const imageUrl = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
+let grupos = `
+┏╍╍《 *GRUPOS OFICIALES* 》━━⌬
+┃
+︻
+⌨ *Canal oficial:*  
+➥ *${namechannel}*  
+⌁ ${channel}  
+︼
+┃
+┃ ${dev}
+┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`
 
-  let info = `Hola @${userId.split('@')[0]} soy *${global.botname}* y te invito a unirte a mis espacios oficiales:
+await conn.sendFile(m.chat, catalogo, "grupos.jpg", grupos, m)
+await m.react(emoji)
 
-𝗖𝗔𝗡𝗔𝗟:
-https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m
+}
 
-𝗚𝗥𝗨𝗣𝗢 𝗢𝗙𝗖:
-http://bit.ly/3ImhCFl
+handler.help = ['grupos']
+handler.tags = ['info']
+handler.command = ['grupos', 'links', 'groups']
 
-𝗖𝗢𝗡𝗧𝗔𝗖𝗧𝗢 𝗗𝗘𝗟 𝗖𝗥𝗘𝗔𝗗𝗢𝗥:
-https://wa.link/i3ytgw`;
-
-  await conn.sendMessage(m.chat, {
-    image: { url: imageUrl },
-    caption: info,
-    contextInfo: {
-      mentionedJid: [userId]
-    }
-  }, { quoted: m });
-};
-
-handler.help = ['grupos'];
-handler.tags = ['info'];
-handler.command = ['grupos', 'links', 'groups'];
-
-export default handler;
+export default handler
