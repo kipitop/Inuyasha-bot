@@ -96,7 +96,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 `.trim();
 
     // no tocar 
-    const imageUrls = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
+    const imageUrls = 'https://files.catbox.moe/oi9idq.jpg;
     let selectedImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
     await m.react('👑');
