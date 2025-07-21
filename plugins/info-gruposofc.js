@@ -1,5 +1,6 @@
 const handler = async (m, { conn }) => {
         let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
+    const imageUrls = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
 
 let info = `Hola @${userId.split('@')[0]} soy ${botname} y te invito a unirte a mis espacios oficiales:
 
@@ -13,7 +14,7 @@ http://bit.ly/3ImhCFl
 https://wa.link/i3ytgw`
 
         await conn.sendMessage(m.chat, {
-  image: { url: catalogo },
+  image: { url: imageUrls },
   caption: info,
 contextInfo: {
             mentionedJid: [userId] }
