@@ -19,6 +19,7 @@ https://wa.link/i3ytgw`
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
+};
 
 
 handler.help = ['grupos'];
