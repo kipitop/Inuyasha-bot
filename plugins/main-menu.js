@@ -122,7 +122,6 @@ ${commandsForTag.map(menu => menu.help.map(help =>
         await conn.sendMessage(m.chat, {
   image: { url: imageUrls },
   caption: menuText,
-      footer: `${botname} el mejor bot de WhatsApp`,
 contextInfo: {
             mentionedJid: [userId] }
 }, { quoted: m });
