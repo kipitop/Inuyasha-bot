@@ -8,7 +8,7 @@ export async function before(m, { conn }) {
   if (!chat.detect) return;
 
   const usuario = `@${m.sender.split('@')[0]}`
-  const res = await fetch('https://files.catbox.moe/cr196t.jpg')
+  const res = await fetch('https://files.catbox.moe/s4hg2o.jpg')
   const thumb = await res.buffer()
 
   const fkontak = {
