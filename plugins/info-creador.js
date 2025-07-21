@@ -5,7 +5,24 @@ let handler = async (m, { conn }) => {
   const ownerJid = numCreador + '@s.whatsapp.net';
 
 
+          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+      const thumb = await res.buffer();
 
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: '𝗖𝗥𝗘𝗔𝗗𝗢𝗥 ◉‿◉',
+        jpegThumbnail: thumb
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  }
 
   const name = await conn.getName(ownerJid) || 'Deylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || 'Hola mucho gusto, soy Deylin 👑';
@@ -42,7 +59,7 @@ END:VCARD`.trim();
         contacts: [{ vcard }]
       }
     },
-    { quoted: m }
+    { quoted: fkontak }
   );
 
  
