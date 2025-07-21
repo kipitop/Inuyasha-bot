@@ -6,6 +6,26 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   try {
+
+          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+      const thumb = await res.buffer();
+
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: '.     𝗜 𝗔',
+        jpegThumbnail: thumb
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  }
+
     await m.react('🌟')
     conn.sendPresenceUpdate('composing', m.chat)
 
