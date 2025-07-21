@@ -7,7 +7,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   try {
 
-          const res2 = await fetch('https://files.catbox.moe/udkbm9.jpg');
+          const res2 = await fetch('https://files.catbox.moe/tci31w.jpg');
       const thumb = await res2.buffer();
 
   const fkontak = {
