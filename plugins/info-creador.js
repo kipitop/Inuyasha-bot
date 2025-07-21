@@ -1,19 +1,20 @@
 import PhoneNumber from 'awesome-phonenumber';
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn }) => {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
+  const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+  const thumb = await res.buffer();
 
-          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
-      const thumb = await res.buffer();
-
+  
   const fkontak = {
     key: {
-      participants: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast",
+      participants: '0@s.whatsapp.net',
+      remoteJid: 'status@broadcast',
       fromMe: false,
-      id: "Halo"
+      id: 'Halo'
     },
     message: {
       locationMessage: {
@@ -21,18 +22,20 @@ let handler = async (m, { conn }) => {
         jpegThumbnail: thumb
       }
     },
-    participant: "0@s.whatsapp.net"
-  }
+    participant: '0@s.whatsapp.net'
+  };
 
-  const name = await conn.getName(ownerJid) || 'Deylin';
+ 
+  const name = await conn.getName(ownerJid).catch(() => 'Deylin');
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || 'Hola mucho gusto, soy Deylin 👑';
-  const empresa = 'Servicios Tecnológicos';
 
-  const imageUrl = 'https://raw.githubusercontent.com/Deylin-Eliac/kirito-bot-MD/main/src/catalogo.jpg';
   
-await m.react('👑');
-  await m.react('✨');
+  const empresa = 'Servicios Tecnológicos';
+  const email = 'correo@empresa.com';
+  const web = 'https://www.tuempresa.com';
+  const direccion = 'Dirección de tu empresa';
 
+  
   const vcard = `
 BEGIN:VCARD
 VERSION:3.0
@@ -41,14 +44,18 @@ FN:${name}
 ORG:${empresa};
 TITLE:CEO & Fundador
 TEL;waid=${numCreador}:${new PhoneNumber('+' + numCreador).getNumber('international')}
-EMAIL:correo@empresa.com
-URL:https://www.tuempresa.com
+EMAIL:${email}
+URL:${web}
 NOTE:${about}
-ADR:;;Dirección de tu empresa;;;;
+ADR:;;${direccion};;;;
 X-ABADR:ES
 X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
 END:VCARD`.trim();
+
+  
+  await m.react('👑');
+  await m.react('✨');
 
   
   await conn.sendMessage(
@@ -61,10 +68,8 @@ END:VCARD`.trim();
     },
     { quoted: fkontak }
   );
+};
 
- 
-  
-  
 handler.help = ['owner'];
 handler.tags = ['main'];
 handler.command = ['owner', 'creator', 'creador', 'dueño'];
