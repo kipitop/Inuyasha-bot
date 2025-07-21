@@ -54,7 +54,7 @@ END:VCARD
   await conn.sendMessage(
     m.chat,
     { contacts: { displayName: name, contacts: [{ vcard }] } },
-    { quoted: m }
+    { quoted: fkontak }
   );
 }
 
