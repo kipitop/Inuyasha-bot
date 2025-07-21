@@ -4,6 +4,9 @@ let handler = async (m, { conn }) => {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
+
+
+
   const name = await conn.getName(ownerJid) || 'Deylin';
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || 'Hola mucho gusto, soy Deylin 👑';
   const empresa = 'Servicios Tecnológicos';
@@ -30,7 +33,7 @@ X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
 END:VCARD`.trim();
 
-  // Enviar la vCard
+  
   await conn.sendMessage(
     m.chat,
     {
@@ -42,10 +45,7 @@ END:VCARD`.trim();
     { quoted: m }
   );
 
-  
-  await m.react('👑');
-  await m.react('✨');
-
+ 
   
   
 handler.help = ['owner'];
