@@ -27,5 +27,5 @@ let handler = async (m, { conn, text, args }) => {
   }
 }
 
-handler.command = /^reduce$/i
+handler.command = ['reduce', 'reducir']
 export default handler
