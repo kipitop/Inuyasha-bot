@@ -96,8 +96,9 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 `.trim();
 
     // no tocar 
-    const imageUrls = 'https://files.catbox.moe/oi9idq.jpg;
-    let selectedImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    const imageUrls = ['https://files.catbox.moe/oi9idq.jpg', 'https://files.catbox.moe/oi9idq.jpg']; 
+
+let selectedImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
     await m.react('👑');
 
@@ -120,7 +121,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
   }, { quoted: m })*/
 
         await conn.sendMessage(m.chat, {
-  image: { url: imageUrls },
+  image: { url: selectedImage },
   caption: menuText,
 contextInfo: {
             mentionedJid: [userId] }
