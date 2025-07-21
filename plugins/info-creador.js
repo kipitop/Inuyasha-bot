@@ -5,6 +5,7 @@ let handler = async (m, { conn }) => {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
+ 
   const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
   const thumb = await res.buffer();
 
@@ -25,7 +26,7 @@ let handler = async (m, { conn }) => {
     participant: '0@s.whatsapp.net'
   };
 
- 
+  
   const name = await conn.getName(ownerJid).catch(() => 'Deylin');
   const about = (await conn.fetchStatus(ownerJid).catch(() => {}))?.status || 'Hola mucho gusto, soy Deylin 👑';
 
