@@ -22,7 +22,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let groupId;
 
     
-    const groupMetadata = await conn.groupGetInviteInfo(code);
+    const groupId = await conn.groupAcceptInvite(code.trim().replace(/[^0-9A-Za-z]/g, ''));
     const jid = groupMetadata?.id;
 
     if (conn.chats[jid]) {
