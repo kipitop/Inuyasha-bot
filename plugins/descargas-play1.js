@@ -69,6 +69,27 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text.trim()) {
       return conn.reply(m.chat, " Ingresa el nombre de la canción que deseas buscar.", m, rcanal);
     }
+const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
+
+          const res = await fetch('https://files.catbox.moe/9f350v.jpg');
+      const thumb = await res.buffer();
+
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: `𝗣𝗟𝗔𝗬 ✦ ${tip} `,
+        jpegThumbnail: thumb
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  };
+
 
     const search = await yts(text);
     if (!search.all.length) {
