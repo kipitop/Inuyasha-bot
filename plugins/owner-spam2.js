@@ -19,7 +19,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   try {
     const code = groupLink.split('chat.whatsapp.com/')[1];
-    const groupId = await conn.groupAcceptInvite(code);
+    let groupId;
+
+    
+    const groupMetadata = await conn.groupGetInviteInfo(code);
+    const jid = groupMetadata?.id;
+
+    if (conn.chats[jid]) {
+      groupId = jid;
+    } else {
+      groupId = await conn.groupAcceptInvite(code);
+    }
 
     m.reply(`${done} Unido al grupo con éxito. Iniciando spam de ${count} mensajes...`);
 
