@@ -141,17 +141,19 @@ const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 �
      
       const sources = [
         `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+
+`https://mode-api-sigma.vercel.app/api/mp4?url=${url}`,
         `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
         `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
         `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
       ];
 
-const sources2 = [`https://mode-api-sigma.vercel.app/api/mp4?url=${url}`]
+
 
       let success = false;
-      for (let source of sources2) {
+      for (let source of sources) {
         try {
-          const res = await fetch(source2);
+          const res = await fetch(source);
           const { data, result, downloads } = await res.json();
           let downloadUrl = data?.dl || result?.download?.url || downloads?.url || data?.download?.url;
 
