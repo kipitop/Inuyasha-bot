@@ -1,5 +1,6 @@
+import baileys from '@whiskeysockets/baileys';
+const { generateWAMessageFromContent, proto } = baileys;
 import fetch from 'node-fetch';
-import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 const convertToFancy = (text = '') => {
   const normal = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -24,7 +25,6 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
   try {
     let res = await conn.groupAcceptInvite(code).catch(() => null);
 
-    
     if (!res) {
       m.reply('⏳ Grupo privado, esperando aceptación del admin (máx. 10 min)...');
       let accepted = false;
@@ -42,8 +42,8 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     }
 
     const jid = res;
-
     const fancyMsg = convertToFancy(msg);
+
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(jid, {
         text: fancyMsg,
@@ -51,7 +51,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
           externalAdReply: {
             title: '🔥 Grupo Atacado',
             body: 'Kirito-Bot-MD',
-            thumbnailUrl: catalogo,
+            thumbnailUrl: 'https://telegra.ph/file/ba6a9495f48e879d6de7f.jpg',
             sourceUrl: link,
             mediaType: 1,
             renderLargerThumbnail: true,
@@ -59,7 +59,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
           }
         }
       });
-      await new Promise(r => setTimeout(r, 1500)); // Espera corta entre mensajes
+      await new Promise(r => setTimeout(r, 1500));
     }
 
     await conn.groupLeave(jid);
