@@ -45,26 +45,16 @@ console.log(chalk.bold.redBright(`\n≪━─━─━─━─◈─━─━�
 
 import { say } from 'cfonts'
 
-say('kirito-bot-MD ⚡', {
-  font: 'block', 
-  align: 'center',
-  colors: ['black', 'magentaBright'],
-  background: 'transparent',
-  letterSpacing: 1,
-  lineHeight: 1,
-  space: true,
-  maxLength: '0'
-})
-
-say(`⚔️ Developed by Deylin 👑`, {
-  font: 'console', 
-  align: 'center',
-  colors: ['cyanBright', 'blueBright'],
-  background: 'transparent',
-  letterSpacing: 1,
-  lineHeight: 1,
-  space: true,
-  maxLength: '0'
+say('kirito-bot-MD ⚡', {  
+  font: 'block',  
+  align: 'center',  
+  colors: ['blackBright', 'cyanBright', 'magenta']  
+})  
+  
+say(`Developed By Deylin 👑`, {  
+  font: 'console',  
+  align: 'center',  
+  colors: ['whiteBright', 'blueBright']  
 })
 
 protoType()
