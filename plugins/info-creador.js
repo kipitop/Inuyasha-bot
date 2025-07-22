@@ -5,7 +5,8 @@ async function handler(m, { conn }) {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
-          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+          const res = await fetch('https://files.catbox.moe/mbj1eo.jpg');
+      const thumb2 = await res.buffer();
       
 
   const fkontak = {
@@ -18,7 +19,7 @@ async function handler(m, { conn }) {
     message: {
       locationMessage: {
         name: '𝗖𝗥𝗘𝗔𝗗𝗢𝗥',
-        jpegThumbnail: res
+        jpegThumbnail: thumb2
       }
     },
     participant: "0@s.whatsapp.net"
