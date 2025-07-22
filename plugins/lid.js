@@ -3,6 +3,12 @@ let handler = async function (m, { conn, groupMetadata }) {
 
   const participantes = groupMetadata?.participants || []
 
+  const info = `
+╭━━━━━━━━━━━━━━━━━━━⍰
+┃ *Total:* ${participantes.length}
+┃ *Grupo:* ${await conn.getName(m.chat)}
+╰━━━━━━━━━━━━━━━━━━━━━━━━⍰`.trim()
+
   const tarjetas = participantes.map((p, index) => {
     const rawJid = p.id || 'N/A'
     const user = rawJid.split('@')[0]
@@ -12,12 +18,6 @@ let handler = async function (m, { conn, groupMetadata }) {
     const estado = p.admin === 'superadmin' ? '👑 Superadmin' :
                    p.admin === 'admin' ? '🛡️ Admin' : '👤 Miembro'
 
-
-let info = `
-╭━━━━━━━━━━━━━━━━━━━⍰
-┃ *Total:* ${participants.length}
-┃ *Grupo:* ${await conn.getName(m.chat)}
-╰━━━━━━━━━━━━━━━━━━━━━━━━⍰`
     return [
       '┆ ┏━━━━━━━━━━━━━━━⌬',
       `┆ ┃ 🧾 *Participante ${index + 1}*`,
