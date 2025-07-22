@@ -43,7 +43,7 @@ let { say } = cfonts
 
 console.log(chalk.bold.redBright(`\n≪━─━─━─━─◈─━─━─━─━≫\n ✈ Iniciando kirito-bot-MD ʕ•ᴥ•ʔ\n ≪━─━─━─━─◈─━─━─━─━≫\n`))
 
-import { say } from 'cfonts'
+//import { say } from 'cfonts'
 
 say('kirito-bot-MD ⚡', {  
   font: 'block',  
