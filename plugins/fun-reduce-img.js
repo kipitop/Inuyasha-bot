@@ -27,5 +27,6 @@ let handler = async (m, { conn, text, args }) => {
   }
 }
 
-handler.command = ['reduce', 'reducir']
+handler.command = handler.help = ['reduce', 'reducir']
+handler.tags = ['fun']
 export default handler
