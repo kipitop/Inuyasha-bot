@@ -1,14 +1,10 @@
-import fetch from 'node-fetch'
 let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 
-export async function before(m, { conn }) {
-  if (!m.messageStubType || !m.isGroup) return;
+export async function before(m, { conn, participants, groupMetadata }) {
+  if (!m.messageStubType || !m.isGroup) return
 
-  let chat = global.db.data.chats[m.chat]
-  if (!chat.detect) return;
 
-  const usuario = `@${m.sender.split('@')[0]}`
-          const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
+            const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
       const thumb = await res.buffer();
 
   const fkontak = {
@@ -27,85 +23,46 @@ export async function before(m, { conn }) {
     participant: "0@s.whatsapp.net"
   }
 
-  const nombre = `
-╭───────✦ *NOMBRE DEL GRUPO* ✦───────╮
-│ 🧑‍💼 Usuario: *${usuario}*
-│ ✎ Ha cambiado el nombre del grupo.
-│ 
-│ 📛 Nuevo nombre:
-│ *<${m.messageStubParameters[0]}>*
-╰──────────────────────────────╯`
+  let chat = global.db.data.chats[m.chat]
+  let usuario = `@${m.sender.split`@`[0]}`
+  let pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || 'https://files.catbox.moe/xr2m6u.jpg'
 
-  const foto = `
-╭───────✦ *FOTO DEL GRUPO* ✦───────╮
-│ 🧑‍💼 Usuario: *${usuario}*
-│ ⍰ Ha cambiado la imagen del grupo.
-╰──────────────────────────────╯`
 
-  const edit = `
-╭───✦ *CONFIGURACIÓN DEL GRUPO* ✦───╮
-│ 🧑‍💼 Usuario: *${usuario}*
-│ ⌬ Ha permitido que 
-│ ${m.messageStubParameters[0] == 'on' ? '*solo admins*' : '*todos*'} puedan configurar el grupo.
-╰───────────────────────────╯`
+  const borde = "╭───────────────╮"
+  const medio = "│ VegetaBot MB2.0"
+  const fin =   "╰───────────────╯"
 
-  const newlink = `
-╭──✦ *ENLACE RESTABLECIDO* ✦──╮
-│ ⌨ El enlace del grupo ha sido restablecido por:
-│ » *${usuario}*
-╰──────────────────────────╯`
+  let nombre = `${borde}\n${medio}\n╰➤ ${usuario} \ncambió el nombre del grupo.\n   Nuevo nombre: *${m.messageStubParameters[0]}*\n${fin}`
+  let foto = {
+    image: { url: pp },
+    caption: `${borde}\n${medio}\n╰➤ ${usuario} \nactualizó la foto del grupo.\n   ¡Una nueva etapa comienza!\n${fin}`,
+    mentions: [m.sender]
+  }
+  let edit = `${borde}\n${medio}\n╰➤ ${usuario} \nmodificó la configuración del grupo.\n   Ahora *${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'}* pueden editar info.\n${fin}`
+  let newlink = `${borde}\n${medio}\n╰➤ ${usuario} \nrestableció el enlace del grupo.\n   ¡No lo compartas con cualquiera!\n${fin}`
+  let status = `${borde}\n${medio}\n╰➤ El grupo fue *${m.messageStubParameters[0] == 'on' ? 'cerrado' : 'abierto'}* por ${usuario}.\n   Ahora *${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'}* pueden enviar mensajes.\n${fin}`
+  let admingp = `${borde}\n${medio}\n╰➤ *@${m.messageStubParameters[0].split`@`[0]}* ahora es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
+  let noadmingp = `${borde}\n${medio}\n╰➤ *@${m.messageStubParameters[0].split`@`[0]}* ya no es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
 
-  const status = `
-╭───✦ *ESTADO DEL GRUPO* ✦────╮
-│ ⌬ El grupo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado 🔒*' : '*abierto 🔓*'}
-│ 🧑‍💼 Por: *${usuario}*
-│ 
-│ ⌬ Ahora ${m.messageStubParameters[0] == 'on' ? '*solo los admins*' : '*todos*'} pueden enviar mensajes.
-╰───────────────────────────╯`
+  if (chat.detect && m.messageStubType == 21) {
+    await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
 
-  const admingp = `
-╭─────✦ *NUEVO ADMIN* ✦──────╮
-│ 👑 Usuario: *@${m.messageStubParameters[0].split('@')[0]}*
-│ ☻ Ahora es administrador del grupo.
-│ 
-│ ⍰ Acción hecha por:
-│ » *${usuario}*
-╰───────────────────────────╯`
+  } else if (chat.detect && m.messageStubType == 22) {
+    await conn.sendMessage(m.chat, foto, { quoted: fkontak })
 
-  const noadmingp = `
-╭─────✦ *ADMIN REMOVIDO* ✦─────╮
-│ 🛑 Usuario: *@${m.messageStubParameters[0].split('@')[0]}*
-│ ☹ Ya no es administrador del grupo.
-│ 
-│ ⍰ Acción hecha por:
-│ » *${usuario}*
-╰───────────────────────────╯`
+  } else if (chat.detect && m.messageStubType == 23) {
+    await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
 
-  switch (m.messageStubType) {
-    case 21:
-      await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case 22:
-      let pp = 'https://telegra.ph/file/2cbe6f28d160e45f37d2a.jpg' // imagen por defecto
-      await conn.sendMessage(m.chat, { image: { url: pp }, caption: foto, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case 23:
-      await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case 25:
-      await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case 26:
-      await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case 29:
-      await conn.sendMessage(m.chat, { text: admingp, mentions: [m.sender, m.messageStubParameters[0]] }, { quoted: fkontak })
-      break
-    case 30:
-      await conn.sendMessage(m.chat, { text: noadmingp, mentions: [m.sender, m.messageStubParameters[0]] }, { quoted: fkontak })
-      break
-    default:
-      // console.log("Otro tipo de cambio:", m.messageStubType)
-      break
+  } else if (chat.detect && m.messageStubType == 25) {
+    await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
+
+  } else if (chat.detect && m.messageStubType == 26) {
+    await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
+
+  } else if (chat.detect && m.messageStubType == 29) {
+    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
+
+  } else if (chat.detect && m.messageStubType == 30) {
+    await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
   }
 }
