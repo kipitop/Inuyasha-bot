@@ -5,7 +5,7 @@ async function handler(m, { conn }) {
   const numCreador = '50433191934';
   const ownerJid = numCreador + '@s.whatsapp.net';
 
-    const res = await fetch('https://files.catbox.moe/w158ox.jpg);
+    const res = await fetch('https://files.catbox.moe/w158ox.jpg');
 const thumb2 = Buffer.from(await res.arrayBuffer());
 
   const fkontak = {
