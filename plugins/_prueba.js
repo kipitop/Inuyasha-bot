@@ -37,7 +37,16 @@ const handler = async (m, { conn, usedPrefix, command }) => {
   if (data.characters) texto += `🧑‍🤝‍🧑 *Personajes:* ${data.characters}\n`;
   if (data.material) texto += `📘 *Material:* ${data.material}\n`;
 
-  await conn.sendFile(m.chat, thumbnail, 'thumb.jpg', texto, m);
+  
+  await conn.sendFile(m.chat, thumbnail, 'preview.jpg', texto, m);
+
+  
+  if (data.source && data.ext_urls && data.ext_urls.length) {
+    const site = data.ext_urls[0];
+    const screenshot = `https://image.thum.io/get/fullpage/${encodeURIComponent(site)}`;
+
+    await conn.sendMessage(m.chat, { image: { url: screenshot }, caption: '🌐 *Captura del sitio donde se encontró la imagen.*' }, { quoted: m });
+  }
 };
 
 handler.command = ['searchinfoimg'];
