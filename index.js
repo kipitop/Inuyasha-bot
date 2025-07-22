@@ -48,7 +48,7 @@ console.log(chalk.bold.redBright(`\n≪━─━─━─━─◈─━─━�
 say('kirito-bot-MD ⚡', {  
   font: 'block',  
   align: 'center',  
-  colors: ['blackBright', 'cyanBright', 'magenta']  
+  colors: ['cyanBright', 'magenta']  
 })  
   
 say(`Developed By Deylin 👑`, {  
