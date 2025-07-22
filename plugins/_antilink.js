@@ -5,6 +5,28 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 if (!m.isGroup) return 
 if (isAdmin || isOwner || m.fromMe || isROwner) return
 
+
+    const res = await fetch('https://files.catbox.moe/cduhlw.jpg');
+const thumb2 = Buffer.from(await res.arrayBuffer());
+
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: '𝗟𝗜𝗡𝗞 - 𝗗𝗘𝗧𝗘𝗖𝗧𝗔𝗗𝗢',
+        jpegThumbnail: thumb2
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  };
+
+
+
 let chat = global.db.data.chats[m.chat];
 let delet = m.key.participant;
 let bang = m.key.id;
@@ -20,8 +42,14 @@ if (isBotAdmin) {
 const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
 if (m.text.includes(linkThisGroup)) return !0;
 }
-await conn.sendMessage(m.chat, { text: `*「 ENLACE DETECTADO 」*\n\n《✧》${user} Rompiste las reglas del Grupo serás eliminado...`, mentions: [m.sender] }, { quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100 });
-if (!isBotAdmin) return conn.sendMessage(m.chat, { text: `✦ El antilink está activo pero no puedo eliminarte porque no soy admin.`, mentions: [...groupAdmins.map(v => v.id)] }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `
+┏╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬
+┃ *「 ENLACE DETECTADO 」*
+┃
+┃ ${user} Rompiste las reglas del 
+┃ Grupo serás eliminado...
+┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`, mentions: [m.sender] }, { quoted: fkontak, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100 });
+if (!isBotAdmin) return conn.sendMessage(m.chat, { text: `⍰ El antilink está activo pero no puedo eliminarte porque no soy admin.`, mentions: [...groupAdmins.map(v => v.id)] }, { quoted: fkontak });
 if (isBotAdmin) {
 await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet } });
 let responseb = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
