@@ -30,7 +30,7 @@ let info = `
 
   const contenido = tarjetas.join('\n┆\n')
   const salida = [
-    ``
+    info,
     '╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⑆',
     '┆',
     contenido,
