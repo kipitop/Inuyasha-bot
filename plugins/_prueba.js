@@ -1,5 +1,6 @@
-
 import fetch from 'node-fetch';
+import FormData from 'form-data';
+
 const handler = async (m, { conn, usedPrefix, command }) => {
   if (!m.quoted || !/image/.test(m.quoted.mimetype)) {
     return m.reply(`📷 Responde a una imagen con el comando:\n${usedPrefix + command}`);
@@ -8,10 +9,12 @@ const handler = async (m, { conn, usedPrefix, command }) => {
   const qimg = await m.quoted.download();
   const form = new FormData();
   form.append('file', qimg, 'image.jpg');
-  form.append('api_key', 'a4f48096f081456ff62307c3d0f213e866414327'); 
-  const res = await fetch('https://saucenao.com/search.php?output_type=2&api_key=TU_API_KEY_DE_SAUCENAO', {
+  form.append('api_key', 'a4f48096f081456ff62307c3d0f213e866414327');
+
+  const res = await fetch('https://saucenao.com/search.php?output_type=2&api_key=a4f48096f081456ff62307c3d0f213e866414327', {
     method: 'POST',
-    body: form
+    body: form,
+    headers: form.getHeaders()
   });
 
   const json = await res.json();
