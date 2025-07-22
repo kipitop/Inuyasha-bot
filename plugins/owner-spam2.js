@@ -22,13 +22,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let groupId;
 
     
-    const groupId = await conn.groupAcceptInvite(code.trim().replace(/[^0-9A-Za-z]/g, ''));
+    const groupMetadata = await conn.groupGetInviteInfo(code);
     const jid = groupMetadata?.id;
 
     if (conn.chats[jid]) {
       groupId = jid;
     } else {
-      groupId = await conn.groupAcceptInvite(code);
+      const groupId = await conn.groupAcceptInvite(code.trim().replace(/[^0-9A-Za-z]/g, ''));
     }
 
     m.reply(`${done} Unido al grupo con éxito. Iniciando spam de ${count} mensajes...`);
