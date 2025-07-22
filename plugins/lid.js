@@ -12,6 +12,12 @@ let handler = async function (m, { conn, groupMetadata }) {
     const estado = p.admin === 'superadmin' ? '👑 Superadmin' :
                    p.admin === 'admin' ? '🛡️ Admin' : '👤 Miembro'
 
+
+let info = `
+╭━━━━━━━━━━━━━━━━━━━⍰
+┃ *Total:* ${participants.length}
+┃ *Grupo:* ${await conn.getName(m.chat)}
+╰━━━━━━━━━━━━━━━━━━━━━━━━⍰`
     return [
       '┆ ┏━━━━━━━━━━━━━━━⌬',
       `┆ ┃ 🧾 *Participante ${index + 1}*`,
@@ -24,6 +30,7 @@ let handler = async function (m, { conn, groupMetadata }) {
 
   const contenido = tarjetas.join('\n┆\n')
   const salida = [
+    ``
     '╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⑆',
     '┆',
     contenido,
