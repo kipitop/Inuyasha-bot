@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args, command }) => {
   global.listadoGrupos = global.listadoGrupos || []
 
-  if (command == 'listgroup', 'grouplist') {
+  if (['listgroup', 'grouplist'].includes(command)) {
     let txt = ''
     global.listadoGrupos = []
 
@@ -42,7 +42,6 @@ let handler = async (m, { conn, args, command }) => {
 
     const { jid, nombre } = global.listadoGrupos[num - 1]
 
-    
     await conn.sendMessage(jid, {
       text: `👋 *${botname}* se despide de este grupo.\nGracias por todo. ¡Hasta pronto! ✨`
     })
@@ -68,7 +67,7 @@ let handler = async (m, { conn, args, command }) => {
   }
 }
 
-handler.help = ['listgroup', 'salir <número>', 'aviso <número> | <mensaje>']
+handler.help = ['listgroup', 'salirg <número>', 'aviso <número> | <mensaje>']
 handler.tags = ['owner']
 handler.command = ['listgroup', 'salirg', 'aviso', 'grouplist']
 handler.rowner = true
