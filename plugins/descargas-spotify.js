@@ -1,22 +1,55 @@
-import Scraper from "@SumiFX/Scraper"
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return m.reply('⭐ Ingresa el nombre de algún Track de Spotify.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Gemini Aaliyah - If Only`)
+const handler = async (m, { args, conn, command, prefix }) => {
+  if (!args[0]) {
+    return m.reply(`📌 Ejemplo de uso:\n${(prefix || '.') + command} nina feast`);
+  }
 
-let user = global.db.data.users[m.sender]
-try {
-let { title, artist, album, published, thumbnail, dl_url } = await Scraper.spotify(text)
-let txt = `╭─⬣「 *Spotify Download* 」⬣\n`
-    txt += `│  ≡◦ *⭐ Nombre ∙* ${title}\n`
-    txt += `│  ≡◦ *🪴 Artista ∙* ${artist}\n`
-    txt += `│  ≡◦ *📚 Album ∙* ${album}\n`
-    txt += `│  ≡◦ *📅 Publicado ∙* ${published}\n`
-    txt += `╰─⬣`
-await conn.sendFile(m.chat, thumbnail, 'thumbnail.jpg', txt, m)
-await conn.sendFile(m.chat, dl_url, title + '.mp3', `*🍭 Titulo ∙* ${title}\n*🪴 Artista ∙* ${artist}`, m, false, { mimetype: 'audio/mpeg', asDocument: user.useDocument })
-} catch {
-}}
-handler.help = ['spotify <búsqueda>']
-handler.tags = ['downloader']
-handler.command = ['spotify2'] 
-export default handler
+  await conn.sendMessage(m.chat, {
+    react: {
+      text: '⏱',
+      key: m.key,
+    },
+  });
+
+  const query = encodeURIComponent(args.join(' '));
+  const url = `https://zenz.biz.id/search/spotify?query=${query}`;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!json.status || !json.result || json.result.length === 0) {
+      return m.reply('❌ No encontré la canción que estás buscando.');
+    }
+
+    const data = json.result[0];
+
+    const caption = `🎵 *Título:* ${data.title}
+🎤 *Artista:* ${data.artist}
+💿 *Álbum:* ${data.album}
+🔗 *Enlace:* ${data.url}`;
+
+    await conn.sendMessage(m.chat, {
+      image: { url: data.cover },
+      caption
+    }, { quoted: m });
+
+    await conn.sendMessage(m.chat, {
+      react: {
+        text: '✅',
+        key: m.key,
+      },
+    });
+
+  } catch (e) {
+    console.error(e);
+    m.reply('⚠️ Ocurrió un error al buscar la canción.');
+  }
+};
+
+handler.help = ['sspotify <nombre de la canción>'];
+handler.tags = ['busqueda'];
+handler.command = ['spotify'];
+
+export default handler;
