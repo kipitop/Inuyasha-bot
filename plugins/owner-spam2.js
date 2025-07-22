@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['spam2 <enlace>|<mensaje>|<veces>'];
 handler.tags = ['group'];
-handler.command = /^spam2$/i;
+handler.command = ['spam2'];
 handler.private = false;
 handler.limit = 2;
 
