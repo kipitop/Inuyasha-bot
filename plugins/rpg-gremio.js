@@ -50,13 +50,13 @@ let handler = async (m, { conn }) => {
     users[senderId].health -= evento.health;
   }
 
-  let img = 'https://files.catbox.moe/09r00j.jpg';
-  let info = `╭━〔 Gremio de Aventureros 〕\n` +
+  let img = 'https://files.catbox.moe/rfhawh.jpg';
+  let info = `┏╍⌬ *Gremio de Aventureros* \n` +
              `┃Misión: *${evento.nombre}*\n` +
              `┃Evento: ${evento.mensaje}\n` +
              `┃Recompensa: ${evento.coin > 0 ? '+' : '-'}${Math.abs(evento.coin)} ${moneda} y +${evento.exp} XP.\n` +
              `┃Tu salud ${users[senderId].health < 0 ? 'bajó en: ' + Math.abs(users[senderId].health) : 'se mantuvo igual.'}\n` +
-             `╰━━━━━━━━━━━━⬣`;
+             `┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
   await conn.sendFile(m.chat, img, 'gremio.jpg', info, fkontak);
 
