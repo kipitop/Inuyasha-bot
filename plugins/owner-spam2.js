@@ -42,7 +42,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.groupLeave(groupId);
   } catch (error) {
     console.error(error);
-    m.reply(`${msm} Error al intentar realizar la operación: ${error.message}`);
+    m.reply(`${msm} Error al intentar realizar la operación ${msm}: ${error.message}`);
   }
 };
 
