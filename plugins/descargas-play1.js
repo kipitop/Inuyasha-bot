@@ -138,45 +138,31 @@ const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 �
       await conn.sendMessage(m.chat, { audio: { url: api.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: m });
 
     } else if (["play2", "ytv", "ytmp4"].includes(command)) {
-     
-      const sources = [
-        `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+  try {
+    const apiURL = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
+    const res = await fetch(apiURL);
+    const json = await res.json();
 
-`https://mode-api-sigma.vercel.app/api/mp4?url=${url}`,
-        `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-        `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-        `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-      ];
+    if (!json?.status || !json.video?.download?.url) {
+      throw new Error("No se encontró un enlace de descarga válido.");
+    }
 
+    const videoData = json.video;
+    const downloadInfo = videoData.download;
 
+    await conn.sendMessage(m.chat, {
+      video: { url: downloadInfo.url },
+      fileName: downloadInfo.filename || `${videoData.title}.mp4`,
+      mimetype: "video/mp4",
+      caption: `⚔ Aquí tienes tu video descargado por *Kirito-Bot MD* ⚔\n\n📦 *Calidad:* ${downloadInfo.quality}\n📁 *Tamaño:* ${downloadInfo.size}`,
+      thumbnail: thumb
+    }, { quoted: fkontak });
 
-      let success = false;
-      for (let source of sources) {
-        try {
-          const res = await fetch(source);
-          const { data, result, downloads } = await res.json();
-          let downloadUrl = data?.dl || result?.download?.url || downloads?.url || data?.download?.url;
-
-          if (downloadUrl) {
-            success = true;
-            await conn.sendMessage(m.chat, {
-              video: { url: downloadUrl },
-              fileName: `${title}.mp4`,
-              mimetype: "video/mp4",
-              caption: "⚔ Aquí tienes tu video descargado por *Kirito-Bot MD* ⚔",
-              thumbnail: thumb
-            }, { quoted: fkontak });
-            break;
-          }
-        } catch (e) {
-          console.error(`⚠ Error con la fuente ${source}:`, e.message);
-        }
-      }
-    
-      if (!success) {
-        return m.reply("⛔ *Error:* No se encontró un enlace de descarga válido.");
-      }
-    } else {
+  } catch (e) {
+    console.error("❌ Error al descargar MP4:", e.message);
+    return m.reply("⛔ *Error:* No se pudo descargar el video desde la API.");
+  }
+} else {
       throw "❌ Comando no reconocido.";
     }
   } catch (error) {
