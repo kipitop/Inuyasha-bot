@@ -84,5 +84,6 @@ handler.help = ['todos *<mensaje>*'];
 handler.tags = ['grupo'];
 handler.command = ['tagall', 'todos'];
 handler.group = true;
+handler.admin = true
 
 export default handler;
