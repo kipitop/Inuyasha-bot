@@ -36,7 +36,7 @@ let handler = async (m, { conn, args, command }) => {
 
     m.reply(`📄 *Lista de grupos del bot*\n\nTotal: ${totalGroups} grupos encontrados.\n\n${txt}`.trim())
 
-  } else if (command == 'salir') {
+  } else if (command == 'salirg') {
     const num = parseInt(args[0])
     if (!num || !global.listadoGrupos[num - 1]) return m.reply('❌ Grupo no encontrado. Usa primero *.listgroup*')
 
@@ -70,7 +70,7 @@ let handler = async (m, { conn, args, command }) => {
 
 handler.help = ['listgroup', 'salir <número>', 'aviso <número> | <mensaje>']
 handler.tags = ['owner']
-handler.command = ['listgroup', 'salir', 'aviso', 'grouplist']
+handler.command = ['listgroup', 'salirg', 'aviso', 'grouplist']
 handler.rowner = true
 
 export default handler
