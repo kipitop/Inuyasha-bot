@@ -1,21 +1,7 @@
 import Jimp from 'jimp'
 
 let handler = async (m, { conn, text }) => {
-  const fake = {
-    key: {
-      fromMe: false,
-      participant: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast"
-    },
-    message: {
-      contactMessage: {
-        displayName: "KiritoBot",
-        vcard: "BEGIN:VCARD\nVERSION:3.0\nFN:KiritoBot\nORG:KiritoBot Team;\nTEL;type=CELL;type=VOICE;waid=50400000000:+504 0000-0000\nEND:VCARD"
-      }
-    }
-  };
 
-  
   if (!text || !m.quoted || !/image|sticker/.test(m.quoted.mtype)) {
     return conn.reply(m.chat, `🖼️ Responde a una imagen o sticker para reducirlo.\n\n📌 Ejemplo: *.reduce 300×300*`, m, fake);
   }
