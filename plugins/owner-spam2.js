@@ -6,31 +6,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text || !text.includes('|')) return m.reply(`⚠️ Usa el formato:\n\n${usedPrefix + command} <enlace>|<mensaje>|<veces>`);
 
   let [link, msg, count] = text.split('|').map(v => v.trim());
-  count = Math.min(Number(count) || 1, 6); 
+  count = Math.min(Number(count) || 1, 6);
 
   if (!link.includes('whatsapp.com')) return m.reply('❌ Enlace inválido.');
 
   let code = link.split('/')[3]?.split('?')[0];
   if (!code) return m.reply('❌ Código de grupo no válido.');
 
-  try {
-    let groupId = null;
-    for (let g of Object.values(conn.chats)) {
-      if (g.id && g.id.endsWith('@g.us') && g.inviteCode === code) {
-        groupId = g.id;
-        break;
-      }
-    }
+  let groupId;
 
-   
-    if (!groupId) {
+  try {
+  
+    try {
+      groupId = `${code}@g.us`; 
+      await conn.groupMetadata(groupId);
+    } catch {
+      
       groupId = await conn.groupAcceptInvite(code).catch(() => null);
 
-      
       if (!groupId) {
         m.reply('⏳ Grupo privado, esperando aceptación del admin (máx. 10 min)...');
         for (let i = 0; i < 20; i++) {
-          await new Promise(r => setTimeout(r, 30000)); 
+          await new Promise(r => setTimeout(r, 30000));
           groupId = await conn.groupAcceptInvite(code).catch(() => null);
           if (groupId) break;
         }
@@ -38,7 +35,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }
 
-   
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(groupId, {
         text: msg,
@@ -54,10 +50,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           }
         }
       });
-      await new Promise(r => setTimeout(r, 1500)); 
+      await new Promise(r => setTimeout(r, 1500));
     }
 
-   
     await conn.groupLeave(groupId);
     await m.reply('✅ Mensajes enviados y bot salió del grupo.');
 
