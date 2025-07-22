@@ -54,5 +54,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
   }
 };
 
-handler.command = ['searchinfoimg'];
+handler.command = handler.help  = ['similar', 'igual'];
+handler.tags = ['fun']
 export default handler;
