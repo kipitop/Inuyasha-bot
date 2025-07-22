@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args, command }) => {
   global.listadoGrupos = global.listadoGrupos || []
 
-  if (command == 'listgroup') {
+  if (command == 'listgroup', 'grouplist') {
     let txt = ''
     global.listadoGrupos = []
 
@@ -70,7 +70,7 @@ let handler = async (m, { conn, args, command }) => {
 
 handler.help = ['listgroup', 'salir <número>', 'aviso <número> | <mensaje>']
 handler.tags = ['owner']
-handler.command = ['listgroup', 'salir', 'aviso']
+handler.command = ['listgroup', 'salir', 'aviso', 'grouplist']
 handler.rowner = true
 
 export default handler
