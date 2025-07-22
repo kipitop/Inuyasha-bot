@@ -1,68 +1,78 @@
-let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
+import { default as baileys, WAMessageStubType } from '@whiskeysockets/baileys'
+import fetch from 'node-fetch'
 
-export async function before(m, { conn, participants, groupMetadata }) {
+export async function before(m, { conn, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return
 
+  const chat = global.db.data.chats[m.chat]
+  if (!chat || !chat.detect) return
 
-            const res = await fetch('https://files.catbox.moe/p0ibbd.jpg');
-      const thumb = await res.buffer();
+  let usuario = `@${m.sender.split('@')[0]}`
+  const stubParam = m.messageStubParameters?.[0] || ''
+  const pp = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://files.catbox.moe/xr2m6u.jpg')
+
+  const res = await fetch('https://files.catbox.moe/p0ibbd.jpg')
+  const thumb = await res.buffer()
 
   const fkontak = {
     key: {
-      participants: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast",
+      participants: '0@s.whatsapp.net',
+      remoteJid: 'status@broadcast',
       fromMe: false,
-      id: "Halo"
+      id: 'Halo',
     },
     message: {
       locationMessage: {
         name: '𝗔𝗨𝗧𝗢 𝗗𝗘𝗧𝗘𝗖𝗧 𝗞𝗜𝗥𝗜𝗧𝗢',
-        jpegThumbnail: thumb
-      }
+        jpegThumbnail: thumb,
+      },
     },
-    participant: "0@s.whatsapp.net"
+    participant: '0@s.whatsapp.net',
   }
 
-  let chat = global.db.data.chats[m.chat]
-  let usuario = `@${m.sender.split`@`[0]}`
-  let pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || 'https://files.catbox.moe/xr2m6u.jpg'
+  const borde = '╭───────────────╮'
+  const medio = '│ ᴋɪʀɪᴛᴏ ʙᴏᴛ ᴍᴅ'
+  const fin = '╰───────────────╯'
 
+  const nombre = `${borde}\n${medio}\n╰➤ ${usuario} \ncambió el nombre del grupo.\n   Nuevo nombre: *${stubParam}*\n${fin}`
 
-  const borde = "╭───────────────╮"
-  const medio = "│ ᴋɪʀɪᴛᴏ ʙᴏᴛ ᴍᴅ"
-  const fin =   "╰───────────────╯"
-
-  let nombre = `${borde}\n${medio}\n╰➤ ${usuario} \ncambió el nombre del grupo.\n   Nuevo nombre: *${m.messageStubParameters[0]}*\n${fin}`
-  let foto = {
+  const foto = {
     image: { url: pp },
     caption: `${borde}\n${medio}\n╰➤ ${usuario} \nactualizó la foto del grupo.\n   ¡Una nueva etapa comienza!\n${fin}`,
-    mentions: [m.sender]
+    mentions: [m.sender],
   }
-  let edit = `${borde}\n${medio}\n╰➤ ${usuario} \nmodificó la configuración del grupo.\n   Ahora *${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'}* pueden editar info.\n${fin}`
-  let newlink = `${borde}\n${medio}\n╰➤ ${usuario} \nrestableció el enlace del grupo.\n   ¡No lo compartas con cualquiera!\n${fin}`
-  let status = `${borde}\n${medio}\n╰➤ El grupo fue *${m.messageStubParameters[0] == 'on' ? 'cerrado' : 'abierto'}* por ${usuario}.\n   Ahora *${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'}* pueden enviar mensajes.\n${fin}`
-  let admingp = `${borde}\n${medio}\n╰➤ *@${m.messageStubParameters[0].split`@`[0]}* ahora es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
-  let noadmingp = `${borde}\n${medio}\n╰➤ *@${m.messageStubParameters[0].split`@`[0]}* ya no es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
 
-  if (chat.detect && m.messageStubType == 21) {
-    await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
+  const edit = `${borde}\n${medio}\n╰➤ ${usuario} \nmodificó la configuración del grupo.\n   Ahora *${stubParam === 'on' ? 'solo admins' : 'todos'}* pueden editar info.\n${fin}`
 
-  } else if (chat.detect && m.messageStubType == 22) {
-    await conn.sendMessage(m.chat, foto, { quoted: fkontak })
+  const newlink = `${borde}\n${medio}\n╰➤ ${usuario} \nrestableció el enlace del grupo.\n   ¡No lo compartas con cualquiera!\n${fin}`
 
-  } else if (chat.detect && m.messageStubType == 23) {
-    await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
+  const status = `${borde}\n${medio}\n╰➤ El grupo fue *${stubParam === 'on' ? 'cerrado' : 'abierto'}* por ${usuario}.\n   Ahora *${stubParam === 'on' ? 'solo admins' : 'todos'}* pueden enviar mensajes.\n${fin}`
 
-  } else if (chat.detect && m.messageStubType == 25) {
-    await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
+  const admingp = `${borde}\n${medio}\n╰➤ *@${stubParam.split('@')[0]}* ahora es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
 
-  } else if (chat.detect && m.messageStubType == 26) {
-    await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
+  const noadmingp = `${borde}\n${medio}\n╰➤ *@${stubParam.split('@')[0]}* ya no es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
 
-  } else if (chat.detect && m.messageStubType == 29) {
-    await conn.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
-
-  } else if (chat.detect && m.messageStubType == 30) {
-    await conn.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`] }, { quoted: fkontak })
+  switch (m.messageStubType) {
+    case WAMessageStubType.GROUP_CHANGE_SUBJECT:
+      await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case WAMessageStubType.GROUP_CHANGE_ICON:
+      await conn.sendMessage(m.chat, foto, { quoted: fkontak })
+      break
+    case WAMessageStubType.GROUP_CHANGE_INVITE_LINK:
+      await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case WAMessageStubType.GROUP_CHANGE_SETTINGS:
+      await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case WAMessageStubType.GROUP_CHANGE_ANNOUNCE:
+      await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
+      break
+    case WAMessageStubType.PARTICIPANT_PROMOTE:
+      await conn.sendMessage(m.chat, { text: admingp, mentions: [m.sender, stubParam] }, { quoted: fkontak })
+      break
+    case WAMessageStubType.PARTICIPANT_DEMOTE:
+      await conn.sendMessage(m.chat, { text: noadmingp, mentions: [m.sender, stubParam] }, { quoted: fkontak })
+      break
   }
 }
