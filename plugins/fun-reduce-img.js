@@ -1,10 +1,10 @@
 import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, args }) => {
-  if (!m.quoted || !/image|sticker/.test(m.quoted.mtype)) {
+  //if (!m.quoted || !/image|sticker/.test(m.quoted.mtype)) {
     //return m.reply( `🖼️ Responde a una imagen o sticker para reducirlo.\n\nEjemplo: *.reduce 300×300*`)
-if (!text) return conn.reply(m.chat, `🖼️ Responde a una imagen o sticker para reducirlo.\n\nEjemplo: *.reduce 300×300*`, m, fake)
-  }
+if (!text) (!m.quoted || !/image|sticker/.test(m.quoted.mtype) return conn.reply(m.chat, `🖼️ Responde a una imagen o sticker para reducirlo.\n\nEjemplo: *.reduce 300×300*`, m, fake)
+//  }
 
   let input = text.trim().split(/[x×]/i)
   if (input.length !== 2 || isNaN(input[0]) || isNaN(input[1])) {
