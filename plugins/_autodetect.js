@@ -29,7 +29,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
 
   const borde = "╭───────────────╮"
-  const medio = "│ VegetaBot MB2.0"
+  const medio = "│ ᴋɪʀɪᴛᴏ ʙᴏᴛ ᴍᴅ"
   const fin =   "╰───────────────╯"
 
   let nombre = `${borde}\n${medio}\n╰➤ ${usuario} \ncambió el nombre del grupo.\n   Nuevo nombre: *${m.messageStubParameters[0]}*\n${fin}`
