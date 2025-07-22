@@ -71,8 +71,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
 
-          const res = await fetch('https://files.catbox.moe/9f350v.jpg');
-      const thumb = await res.buffer();
+          const res2 = await fetch('https://files.catbox.moe/9f350v.jpg');
+      const thumb2 = await res2.buffer();
 
   const fkontak = {
     key: {
@@ -84,7 +84,7 @@ const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 �
     message: {
       locationMessage: {
         name: `𝗣𝗟𝗔𝗬 ✦ ${tip} `,
-        jpegThumbnail: thumb
+        jpegThumbnail: thumb2
       }
     },
     participant: "0@s.whatsapp.net"
