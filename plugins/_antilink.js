@@ -6,7 +6,7 @@ if (!m.isGroup) return
 if (isAdmin || isOwner || m.fromMe || isROwner) return
 
 
-    const res = await fetch('https://files.catbox.moe/cduhlw.jpg');
+    const res = await fetch('https://files.catbox.moe/4y8cg8.jpg');
 const thumb2 = Buffer.from(await res.arrayBuffer());
 
   const fkontak = {
