@@ -146,10 +146,12 @@ const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 �
         `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
       ];
 
+const sources2 = [`https://mode-api-sigma.vercel.app/api/mp4?url=${url}`]
+
       let success = false;
-      for (let source of sources) {
+      for (let source of sources2) {
         try {
-          const res = await fetch(source);
+          const res = await fetch(source2);
           const { data, result, downloads } = await res.json();
           let downloadUrl = data?.dl || result?.download?.url || downloads?.url || data?.download?.url;
 
