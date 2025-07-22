@@ -46,7 +46,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
 
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(jid, {
-        text: fancyMsg,
+        text: text,
         contextInfo: {
           externalAdReply: {
             title: '🔥 Grupo Atacado',
