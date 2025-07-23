@@ -1,33 +1,44 @@
-import { downloadMediaMessage } from '@whiskeysockets/baileys'
-import fs from 'fs'
+import { areJidsSameUser, downloadMediaMessage } from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return m.reply(`⚠️ Ejemplo de uso:\n${usedPrefix + command} 51987654321`)
+    return m.reply(`⚠️ Ejemplo de uso:\n${usedPrefix + command} 521234567890`)
   }
 
-  let number = args[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net'
+  const num = args[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net'
+  const statusJid = 'status@broadcast'
 
   try {
-    const status = await conn.fetchStatus(number)
+    const messages = Object.entries(conn.chats)
+      .filter(([jid]) => jid === statusJid)
+      .flatMap(([_, chat]) => Object.values(chat.messages || {}))
+      .filter(msg => areJidsSameUser(msg.key?.participant, num))
 
-    if (!status?.status || status.status.length === 0) {
-      return m.reply('🚫 Este contacto no tiene estados visibles o no te ha dado permiso para verlos.')
+    if (!messages.length) {
+      return m.reply('🚫 No se encontraron estados visibles de ese número.')
     }
 
-    m.reply(`📥 Descargando ${status.status.length} estado(s)...`)
+    m.reply(`📥 Encontrados ${messages.length} estado(s), enviando...`)
 
-    for (const s of status.status) {
-      if (s?.mediaType && s?.mimetype) {
-        const buffer = await downloadMediaMessage(s, 'buffer', {}, { reuploadRequest: conn.updateMediaMessage })
-        if (buffer) await conn.sendFile(m.chat, buffer, 'estado.' + s.mimetype.split('/')[1], '', m)
-      } else if (s?.text) {
-        await conn.reply(m.chat, `📝 Estado de texto:\n${s.text}`, m)
+    for (let msg of messages) {
+      if (msg.message?.imageMessage || msg.message?.videoMessage || msg.message?.documentMessage || msg.message?.audioMessage) {
+        const buffer = await downloadMediaMessage(msg, 'buffer', {}, { reuploadRequest: conn.updateMediaMessage })
+        if (buffer) {
+          let mime = msg.message?.imageMessage?.mimetype ||
+                     msg.message?.videoMessage?.mimetype ||
+                     msg.message?.documentMessage?.mimetype ||
+                     msg.message?.audioMessage?.mimetype || ''
+          let ext = mime.split('/')[1] || 'bin'
+          await conn.sendFile(m.chat, buffer, `estado.${ext}`, '', m)
+        }
+      } else if (msg.message?.conversation || msg.message?.extendedTextMessage?.text) {
+        let text = msg.message.conversation || msg.message.extendedTextMessage.text
+        await conn.sendMessage(m.chat, { text }, { quoted: m })
       }
     }
   } catch (e) {
     console.error(e)
-    m.reply('❌ Error al obtener los estados. Asegúrate de que el número tiene estados visibles para el bot.')
+    m.reply('❌ Ocurrió un error al intentar obtener los estados.')
   }
 }
 
