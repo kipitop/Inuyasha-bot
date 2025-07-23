@@ -1,13 +1,15 @@
 let handler = async (m, { conn, args, command, usedPrefix }) => {
-  const icono = 'https://i.imgur.com/placeholder.jpg' // Imagen de perfil por defecto
+  const icono = 'https://i.imgur.com/placeholder.jpg'
   const emoji = '✅'
   const emoji2 = '🔒'
   const fake = { contextInfo: { forwardingScore: 999, isForwarded: true } }
 
   const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => icono)
 
-  let action = args[0]?.toLowerCase()
-  let timeArg = args[1]?.toLowerCase()
+  let rawTime = args[0]?.toLowerCase()
+  let rawAction = args[1]?.toLowerCase()
+
+  let action = rawAction || rawTime 
 
   let isClose = {
     'open': 'not_announcement',
@@ -23,12 +25,12 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
 ╭╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 ┃ *ʕ•ᴥ•ʔ Elija una opción para configurar el grupo*
 ┃
-┃ ✎ Ejemplo:
+┃ ✎ Ejemplos:
 ┃➾ *${usedPrefix + command} on*
 ┃➾ *${usedPrefix + command} off*
-┃➾ *${usedPrefix + command} on 5*
-┃➾ *${usedPrefix + command} off 10m*
-┃➾ *${usedPrefix + command} on 2h*
+┃➾ *${usedPrefix + command} 1 on*
+┃➾ *${usedPrefix + command} 2h off*
+┃➾ *${usedPrefix + command} 1:00 off*
 ╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰`, m, fake)
   }
 
@@ -40,18 +42,23 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
     m.reply(`${emoji2} *Solo los administradores pueden escribir en este grupo.*`)
   }
 
-  if (!timeArg) return
+  
+  if (!rawAction || rawAction === rawTime) return
 
+  
   let delayMs = null
-  if (/^\d+$/.test(timeArg)) {
-    delayMs = parseInt(timeArg) * 60 * 1000 // solo número = minutos
-  } else if (/^\d+(s|m|h|d)$/.test(timeArg)) {
-    let num = parseInt(timeArg)
-    let unit = timeArg.slice(-1)
+  if (/^\d+$/.test(rawTime)) {
+    delayMs = parseInt(rawTime) * 60 * 1000 
+  } else if (/^\d+(s|m|h|d)$/.test(rawTime)) {
+    let num = parseInt(rawTime)
+    let unit = rawTime.slice(-1)
     if (unit === 's') delayMs = num * 1000
     if (unit === 'm') delayMs = num * 60 * 1000
     if (unit === 'h') delayMs = num * 60 * 60 * 1000
     if (unit === 'd') delayMs = num * 24 * 60 * 60 * 1000
+  } else if (/^\d{1,2}:\d{2}$/.test(rawTime)) {
+    let [hours, minutes] = rawTime.split(':').map(Number)
+    delayMs = (hours * 60 + minutes) * 60 * 1000
   }
 
   if (!delayMs || delayMs < 1000) {
@@ -67,7 +74,7 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
   }, delayMs)
 }
 
-handler.help = ['grupo on/off [tiempo]']
+handler.help = ['grupo [tiempo] on/off']
 handler.tags = ['grupo']
 handler.command = ['group', 'grupo']
 handler.admin = true
