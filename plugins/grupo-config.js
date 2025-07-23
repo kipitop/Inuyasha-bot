@@ -1,5 +1,3 @@
-import { parse } from 'chrono-node'
-
 let handler = async (m, { conn, args, command, usedPrefix }) => {
   const icono = 'https://i.imgur.com/placeholder.jpg' // Imagen de perfil por defecto
   const emoji = '✅'
@@ -30,7 +28,7 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
 ┃➾ *${usedPrefix + command} off*
 ┃➾ *${usedPrefix + command} on 5*
 ┃➾ *${usedPrefix + command} off 10m*
-┃➾ *${usedPrefix + command} on 7am*
+┃➾ *${usedPrefix + command} on 2h*
 ╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰`, m, fake)
   }
 
@@ -46,7 +44,7 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
 
   let delayMs = null
   if (/^\d+$/.test(timeArg)) {
-    delayMs = parseInt(timeArg) * 60 * 1000 // Números como "5" = 5 minutos
+    delayMs = parseInt(timeArg) * 60 * 1000 // solo número = minutos
   } else if (/^\d+(s|m|h|d)$/.test(timeArg)) {
     let num = parseInt(timeArg)
     let unit = timeArg.slice(-1)
@@ -54,11 +52,6 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
     if (unit === 'm') delayMs = num * 60 * 1000
     if (unit === 'h') delayMs = num * 60 * 60 * 1000
     if (unit === 'd') delayMs = num * 24 * 60 * 60 * 1000
-  } else {
-    let parsedDate = parse(timeArg, new Date(), { forwardDate: true })[0]
-    if (parsedDate) {
-      delayMs = parsedDate.start.date().getTime() - Date.now()
-    }
   }
 
   if (!delayMs || delayMs < 1000) {
