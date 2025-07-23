@@ -1,59 +1,39 @@
-import fetch from 'node-fetch';
-import FormData from 'form-data';
+import { downloadMediaMessage } from '@whiskeysockets/baileys'
+import fs from 'fs'
 
-const handler = async (m, { conn, usedPrefix, command }) => {
-  if (!m.quoted || !/image/.test(m.quoted.mimetype)) {
-    return m.reply(`📷 Responde a una imagen con el comando:\n${usedPrefix + command}`);
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) {
+    return m.reply(`⚠️ Ejemplo de uso:\n${usedPrefix + command} 51987654321`)
   }
 
-  const qimg = await m.quoted.download();
-  const form = new FormData();
-  form.append('file', qimg, 'image.jpg');
-  form.append('api_key', 'a4f48096f081456ff62307c3d0f213e866414327'); 
+  let number = args[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net'
 
-  const res = await fetch('https://saucenao.com/search.php?output_type=2&api_key=a4f48096f081456ff62307c3d0f213e866414327', {
-    method: 'POST',
-    body: form,
-    headers: form.getHeaders()
-  });
+  try {
+    const status = await conn.fetchStatus(number)
 
-  const json = await res.json();
+    if (!status?.status || status.status.length === 0) {
+      return m.reply('🚫 Este contacto no tiene estados visibles o no te ha dado permiso para verlos.')
+    }
 
-  if (!json || !json.results || !json.results.length)
-    return m.reply('❌ No se encontró información sobre la imagen.');
+    m.reply(`📥 Descargando ${status.status.length} estado(s)...`)
 
-  const info = json.results[0];
-  const similarity = info.header?.similarity || 'Desconocida';
-  const thumbnail = info.header?.thumbnail || null;
-  const data = info.data || {};
-  const url = data.ext_urls?.[0] || null;
-
-  let texto = `🔍 *Resultados de búsqueda*:\n\n`;
-  texto += `📸 *Similitud:* ${similarity}%\n`;
-  if (data.title) texto += `🎞️ *Título:* ${data.title}\n`;
-  if (data.source) texto += `📍 *Fuente:* ${data.source}\n`;
-  if (url) texto += `🌐 *URL:* ${url}\n`;
-  if (data.creator) texto += `✍️ *Autor:* ${data.creator}\n`;
-  if (data.characters) texto += `🧑‍🤝‍🧑 *Personajes:* ${data.characters}\n`;
-  if (data.material) texto += `📘 *Material:* ${data.material}\n`;
-
-  
-  if (thumbnail) {
-    await conn.sendFile(m.chat, thumbnail, 'preview.jpg', texto, m);
-  } else {
-    await m.reply(texto);
+    for (const s of status.status) {
+      if (s?.mediaType && s?.mimetype) {
+        const buffer = await downloadMediaMessage(s, 'buffer', {}, { reuploadRequest: conn.updateMediaMessage })
+        if (buffer) await conn.sendFile(m.chat, buffer, 'estado.' + s.mimetype.split('/')[1], '', m)
+      } else if (s?.text) {
+        await conn.reply(m.chat, `📝 Estado de texto:\n${s.text}`, m)
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    m.reply('❌ Error al obtener los estados. Asegúrate de que el número tiene estados visibles para el bot.')
   }
+}
 
-  
-  if (url) {
-    const screenshot = `https://image.thum.io/get/fullpage/${encodeURIComponent(url)}`;
-    await conn.sendMessage(m.chat, {
-      image: { url: screenshot },
-      caption: '🖼️ *Captura del sitio donde se encontró la imagen.*'
-    }, { quoted: m });
-  }
-};
+handler.help = ['destado <número>']
+handler.tags = ['tools']
+handler.command = ['destado']
+handler.register = true
 
-handler.command = handler.help  = ['similar', 'igual'];
-handler.tags = ['fun']
-export default handler;
+export default handler
