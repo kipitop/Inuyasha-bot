@@ -1,4 +1,4 @@
-import { areJidsSameUser } from '@whiskeysockets/baileys'
+/*import { areJidsSameUser } from '@whiskeysockets/baileys'
 export async function before(m, { participants, conn }) {
     if (m.isGroup) {
         let chat = global.db.data.chats[m.chat];
@@ -8,7 +8,7 @@ export async function before(m, { participants, conn }) {
         }
 
 
-        let botJid = global.conn.user.jid // JID del bot principal
+        let botJid = global.conn.user.jid 
 
        if (botJid === conn.user.jid) {
            return
@@ -23,4 +23,30 @@ export async function before(m, { participants, conn }) {
             }
         }
     }
+}*/
+
+
+import { areJidsSameUser } from '@whiskeysockets/baileys'
+
+export async function before(m, { participants, conn, isROwner }) {
+  if (!m.isGroup) return
+
+  let chat = global.db.data.chats[m.chat]
+  if (!chat?.antiBot2) return
+
+  const mainBotJid = global.conn.user.jid 
+  const currentBotJid = conn.user.jid     
+
+  
+  if (areJidsSameUser(currentBotJid, mainBotJid)) return
+
+  
+  const isMainBotPresent = participants.some(p => areJidsSameUser(mainBotJid, p.id))
+  if (isMainBotPresent) {
+    
+    if (!isROwner) {
+      
+      return !0 
+    }
+  }
 }
