@@ -1,7 +1,10 @@
 import { parse } from 'chrono-node'
 
 let handler = async (m, { conn, args, command, usedPrefix }) => {
-  
+  const icono = 'https://i.imgur.com/placeholder.jpg' // Imagen de perfil por defecto
+  const emoji = '✅'
+  const emoji2 = '🔒'
+  const fake = { contextInfo: { forwardingScore: 999, isForwarded: true } }
 
   const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => icono)
 
@@ -41,10 +44,9 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
 
   if (!timeArg) return
 
-  
   let delayMs = null
   if (/^\d+$/.test(timeArg)) {
-    delayMs = parseInt(timeArg) * 60 * 1000 
+    delayMs = parseInt(timeArg) * 60 * 1000 // Números como "5" = 5 minutos
   } else if (/^\d+(s|m|h|d)$/.test(timeArg)) {
     let num = parseInt(timeArg)
     let unit = timeArg.slice(-1)
@@ -59,14 +61,16 @@ let handler = async (m, { conn, args, command, usedPrefix }) => {
     }
   }
 
-  if (!delayMs || delayMs < 1000) return m.reply('⏱️ *Tiempo inválido o muy corto.*')
+  if (!delayMs || delayMs < 1000) {
+    return m.reply('⏱️ *Tiempo inválido o muy corto.*')
+  }
 
   setTimeout(async () => {
     const reverse = isClose === 'not_announcement' ? 'announcement' : 'not_announcement'
     await conn.groupSettingUpdate(m.chat, reverse)
-    conn.reply(m.chat, reverse === 'not_announcement' 
-      ? `${emoji} *El grupo ha sido abierto automáticamente.*` 
-      : `${emoji2} *El grupo ha sido cerrado automáticamente.*`, null)
+    conn.reply(m.chat, reverse === 'not_announcement'
+      ? `${emoji} *El grupo ha sido abierto automáticamente.*`
+      : `${emoji2} *El grupo ha sido cerrado automáticamente.*`)
   }, delayMs)
 }
 
