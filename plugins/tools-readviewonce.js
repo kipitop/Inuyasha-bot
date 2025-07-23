@@ -20,8 +20,8 @@ const thumb2 = Buffer.from(await res.arrayBuffer());
     participant: "0@s.whatsapp.net"
   };
 
-if (!m.quoted) return conn.reply(m.chat, `👑 Responde a una imagen ViewOnce.`, m)
-if (!m?.quoted || !m?.quoted?.viewOnce) return conn.reply(m.chat, `👑 Responde a una imagen ViewOnce.`, m)
+if (!m.quoted) return conn.reply(m.chat, `👑 Responde a una imagen ViewOnce.`, m, fake)
+if (!m?.quoted || !m?.quoted?.viewOnce) return conn.reply(m.chat, `👑 Responde a una imagen ViewOnce.`, m, fake)
 let buffer = await m.quoted.download(false);
 if (/videoMessage/.test(m.quoted.mtype)) {
 return conn.sendFile(m.chat, buffer, 'media.mp4', m.quoted.caption || '', fkontak)
