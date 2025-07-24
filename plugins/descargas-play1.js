@@ -135,6 +135,7 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
     // ↓↓↓ VIDEO
     if (isVideo) {
   const apiUrl = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
+
   const res = await fetch(apiUrl, {
     headers: { 'User-Agent': 'Mozilla/5.0' }
   });
@@ -147,17 +148,28 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
 
   const info = json.video;
   const media = info.download;
-  const caption = `🎬 *${info.title}*
-📺 *Autor:* ${info.author}
-📁 *Calidad:* ${media.quality}
-📦 *Tamaño:* ${media.size}
-🔗 *Enlace:* ${url}`;
 
+  const caption = `┏━━『 *DESCARGA EXITOSA* 』
+┃ 📹 *Título:* ${info.title}
+┃ 👤 *Autor:* ${info.author}
+┃ ⏱️ *Duración:* ${info.duration}s
+┃ 📦 *Tamaño:* ${media.size}
+┃ 🎚️ *Calidad:* ${media.quality}
+┃ 🔗 *Link:* ${url}
+┗━━━━━━━━━━━━━━━`;
+
+  // Enviar imagen previa con descripción
+  await conn.sendMessage(m.chat, {
+    image: { url: info.image },
+    caption
+  }, { quoted: m });
+
+  // Enviar el video
   await conn.sendMessage(m.chat, {
     video: { url: media.url },
     mimetype: 'video/mp4',
     fileName: media.filename || `${info.title}.mp4`,
-    caption
+    caption: `🎬 *${info.title}*\n📥 Descarga lista.`
   }, { quoted: m });
 }
 
