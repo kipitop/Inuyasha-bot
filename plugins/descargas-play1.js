@@ -6,11 +6,12 @@ import yts from "yt-search";
 import axios from "axios";
 
 const formatAudio = ["mp3", "m4a", "webm", "acc", "flac", "opus", "ogg", "wav"];
+const formatVideo = ["360", "480", "720", "1080", "1440", "4k"];
 
 const ddownr = {
   download: async (url, format) => {
-    if (!formatAudio.includes(format)) {
-      throw new Error("⚠ Formato no soportado, elige uno de la lista disponible.");
+    if (!formatAudio.includes(format) && !formatVideo.includes(format)) {
+      throw new Error("⚠️ Pika Pika~ Ese formato no es compatible.");
     }
 
     const config = {
@@ -21,13 +22,18 @@ const ddownr = {
       }
     };
 
-    const response = await axios.request(config);
-    if (response.data?.success) {
-      const { id, title, info } = response.data;
-      const downloadUrl = await ddownr.cekProgress(id);
-      return { id, title, image: info.image, downloadUrl };
-    } else {
-      throw new Error("⛔ No se pudo obtener los detalles del video.");
+    try {
+      const response = await axios.request(config);
+      if (response.data?.success) {
+        const { id, title, info } = response.data;
+        const downloadUrl = await ddownr.cekProgress(id);
+        return { id, title, image: info.image, downloadUrl };
+      } else {
+        throw new Error("⛔ Pikachu no pudo encontrar los detalles del video.");
+      }
+    } catch (error) {
+      console.error("❌ Error:", error);
+      throw error;
     }
   },
 
@@ -35,30 +41,35 @@ const ddownr = {
     const config = {
       method: "GET",
       url: `https://p.oceansaver.in/ajax/progress.php?id=${id}`,
-      headers: { "User-Agent": "Mozilla/5.0" }
+      headers: {
+        "User-Agent": "Mozilla/5.0"
+      }
     };
 
-    while (true) {
-      const response = await axios.request(config);
-      if (response.data?.success && response.data.progress === 1000) {
-        return response.data.download_url;
+    try {
+      while (true) {
+        const response = await axios.request(config);
+        if (response.data?.success && response.data.progress === 1000) {
+          return response.data.download_url;
+        }
+        await new Promise(resolve => setTimeout(resolve, 5000));
       }
-      await new Promise(resolve => setTimeout(resolve, 5000));
+    } catch (error) {
+      console.error("❌ Error:", error);
+      throw error;
     }
   }
 };
 
+const handler = async (m, { conn, text, usedPrefix, command }) => {
+  await m.react('⚡️');
 
-const handler = async (m, { conn, text, args, usedPrefix, command }) => {
-  await m.react('🌟');
+  if (!text.trim()) {
+    return conn.reply(m.chat, "*Ｏ(≧∇≦)Ｏ🧃\nDime el nombre de la canción que estás buscando", m, fake);
+  }
+
   try {
-    if (!text.trim()) {
-      return conn.reply(m.chat, " Ingresa el nombre o link del video que deseas buscar.", m);
-    }
-const isAudio = ["play", "yta", "ytmp3"].includes(command);
-    const isVideo = ["play2", "ytv", "ytmp4"].includes(command);
-
-    const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
+        const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
 
           const res2 = await fetch('https://files.catbox.moe/qzp733.jpg');
       const thumb2 = await res2.buffer();
@@ -104,74 +115,79 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
 ┃ *ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ${tipo}*
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
-    const JT = {
-      contextInfo: {
-        externalAdReply: {
-          title: "𝐊𝐢𝐫𝐢𝐭𝐨 ☆ 𝐁𝐨𝐭 𝐌𝐃",
-          body: "𝑬𝒍 𝒎𝒆𝒋𝒐𝒓 𝑩𝒐𝒕 𝒅𝒆 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑",
-          mediaType: 1,
-          previewType: 0,
-          mediaUrl: url,
-          sourceUrl: url,
-          thumbnail: thumb,
-          renderLargerThumbnail: true
-        }
-      }
-    };
 
-    await m.react('👑');
-    await conn.reply(m.chat, infoMessage, fkontak, JT);
+    await m.react('🎧');
+    await conn.sendMessage(m.chat, {
+  image: thumb,
+  caption: infoMessage
+}, { quoted: m });
 
-    // ↓↓↓ AUDIO
-    if (isAudio) {
+    // Audio (play/yta/ytmp3)
+    if (["play", "yta", "ytmp3"].includes(command)) {
       const api = await ddownr.download(url, "mp3");
-      return await conn.sendMessage(m.chat, {
-        audio: { url: api.downloadUrl },
-        mimetype: 'audio/mpeg',
-        fileName: `${title}.mp3`,
-      }, { quoted: m });
+
+      const doc = {
+  audio: { url: api.downloadUrl },
+  mimetype: 'audio/mpeg',
+  fileName: `${title}.mp3`,
+};
+
+
+
+
+      return await conn.sendMessage(m.chat, doc, { quoted: m });
     }
 
-    // ↓↓↓ VIDEO
-    if (isVideo) {
-  const apiUrl = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
+    // Video (play2/ytv/ytmp4)
+    if (["play2", "ytv", "ytmp4"].includes(command)) {
+      const sources = [
+        `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+        `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+        `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+        `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+      ];
 
-  const res = await fetch(apiUrl, {
-    headers: { 'User-Agent': 'Mozilla/5.0' }
-  });
+      let success = false;
+      for (let source of sources) {
+  try {
+    const res = await fetch(source);
+    const { data, result, downloads } = await res.json();
+    let downloadUrl = data?.dl || result?.download?.url || downloads?.url || data?.download?.url;
 
-  const json = await res.json();
-
-  if (!json.status || !json.video?.download?.url) {
-    throw new Error("❌ No se pudo descargar el contenido.");
+    if (downloadUrl) {
+      success = true;
+      await conn.sendMessage(m.chat, {
+        video: { url: downloadUrl },
+        fileName: `${title}.mp4`,
+        mimetype: "video/mp4",
+        // caption: "🎬 Aquí tienes tu video, descargado* ",
+        thumbnail: thumb,
+        contextInfo: {
+          externalAdReply: { 
+            showAdAttribution: true, 
+            title: packname, 
+            body: dev, 
+            mediaUrl: null, 
+            description: null, 
+            previewType: "PHOTO", 
+            thumbnailUrl: icono, 
+            sourceUrl: redes, 
+            mediaType: 1, 
+            renderLargerThumbnail: false 
+          }
+        }
+      }, { quoted: m });
+      break;
+    }
+  } catch (e) {
+    console.error(`⚠️ Error con la fuente ${source}:`, e.message);
   }
-
-  const info = json.video;
-  const media = info.download;
-
-  const caption = `┏━━『 *DESCARGA EXITOSA* 』
-┃ 📹 *Título:* ${info.title}
-┃ 👤 *Autor:* ${info.author}
-┃ ⏱️ *Duración:* ${info.duration}s
-┃ 📦 *Tamaño:* ${media.size}
-┃ 🎚️ *Calidad:* ${media.quality}
-┃ 🔗 *Link:* ${url}
-┗━━━━━━━━━━━━━━━`;
-
-  // Enviar imagen previa con descripción
-  await conn.sendMessage(m.chat, {
-    image: { url: info.image },
-    caption
-  }, { quoted: m });
-
-  // Enviar el video
-  await conn.sendMessage(m.chat, {
-    video: { url: media.url },
-    mimetype: 'video/mp4',
-    fileName: media.filename || `${info.title}.mp4`,
-    caption: `🎬 *${info.title}*\n📥 Descarga lista.`
-  }, { quoted: m });
 }
+
+      if (!success) {
+        return m.reply("❌ Pikachu no pudo encontrar un enlace válido para descargar.");
+      }
+    }
 
   } catch (error) {
     console.error("❌ Error:", error);
@@ -181,7 +197,7 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
 
 handler.command = handler.help = ["play", "play2", "ytmp3", "yta", "ytmp4", "ytv"];
 handler.tags = ["downloader"];
-handler.register = true;
+handler.register = true
 
 export default handler;
 
