@@ -62,10 +62,10 @@ const ddownr = {
 };
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
-  await m.react('⚡️');
+  await m.react('👑');
 
   if (!text.trim()) {
-    return conn.reply(m.chat, "*Ｏ(≧∇≦)Ｏ🧃\nDime el nombre de la canción que estás buscando", m, fake);
+    return conn.reply(m.chat, `*${emoji}\nDime el nombre de la canción que estás buscando`, m, fake);
   }
 
   try {
@@ -120,7 +120,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, {
   image: thumb,
   caption: infoMessage
-}, { quoted: m });
+}, { quoted: fkontak });
 
     // Audio (play/yta/ytmp3)
     if (["play", "yta", "ytmp3"].includes(command)) {
@@ -135,7 +135,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 
 
-      return await conn.sendMessage(m.chat, doc, { quoted: m });
+      return await conn.sendMessage(m.chat, doc, { quoted: fkontak });
     }
 
     // Video (play2/ytv/ytmp4)
@@ -176,7 +176,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
             renderLargerThumbnail: false 
           }
         }
-      }, { quoted: m });
+      }, { quoted: fkontak });
       break;
     }
   } catch (e) {
