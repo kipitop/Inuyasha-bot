@@ -71,7 +71,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
 
-          const res2 = await fetch('https://files.catbox.moe/9f350v.jpg');
+          const res2 = await fetch('https://files.catbox.moe/qzp733.jpg');
       const thumb2 = await res2.buffer();
 
   const fkontak = {
