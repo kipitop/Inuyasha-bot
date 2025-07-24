@@ -6,11 +6,10 @@ import yts from "yt-search";
 import axios from "axios";
 
 const formatAudio = ["mp3", "m4a", "webm", "acc", "flac", "opus", "ogg", "wav"];
-const formatVideo = ["360", "480", "720", "1080", "1440", "4k"];
 
 const ddownr = {
   download: async (url, format) => {
-    if (!formatAudio.includes(format) && !formatVideo.includes(format)) {
+    if (!formatAudio.includes(format)) {
       throw new Error("⚠️  Ese formato no es compatible.");
     }
 
@@ -69,27 +68,26 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 
   try {
-        const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
+    const tip = "𝗔𝗨𝗗𝗜𝗢 ♫";
 
-          const res2 = await fetch('https://files.catbox.moe/qzp733.jpg');
-      const thumb2 = await res2.buffer();
+    const res2 = await fetch('https://files.catbox.moe/qzp733.jpg');
+    const thumb2 = await res2.buffer();
 
-  const fkontak = {
-    key: {
-      participants: "0@s.whatsapp.net",
-      remoteJid: "status@broadcast",
-      fromMe: false,
-      id: "Halo"
-    },
-    message: {
-      locationMessage: {
-        name: `𝗣𝗟𝗔𝗬 ✦ ${tip} `,
-        jpegThumbnail: thumb2
-      }
-    },
-    participant: "0@s.whatsapp.net"
-  };
-
+    const fkontak = {
+      key: {
+        participants: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast",
+        fromMe: false,
+        id: "Halo"
+      },
+      message: {
+        locationMessage: {
+          name: `𝗣𝗟𝗔𝗬 ✦ ${tip} `,
+          jpegThumbnail: thumb2
+        }
+      },
+      participant: "0@s.whatsapp.net"
+    };
 
     const search = await yts(text);
     if (!search.all.length) {
@@ -98,7 +96,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const videoInfo = search.all[0];
     const { title, thumbnail, timestamp, views, ago, url } = videoInfo;
-    const tipo = ["play", "yta", "ytmp"].includes(command) ? "ᴀᴜᴅɪᴏ ♫" : "ᴠɪᴅᴇᴏ ꗈ";
+    const tipo = "ᴀᴜᴅɪᴏ ♫";
     const vistas = formatViews(views);
     const thumb = (await conn.getFile(thumbnail))?.data;
 
@@ -115,9 +113,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ *ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ${tipo}*
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⌬`;
 
-
     await m.react('🎧');
-        const JT = {
+
+    const JT = {
       contextInfo: {
         externalAdReply: {
           title: botname,
@@ -131,74 +129,17 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         }
       }
     };
+
     await conn.reply(m.chat, infoMessage, fkontak, JT);
 
-    // Audio (play/yta/ytmp3)
-    if (["play", "yta", "ytmp3"].includes(command)) {
-      const api = await ddownr.download(url, "mp3");
+    const api = await ddownr.download(url, "mp3");
+    const doc = {
+      audio: { url: api.downloadUrl },
+      mimetype: 'audio/mpeg',
+      fileName: `${title}.mp3`,
+    };
 
-      const doc = {
-  audio: { url: api.downloadUrl },
-  mimetype: 'audio/mpeg',
-  fileName: `${title}.mp3`,
-};
-
-
-
-
-      return await conn.sendMessage(m.chat, doc, { quoted: fkontak });
-    }
-
-    // Video (play2/ytv/ytmp4)
-    /*if (["play2", "ytv", "ytmp4"].includes(command)) {
-      const sources = [
-        `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-        `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-        `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-        `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-      ];
-
-      let success = false;
-      for (let source of sources) {
-  try {
-    const res = await fetch(source);
-    const { data, result, downloads } = await res.json();
-    let downloadUrl = data?.dl || result?.download?.url || downloads?.url || data?.download?.url;
-
-    if (downloadUrl) {
-      success = true;
-      await conn.sendMessage(m.chat, {
-        video: { url: downloadUrl },
-        fileName: `${title}.mp4`,
-        mimetype: "video/mp4",
-        // caption: "🎬 Aquí tienes tu video, descargado* ",
-        thumbnail: thumb,
-        contextInfo: {
-          externalAdReply: { 
-            showAdAttribution: true, 
-            title: packname, 
-            body: dev, 
-            mediaUrl: null, 
-            description: null, 
-            previewType: "PHOTO", 
-            thumbnailUrl: icono, 
-            sourceUrl: redes, 
-            mediaType: 1, 
-            renderLargerThumbnail: false 
-          }
-        }
-      }, { quoted: fkontak });
-      break;
-    }
-  } catch (e) {
-    console.error(`⚠️ Error con la fuente ${source}:`, e.message);
-  }
-}*/
-
-      if (!success) {
-        return m.reply("❌ No pudo encontrar un enlace válido para descargar.");
-      }
-    }
+    return await conn.sendMessage(m.chat, doc, { quoted: fkontak });
 
   } catch (error) {
     console.error("❌ Error:", error);
@@ -208,7 +149,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.command = handler.help = ["play", "ytmp3", "yta"];
 handler.tags = ["downloader"];
-handler.register = true
+handler.register = true;
 
 export default handler;
 
