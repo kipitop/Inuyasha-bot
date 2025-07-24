@@ -1,6 +1,24 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
 const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => icono) 
 
+    const res = await fetch('https://files.catbox.moe/cduhlw.jpg');
+const thumb2 = Buffer.from(await res.arrayBuffer());
+
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      locationMessage: {
+        name: '𝗖𝗢𝗡𝗙𝗜𝗚𝗨𝗥𝗔𝗖𝗜𝗢̄𝗡',
+        jpegThumbnail: thumb2
+      }
+    },
+    participant: "0@s.whatsapp.net"
+  };
 
 let isClose = { // Switch Case Like :v
 'open': 'not_announcement',
