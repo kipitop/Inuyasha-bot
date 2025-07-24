@@ -55,6 +55,8 @@ const handler = async (m, { conn, text, args, usedPrefix, command }) => {
     if (!text.trim()) {
       return conn.reply(m.chat, " Ingresa el nombre o link del video que deseas buscar.", m);
     }
+const isAudio = ["play", "yta", "ytmp3"].includes(command);
+    const isVideo = ["play2", "ytv", "ytmp4"].includes(command);
 
     const tip = ["play", "yta", "ytmp"].includes(command) ? "𝗔𝗨𝗗𝗜𝗢 ♫" : "𝗩𝗜𝗗𝗘𝗢 ꗈ";
 
