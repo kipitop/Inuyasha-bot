@@ -135,7 +135,10 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
     // ↓↓↓ VIDEO
     if (isVideo) {
   const apiUrl = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
-  const res = await fetch(apiUrl);
+  const res = await fetch(apiUrl, {
+    headers: { 'User-Agent': 'Mozilla/5.0' }
+  });
+
   const json = await res.json();
 
   if (!json.status || !json.video?.download?.url) {
@@ -144,7 +147,11 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
 
   const info = json.video;
   const media = info.download;
-  const caption = `🎬 *${info.title}*\n\n📥 Descarga exitosa.`; 
+  const caption = `🎬 *${info.title}*
+📺 *Autor:* ${info.author}
+📁 *Calidad:* ${media.quality}
+📦 *Tamaño:* ${media.size}
+🔗 *Enlace:* ${url}`;
 
   await conn.sendMessage(m.chat, {
     video: { url: media.url },
