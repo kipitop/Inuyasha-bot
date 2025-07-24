@@ -13,7 +13,7 @@ const thumb2 = Buffer.from(await res.arrayBuffer());
     },
     message: {
       locationMessage: {
-        name: '𝗖𝗢𝗡𝗙𝗜𝗚𝗨𝗥𝗔𝗖𝗜𝗢̄𝗡',
+        name: '𝗖𝗢𝗡𝗙𝗜𝗚𝗨𝗥𝗔𝗖𝗜𝗢̄𝗡 𝗗𝗘𝗟 𝗚𝗥𝗨𝗣𝗢',
         jpegThumbnail: thumb2
       }
     },
