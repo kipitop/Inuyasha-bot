@@ -131,6 +131,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         }
       }
     };
+    await conn.reply(m.chat, infoMessage, fkontak, JT);
 
     // Audio (play/yta/ytmp3)
     if (["play", "yta", "ytmp3"].includes(command)) {
