@@ -141,7 +141,8 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
       if (!json.status || !json.video?.download?.url) {
         throw new Error("❌ No se pudo descargar el contenido.");
       }
-
+const media = info.download;
+const info = json.video;
 
       await conn.sendMessage(m.chat, {
         video: { url: media.url },
