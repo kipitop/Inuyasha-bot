@@ -117,10 +117,20 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 
     await m.react('🎧');
-    await conn.sendMessage(m.chat, {
-  image: thumb,
-  caption: infoMessage
-}, { quoted: fkontak });
+        const JT = {
+      contextInfo: {
+        externalAdReply: {
+          title: botname,
+          body: "ᴇʟ ᴍᴇᴊᴏʀ ʙᴏᴛ ᴅᴇ ᴡʜᴀᴛsᴀᴘᴘ",
+          mediaType: 1,
+          previewType: 0,
+          mediaUrl: url,
+          sourceUrl: url,
+          thumbnail: thumb,
+          renderLargerThumbnail: true
+        }
+      }
+    };
 
     // Audio (play/yta/ytmp3)
     if (["play", "yta", "ytmp3"].includes(command)) {
