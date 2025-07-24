@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
 const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => icono) 
 
-    const res = await fetch('https://files.catbox.moe/cduhlw.jpg');
+    const res = await fetch('https://files.catbox.moe/mhbzju.jpg');
 const thumb2 = Buffer.from(await res.arrayBuffer());
 
   const fkontak = {
@@ -37,7 +37,7 @@ return conn.reply(m.chat, `
 ┃ *✎ #${command} on*\n*✰ #${command} off*
 ┃ *✎ #${command} close*\n*✰ #${command} open*
 ╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
-`, m)
+`, fkontak, fake)
 await conn.groupSettingUpdate(m.chat, isClose)
 
 if (isClose === 'not_announcement'){
