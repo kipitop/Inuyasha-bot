@@ -134,23 +134,25 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
 
     // ↓↓↓ VIDEO
     if (isVideo) {
-      const apiUrl = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
-      const res = await fetch(apiUrl);
-      const json = await res.json();
+  const apiUrl = `https://mode-api-sigma.vercel.app/api/mp4?url=${encodeURIComponent(url)}`;
+  const res = await fetch(apiUrl);
+  const json = await res.json();
 
-      if (!json.status || !json.video?.download?.url) {
-        throw new Error("❌ No se pudo descargar el contenido.");
-      }
-const media = info.download;
-const info = json.video;
+  if (!json.status || !json.video?.download?.url) {
+    throw new Error("❌ No se pudo descargar el contenido.");
+  }
 
-      await conn.sendMessage(m.chat, {
-        video: { url: media.url },
-        mimetype: 'video/mp4',
-        fileName: media.filename || `${info.title}.mp4`,
-        caption
-      }, { quoted: m });
-    }
+  const info = json.video;
+  const media = info.download;
+  const caption = `🎬 *${info.title}*\n\n📥 Descarga exitosa.`; 
+
+  await conn.sendMessage(m.chat, {
+    video: { url: media.url },
+    mimetype: 'video/mp4',
+    fileName: media.filename || `${info.title}.mp4`,
+    caption
+  }, { quoted: m });
+}
 
   } catch (error) {
     console.error("❌ Error:", error);
