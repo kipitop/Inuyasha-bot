@@ -150,7 +150,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     // Video (play2/ytv/ytmp4)
-    if (["play2", "ytv", "ytmp4"].includes(command)) {
+    /*if (["play2", "ytv", "ytmp4"].includes(command)) {
       const sources = [
         `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
         `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
@@ -193,7 +193,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   } catch (e) {
     console.error(`⚠️ Error con la fuente ${source}:`, e.message);
   }
-}
+}*/
 
       if (!success) {
         return m.reply("❌ No pudo encontrar un enlace válido para descargar.");
