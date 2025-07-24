@@ -142,12 +142,6 @@ const isAudio = ["play", "yta", "ytmp3"].includes(command);
         throw new Error("❌ No se pudo descargar el contenido.");
       }
 
-      const info = json.video;
-      const media = info.download;
-
-      const caption = `🎬 *Título:* ${info.title}\n👤 *Autor:* ${info.author}\n📦 *Tamaño:* ${media.size}\n🎚️ *Calidad:* ${media.quality}\n📁 *Tipo:* ${media.extension.toUpperCase()}`;
-
-      await conn.sendMessage(m.chat, { image: { url: info.image }, caption }, { quoted: m });
 
       await conn.sendMessage(m.chat, {
         video: { url: media.url },
