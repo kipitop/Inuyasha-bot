@@ -34,8 +34,11 @@ return conn.reply(m.chat, `
 ┃ *Elija una opción para configurar el grupo*
 ┃
 ┃    *⍰ Ejemplo:*
-┃ *✎ #${command} on*\n*✰ #${command} off*
-┃ *✎ #${command} close*\n*✰ #${command} open*
+┃ *✎ #${command} on*
+┃ *✎ #${command} off*
+┃ *✎ #${command} close*
+┃ *✎ #${command} open*
+┃
 ╰╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍⍰
 `, fkontak, fake)
 await conn.groupSettingUpdate(m.chat, isClose)
