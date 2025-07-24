@@ -1,16 +1,13 @@
-import { default as baileys, WAMessageStubType } from '@whiskeysockets/baileys'
+import chalk from 'chalk'
 import fetch from 'node-fetch'
+import ws from 'ws'
+let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
+import { readdirSync, unlinkSync, existsSync, promises as fs, rmSync } from 'fs'
+import path from 'path'
 
-export async function before(m, { conn, groupMetadata }) {
-  if (!m.messageStubType || !m.isGroup) return
-
-  const chat = global.db.data.chats[m.chat]
-  if (!chat || !chat.detect) return
-
-  let usuario = `@${m.sender.split('@')[0]}`
-  const stubParam = m.messageStubParameters?.[0] || ''
-  const pp = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://files.catbox.moe/xr2m6u.jpg')
-
+let handler = m => m
+handler.before = async function (m, { conn, participants, groupMetadata }) {
+if (!m.messageStubType || !m.isGroup) return
   const res = await fetch('https://files.catbox.moe/p0ibbd.jpg')
   const thumb = await res.buffer()
 
@@ -30,49 +27,46 @@ export async function before(m, { conn, groupMetadata }) {
     participant: '0@s.whatsapp.net',
   }
 
-  const borde = '╭───────────────╮'
-  const medio = '│ ᴋɪʀɪᴛᴏ ʙᴏᴛ ᴍᴅ'
-  const fin = '╰───────────────╯'
 
-  const nombre = `${borde}\n${medio}\n╰➤ ${usuario} \ncambió el nombre del grupo.\n   Nuevo nombre: *${stubParam}*\n${fin}`
+let nombre, foto, edit, newlink, status, admingp, noadmingp
+nombre = ` ${usuario} Ha cambiado el nombre del grupo.\
+  Ahora el grupo se llama:\n> *${m.messageStubParameters[0]}*.`
+foto = `❀ Se ha cambiado la imagen del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
+edit = `❀ ${usuario} Ha permitido que ${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'} puedan configurar el grupo.`
+newlink = `❀ El enlace del grupo ha sido restablecido.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
+status = `❀ El grupo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado*' : '*abierto*'} Por ${usuario}\n\n> ✦ Ahora ${m.messageStubParameters[0] == 'on' ? '*solo admins*' : '*todos*'} pueden enviar mensaje.`
+admingp = `❀ @${m.messageStubParameters[0].split`@`[0]} Ahora es admin del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
+noadmingp = `❀ @${m.messageStubParameters[0].split`@`[0]} Deja de ser admin del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
 
-  const foto = {
-    image: { url: pp },
-    caption: `${borde}\n${medio}\n╰➤ ${usuario} \nactualizó la foto del grupo.\n   ¡Una nueva etapa comienza!\n${fin}`,
-    mentions: [m.sender],
-  }
+if (chat.detect && m.messageStubType == 2) {
+const uniqid = (m.isGroup ? m.chat : m.sender)
+const sessionPath = './Sessions/'
+for (const file of await fs.readdir(sessionPath)) {
+if (file.includes(uniqid)) {
+await fs.unlink(path.join(sessionPath, file))
+console.log(`${chalk.yellow.bold('[ Archivo Eliminado ]')} ${chalk.greenBright(`'${file}'`)}\n` +
+`${chalk.blue('(Session PreKey)')} ${chalk.redBright('que provoca el "undefined" en el chat')}`
+)}}
 
-  const edit = `${borde}\n${medio}\n╰➤ ${usuario} \nmodificó la configuración del grupo.\n   Ahora *${stubParam === 'on' ? 'solo admins' : 'todos'}* pueden editar info.\n${fin}`
-
-  const newlink = `${borde}\n${medio}\n╰➤ ${usuario} \nrestableció el enlace del grupo.\n   ¡No lo compartas con cualquiera!\n${fin}`
-
-  const status = `${borde}\n${medio}\n╰➤ El grupo fue *${stubParam === 'on' ? 'cerrado' : 'abierto'}* por ${usuario}.\n   Ahora *${stubParam === 'on' ? 'solo admins' : 'todos'}* pueden enviar mensajes.\n${fin}`
-
-  const admingp = `${borde}\n${medio}\n╰➤ *@${stubParam.split('@')[0]}* ahora es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
-
-  const noadmingp = `${borde}\n${medio}\n╰➤ *@${stubParam.split('@')[0]}* ya no es *admin*.\n   Acción realizada por ${usuario}\n${fin}`
-
-  switch (m.messageStubType) {
-    case WAMessageStubType.GROUP_CHANGE_SUBJECT:
-      await conn.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case WAMessageStubType.GROUP_CHANGE_ICON:
-      await conn.sendMessage(m.chat, foto, { quoted: fkontak })
-      break
-    case WAMessageStubType.GROUP_CHANGE_INVITE_LINK:
-      await conn.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case WAMessageStubType.GROUP_CHANGE_SETTINGS:
-      await conn.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case WAMessageStubType.GROUP_CHANGE_ANNOUNCE:
-      await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })
-      break
-    case WAMessageStubType.PARTICIPANT_PROMOTE:
-      await conn.sendMessage(m.chat, { text: admingp, mentions: [m.sender, stubParam] }, { quoted: fkontak })
-      break
-    case WAMessageStubType.PARTICIPANT_DEMOTE:
-      await conn.sendMessage(m.chat, { text: noadmingp, mentions: [m.sender, stubParam] }, { quoted: fkontak })
-      break
-  }
-}
+} else if (chat.detect && m.messageStubType == 21) {
+await this.sendMessage(m.chat, { text: nombre, mentions: [m.sender] }, { quoted: fkontak })  
+} else if (chat.detect && m.messageStubType == 22) {
+await this.sendMessage(m.chat, { image: { url: pp }, caption: foto, mentions: [m.sender] }, { quoted: fkontak })
+} else if (chat.detect && m.messageStubType == 23) {
+await this.sendMessage(m.chat, { text: newlink, mentions: [m.sender] }, { quoted: fkontak })
+} else if (chat.detect && m.messageStubType == 25) {
+await this.sendMessage(m.chat, { text: edit, mentions: [m.sender] }, { quoted: fkontak })  
+} else if (chat.detect && m.messageStubType == 26) {
+await this.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted: fkontak })  
+} else if (chat.detect && m.messageStubType == 29) {
+await this.sendMessage(m.chat, { text: admingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })
+} else if (chat.detect && m.messageStubType == 30) {
+await this.sendMessage(m.chat, { text: noadmingp, mentions: [`${m.sender}`,`${m.messageStubParameters[0]}`] }, { quoted: fkontak })
+} else {
+if (m.messageStubType == 2) return
+console.log({messageStubType: m.messageStubType,
+messageStubParameters: m.messageStubParameters,
+type: WAMessageStubType[m.messageStubType], 
+})
+}}
+export default handler
