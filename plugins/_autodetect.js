@@ -29,14 +29,69 @@ if (!m.messageStubType || !m.isGroup) return
 
 
 let nombre, foto, edit, newlink, status, admingp, noadmingp
-nombre = ` ${usuario} Ha cambiado el nombre del grupo.\
-  Ahora el grupo se llama:\n> *${m.messageStubParameters[0]}*.`
-foto = `❀ Se ha cambiado la imagen del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
-edit = `❀ ${usuario} Ha permitido que ${m.messageStubParameters[0] == 'on' ? 'solo admins' : 'todos'} puedan configurar el grupo.`
-newlink = `❀ El enlace del grupo ha sido restablecido.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
-status = `❀ El grupo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado*' : '*abierto*'} Por ${usuario}\n\n> ✦ Ahora ${m.messageStubParameters[0] == 'on' ? '*solo admins*' : '*todos*'} pueden enviar mensaje.`
-admingp = `❀ @${m.messageStubParameters[0].split`@`[0]} Ahora es admin del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
-noadmingp = `❀ @${m.messageStubParameters[0].split`@`[0]} Deja de ser admin del grupo.\n\n> ✦ Acción hecha por:\n> » ${usuario}`
+
+nombre = `╭━━━〔 📝 *NOMBRE ACTUALIZADO* 〕━━━╮
+┃  
+┃  *${usuario}* ha cambiado el nombre del grupo.
+┃  Ahora se llama:
+┃ ✦ *${m.messageStubParameters[0]}*
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+foto = `╭━━━〔 🖼️ *IMAGEN ACTUALIZADA* 〕━━━╮
+┃  
+┃ Se ha cambiado la imagen del grupo.
+┃  
+┃  *Acción hecha por:*
+┃   » ${usuario}
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+edit = `╭━━〔 ⚙️ *CONFIGURACIÓN DEL GRUPO* 〕━━╮
+┃  
+┃ ${usuario} ha actualizado los permisos.
+┃ Ahora *${m.messageStubParameters[0] == 'on' ? 'solo los administradores' : 'todos los miembros'}* 
+┃ pueden editar ajustes del grupo.
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+newlink = `╭━━━〔 🔗 *ENLACE RESTABLECIDO* 〕━━━╮
+┃  
+┃ El enlace del grupo ha sido restablecido.
+┃  
+┃  *Acción hecha por:*
+┃   » ${usuario}
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+status = `╭━━〔 🔒 *ESTADO DEL GRUPO* 〕━━╮
+┃  
+┃ El grupo ha sido *${m.messageStubParameters[0] == 'on' ? 'cerrado' : 'abierto'}* por ${usuario}.
+┃  Ahora *${m.messageStubParameters[0] == 'on' ? 'solo los administradores' : 'todos los miembros'}* 
+┃ pueden enviar mensajes.
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+admingp = `╭━━〔 🎖️ *NUEVO ADMIN* 〕━━╮
+┃  
+┃ @${m.messageStubParameters[0].split`@`[0]} ahora es 
+┃ *administrador* del grupo.
+┃  
+┃  *Acción hecha por:*
+┃   » ${usuario}
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+
+noadmingp = `
+╭━━〔 ❌ *ADMIN REMOVIDO* 〕━━╮
+┃  
+┃ @${m.messageStubParameters[0].split`@`[0]} ha dejado de 
+┃ ser *administrador* del grupo.
+┃  
+┃  *Acción hecha por:*
+┃   » ${usuario}
+┃  
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
 
 if (chat.detect && m.messageStubType == 2) {
 const uniqid = (m.isGroup ? m.chat : m.sender)
