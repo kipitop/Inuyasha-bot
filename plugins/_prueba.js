@@ -1,7 +1,5 @@
-import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
-
 let handler = async (m, { conn }) => {
-  const poll = generateWAMessageFromContent(
+  const poll = await conn.generateWAMessageFromContent(
     m.chat,
     {
       pollCreationMessage: {
