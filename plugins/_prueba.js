@@ -1,10 +1,10 @@
 import fs from 'fs'
 import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-const handler = async (m, { conn }) => {
-  const thumb = fs.readFileSync('.src/catalogo.jpg') // Cambia a tu imagen
+const thumb = fs.readFileSync('./media/kirito.jpg') // Imagen usada para los mensajes
 
-  // 1. externalAdReply
+// .prueba1 - externalAdReply
+async function prueba1(m, { conn }) {
   await conn.sendMessage(m.chat, {
     text: '🌟 Este es un mensaje con externalAdReply',
     contextInfo: {
@@ -19,8 +19,10 @@ const handler = async (m, { conn }) => {
       }
     }
   })
+}
 
-  // 2. fakeContact
+// .prueba2 - fakeContact
+async function prueba2(m, { conn }) {
   const fkontak = {
     key: {
       fromMe: false,
@@ -39,8 +41,10 @@ const handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, {
     text: '📍 Este mensaje está citado con un contacto falso'
   }, { quoted: fkontak })
+}
 
-  // 3. orderMessage (usando generateWAMessageFromContent)
+// .prueba3 - orderMessage
+async function prueba3(m, { conn }) {
   const order = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
     orderMessage: {
       orderId: '12345',
@@ -55,8 +59,10 @@ const handler = async (m, { conn }) => {
   }), { userJid: m.sender })
 
   await conn.relayMessage(m.chat, order.message, { messageId: order.key.id })
+}
 
-  // 4. productMessage (solo si tienes cuenta empresarial)
+// .prueba4 - productMessage
+async function prueba4(m, { conn }) {
   const product = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
     productMessage: {
       product: {
@@ -65,7 +71,7 @@ const handler = async (m, { conn }) => {
           jpegThumbnail: thumb
         },
         title: '🔥 Kirito-Bot PRO',
-        description: 'Comandos exclusivos, velocidad y más',
+        description: 'Comandos exclusivos, velocidad extrema y más',
         currencyCode: 'USD',
         priceAmount1000: 1500,
         retailerId: 'kirito-pro',
@@ -76,19 +82,23 @@ const handler = async (m, { conn }) => {
   }), { userJid: m.sender })
 
   await conn.relayMessage(m.chat, product.message, { messageId: product.key.id })
+}
 
-  // 5. pollCreationMessage
+// .prueba5 - pollCreationMessage
+async function prueba5(m, { conn }) {
   const poll = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
     pollCreationMessage: {
       name: "¿Te gusta Kirito-Bot?",
-      options: ["Sí", "Me encanta", "Lo amo"],
+      options: ["Sí", "Mucho", "Lo Amo"],
       selectableOptionsCount: 3
     }
   }), { userJid: m.sender })
 
   await conn.relayMessage(m.chat, poll.message, { messageId: poll.key.id })
+}
 
-  // 6. liveLocationMessage
+// .prueba6 - liveLocationMessage
+async function prueba6(m, { conn }) {
   const live = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
     liveLocationMessage: {
       degreesLatitude: 15.5,
@@ -102,10 +112,12 @@ const handler = async (m, { conn }) => {
   }), { userJid: m.sender })
 
   await conn.relayMessage(m.chat, live.message, { messageId: live.key.id })
+}
 
-  // 7. buttonsMessage
+// .prueba7 - buttonsMessage
+async function prueba7(m, { conn }) {
   await conn.sendMessage(m.chat, {
-    text: "📣 Prueba de botón",
+    text: "📣 Prueba de botones interactivos",
     footer: "Este es el pie de página",
     buttons: [
       { buttonId: ".menu", buttonText: { displayText: "📜 Ver Menú" }, type: 1 },
@@ -115,7 +127,45 @@ const handler = async (m, { conn }) => {
   })
 }
 
-handler.command = /^prueba$/i
-handler.owner = true
+// Exportar cada comando como handler separado
+export const handler1 = {
+  command: /^prueba1$/i,
+  owner: true,
+  async handler(m, args) { await prueba1(m, args) }
+}
 
-export default handler
+export const handler2 = {
+  command: /^prueba2$/i,
+  owner: true,
+  async handler(m, args) { await prueba2(m, args) }
+}
+
+export const handler3 = {
+  command: /^prueba3$/i,
+  owner: true,
+  async handler(m, args) { await prueba3(m, args) }
+}
+
+export const handler4 = {
+  command: /^prueba4$/i,
+  owner: true,
+  async handler(m, args) { await prueba4(m, args) }
+}
+
+export const handler5 = {
+  command: /^prueba5$/i,
+  owner: true,
+  async handler(m, args) { await prueba5(m, args) }
+}
+
+export const handler6 = {
+  command: /^prueba6$/i,
+  owner: true,
+  async handler(m, args) { await prueba6(m, args) }
+}
+
+export const handler7 = {
+  command: /^prueba7$/i,
+  owner: true,
+  async handler(m, args) { await prueba7(m, args) }
+}
