@@ -1,4 +1,4 @@
-import fs from 'fs'
+/*import fs from 'fs'
 import { proto, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn }) => {
@@ -24,11 +24,11 @@ let handler = async (m, { conn }) => {
 
 handler.command = /^prueba4$/i
 handler.owner = true
-export default handler
+export default handler*/
 
 
 
-/*import { proto, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+import { proto, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn }) => {
   const poll = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
@@ -44,4 +44,4 @@ let handler = async (m, { conn }) => {
 
 handler.command = /^prueba5$/i
 handler.owner = true
-export default handler*/
+export default handler
