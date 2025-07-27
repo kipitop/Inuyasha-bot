@@ -25,3 +25,23 @@ let handler = async (m, { conn }) => {
 handler.command = /^prueba4$/i
 handler.owner = true
 export default handler
+
+
+
+/*import { proto, generateWAMessageFromContent } from '@whiskeysockets/baileys'
+
+let handler = async (m, { conn }) => {
+  const poll = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+    pollCreationMessage: {
+      name: "¿Te gusta Kirito-Bot?",
+      options: ["Sí", "Lo amo", "Es Dios"],
+      selectableOptionsCount: 3
+    }
+  }), { userJid: m.sender })
+
+  await conn.relayMessage(m.chat, poll.message, { messageId: poll.key.id })
+}
+
+handler.command = /^prueba5$/i
+handler.owner = true
+export default handler*/
