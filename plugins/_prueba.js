@@ -2,7 +2,7 @@ import fs from 'fs'
 import { proto, generateWAMessageFromContent } from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn }) => {
-  let thumb = fs.readFileSync('./media/kirito.jpg')
+  let thumb = fs.readFileSync('https://files.catbox.moe/p0ibbd.jpg')
 
   const product = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
     productMessage: {
