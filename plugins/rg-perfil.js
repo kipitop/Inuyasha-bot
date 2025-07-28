@@ -45,7 +45,7 @@ let handler = async (m, { conn, args }) => {
         let llamas = user.llama || 0;
         let bankllamas = user.bank || 0;
 
-        let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://files.catbox.moe/giuw0s.jpg');
+        let perfil = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://rejas.x10.mx/images/inu/inu3.jpeg');
 
         let isMarried = userId in global.db.data.marriages;
         let partnerId = isMarried ? global.db.data.marriages[userId] : null;
