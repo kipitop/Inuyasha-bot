@@ -96,7 +96,7 @@ ${commandsForTag.map(menu => menu.help.map(help =>
 `.trim();
 
     // no tocar 
-    const imageUrls = ['https://files.catbox.moe/oi9idq.jpg', 'https://files.catbox.moe/oi9idq.jpg']; 
+    const imageUrls = ['https://rejas.x10.mx/images/inu/inu5.jpeg', 'https://rejas.x10.mx/images/inu/inu1.jpeg']; 
 
 let selectedImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
