@@ -1,5 +1,5 @@
 
-<h1 align="center">✰ Kirito Bot MD ✰</h1>
+<h1 align="center">✰ Inuyasha Bot ✰</h1>
 
 ---
 
@@ -9,7 +9,7 @@
 
 ---
 
-# *Acerca de Kirito Bot MD*
+# *Acerca de Inuyasha Bot*
 
 > Un bot de WhatsApp potente y versátil, inspirado en el universo de Sword Art Online. Desarrollado para ofrecer una experiencia ágil, segura y funcional.
 
@@ -41,8 +41,8 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
   1.  `termux-setup-storage`
   2.  `pkg update -y && pkg upgrade -y`
   3.  `pkg install git nodejs ffmpeg imagemagick yarn -y`
-  4.  `git clone https://github.com/Deylin-Eliac/Kirito-Bot-MD`
-  5.  `cd Kirito-Bot-MD`
+  4.  `git clone https://github.com/kipitop/Inuyasha-bot`
+  5.  `cd Inuyasha-Bot`
   6.  `yarn install`
   7.  `yarn start`
 
@@ -51,14 +51,14 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
   *Reiniciar el bot:*
 
   ```bash
-  cd Kirito-Bot-MD
+  cd Inuyasha-Bot
   yarn start
   ```
 
   *Escanear un nuevo código QR:*
 
   ```bash
-  cd Kirito-Bot-MD
+  cd Inuyasha-Bot
   rm -rf kiritoSession
   yarn start
   ```
@@ -86,13 +86,13 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
 # *Estadísticas del Proyecto*
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Deylin-Eliac&repo=Kirito-Bot-MD&show_icons=true&theme=radical&hide_border=true" alt="GitHub Stats">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Deylin-Eliac&theme=radical&hide_border=true" alt="GitHub Streak">
+  <img src="https://github-readme-stats.vercel.app/api?username=kipitop&repo=Inuyasha-Bot&show_icons=true&theme=radical&hide_border=true" alt="GitHub Stats">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=kipitop&theme=radical&hide_border=true" alt="GitHub Streak">
 </p>
 
 <p align="center">
-  <a href="https://github.com/Deylin-Eliac">
-    <img src="https://img.shields.io/badge/GitHub-Deylin-181717?style=for-the-badge&logo=github">
+  <a href="https://github.com/kipitop">
+    <img src="https://img.shields.io/badge/GitHub-kipitop-181717?style=for-the-badge&logo=github">
   </a>
   <a href="https://wa.me/50433191934">
     <img src="https://img.shields.io/badge/WhatsApp-Contactar-25D366?style=for-the-badge&logo=whatsapp">
@@ -105,8 +105,8 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
 ---
 
 ### 🌟 DESARROLLADORES
-<a href="https://github.com/deylin-eliac/kirito-bot-MD/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=deylin-eliac/kirito-bot-MD" /> 
+<a href="https://github.com/kipitop/Inuyasha-bot/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=kipitop/Inuyasha-bot" /> 
 </a>
 
 ---
@@ -114,8 +114,8 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
 # *Autor y desarrollador*
 
 
-<a href="https://github.com/deylin-eliac">
-  <img src="https://github.com/deylin-eliac.png" width="130" height="130" alt="Deylin-eliac"/>
+<a href="https://github.com/kipitop">
+  <img src="https://github.com/kipitop.png" width="130" height="130" alt="Deylin-eliac"/>
 </a>
 
 
