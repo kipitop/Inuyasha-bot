@@ -4,7 +4,7 @@
 ---
 
 <p align="center">
-  <img src="https://files.catbox.moe/hnif5j.jpg" alt="Kirito Bot MD Logo">
+  <img src="https://files.catbox.moe/8zka8y.jpg" alt="Bot MD Logo">
 </p>
 
 ---
@@ -13,7 +13,6 @@
 
 > Un bot de WhatsApp potente y versátil, inspirado en el universo de Sword Art Online. Desarrollado para ofrecer una experiencia ágil, segura y funcional.
 
-*   *Desarrollador:* Deylin Eliac
 *   *Plataforma:* WhatsApp
 *   *Inspiración:* Sword Art Online
 *   *Características Clave:* Agilidad, Funcionalidad, Seguridad
@@ -124,7 +123,7 @@ href="https://www.mediafire.com/file/3hsvi3xkpq3a64o/termux_118.a"><img src="htt
 
 # *Agradecimientos*
 
-<a href="https://github.com/The-King-Destroy">
-  <img src="https://github.com/The-King-Destroy.png" width="130" height="130" alt="Destroy"/>
+<a href="https://github.com/deylin-eliac">
+  <img src="https://github.com/deylin-eliac.png" width="130" height="130" alt="Destroy"/>
 </a>
 
