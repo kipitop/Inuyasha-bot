@@ -39,8 +39,8 @@ global.namecomu = 'ᬊ𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖 𝘽𝙤𝙩 𝑴𝑫 �
 global.listo = '⚡ *ᴀǫᴜɪ ᴛɪᴇɴᴇs ˙Ⱉ˙ฅ*'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://i.postimg.cc/RFdNynN5/IMG-20250315-WA0122.jpg')
 
-global.idchannel = '120363365444927738@newsletter'
-global.canalIdM = ["120363365444927738@newsletter", "120363365444927738@newsletter"]
+global.idchannel = '120363402601912509@newsletter'
+global.canalIdM = '120363402601912509@newsletter'
 global.canalNombreM = [" ๖ۣ•𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖-𝘽𝙤𝙩 𝑴𝑫 𝑪𝒉𝒂𝒏𝒏𝒆𝒍★᭄", "᭄𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖-𝘽𝙤𝙩 𝑴𝑫ᬊ᭄"]
 global.channelRD = await getRandomChannel()
 
