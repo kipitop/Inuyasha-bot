@@ -39,21 +39,21 @@ global.baileys = '@whiskeysockets/baileys'
 global.languaje = 'Español'
 global.vs = '2.0.19'
 global.vsJB = '6.5'
-global.nameqr = '𝕂𝕚𝕣𝕚𝕥𝕠 𝕓𝕠𝕥 𝕄𝔻'
-global.namebot = '𝐤𝐢𝐫𝐢𝐭𝐨 𝐌𝐃'
+global.nameqr = '𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖 𝘽𝙤𝙩 𝙈𝘿'
+global.namebot = '𝗜𝗻𝘂𝘆𝗮𝘀𝗵𝗮 𝐌𝐃'
 global.sessions = 'Sessions'
 global.jadi = 'JadiBots' 
 global.kiritoJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.packname = '𝐤𝐢𝐫𝐢𝐭𝐨-𝐁𝐨𝐭 𝐌𝐃'
-global.botname = '𝐤𝐢𝐫𝐢𝐭𝐨-𝐁𝐨𝐭 𝐌𝐃'
-global.wm = '𝐤𝐢𝐫𝐢𝐭𝐨 𝐌𝐃'
-global.author = 'Made By 𝐃𝐞𝐲𝐥𝐢𝐧'
-global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝑫𝒆𝒚𝒍𝒊𝒏'
-global.textbot = '𝐤𝐢𝐫𝐢𝐭𝐨 - 𝐁𝐨𝐭 • Powered By 𝑫𝒆𝒚𝒍𝒊𝒏'
-global.etiqueta = '𝑫𝒆𝒚𝒍𝒊𝒏'
+global.packname = '𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖-𝘽𝙤𝙩 𝐌𝐃'
+global.botname = '𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖-𝘽𝙤𝙩 𝐌𝐃'
+global.wm = '𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖 𝙈𝘿'
+global.author = 'Made By 𝙈𝙖𝙧𝙘𝘼𝙣'
+global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝙈𝙖𝙧𝙘𝘼𝙣'
+global.textbot = '𝙄𝙣𝙪𝙮𝙖𝙨𝙝𝙖 - 𝘽𝙤𝙩 • Powered By 𝙈𝙖𝙧𝙘𝘼𝙣'
+global.etiqueta = '𝙈𝙖𝙧𝙘𝘼𝙣'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
@@ -74,8 +74,8 @@ global.gp1 = 'https://chat.whatsapp.com/F8KwM3rVqkS9HhR5msoRqQ'
 global.comunidad1 = 'https://chat.whatsapp.com/F8KwM3rVqkS9HhR5msoRqQ'
 global.channel = 'https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'
 global.channel2 = 'https://whatsapp.com/channel/0029VayQwPsFnSzESZJ9Us3z'
-global.md = 'https://github.com/Deylin-Eliac/Kirito-Bot-MD'
-global.correo = 'deylibaquedano801@gmail.com'
+global.md = 'https://github.com/kipitop/inuyasha-bot'
+global.correo = 'pothe@pm.me'
 global.cn ='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m';
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
